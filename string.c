@@ -7,8 +7,13 @@
 void string_concat(string *str, char *src) {
     int len = strlen(src);
 
+    if(!str){
+        perror("str is null");
+        exit(2);
+    }
+
     if(str->len + len > str->capacity){
-        str->capacity = ((str->len + len) *2);
+        str->capacity = ((str->len + len) * 2);
         str->buf = (char*)realloc(str->buf, str->capacity);
     }
 
@@ -26,13 +31,13 @@ string* string_new(size_t capacity)
     string* str = malloc(sizeof(string));
     if (str == NULL)
     {
-        error("string_new: failed to allocate string!");
+        perror("string_new: failed to allocate string!");
     }
 
     str->buf = malloc(capacity);
     if (str->buf == NULL)
     {
-        error("string_new: failed to allocate string buffer!");
+        perror("string_new: failed to allocate string buffer!");
     }
 
     str->capacity = capacity;

@@ -129,7 +129,7 @@ static void main_loop(int sockfd) {
     socklen_t clilen = sizeof(cli_addr);
 #endif
 
-    void *const buffer = malloc(BUFFER_SIZE);
+    char* buffer = malloc(BUFFER_SIZE);
     if (buffer == NULL) {
         error("ERROR at malloc.");
     }
@@ -209,6 +209,8 @@ static void main_loop(int sockfd) {
 #endif
 }
 
+#include "string.h"
+
 int main(int argc, char *argv[]) {
     (void)argc;
     (void)argv;
@@ -217,4 +219,17 @@ int main(int argc, char *argv[]) {
     main_loop(sockfd);
 
     return 0;
+
+    /*const char* src1 = "Hallo ";
+    const char* src2 = "Welt!";
+    string* dest = string_new(1);
+    string_concat(dest, src1);
+    string_concat(dest, src2);
+
+    for (int i = 0; i < dest->len; i++) {
+        putchar(*(dest->buf+i));
+    }
+
+    string_free(dest);*/
+
 }

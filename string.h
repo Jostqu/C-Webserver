@@ -7,7 +7,6 @@
 
 #include <malloc.h>
 #include <stdlib.h>
-#include <error.h>
 #include <stddef.h>
 #include <string.h>
 
