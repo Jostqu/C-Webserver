@@ -3,4 +3,4 @@ project(PSE C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(PSE echo_server.c)
+add_executable(PSE echo_server.c string.h string.c)
