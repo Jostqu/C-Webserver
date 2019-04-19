@@ -212,24 +212,20 @@ static void main_loop(int sockfd) {
 #include "string.h"
 
 int main(int argc, char *argv[]) {
-    (void)argc;
-    (void)argv;
-    register_signal();
-    const int sockfd = setup_socket();
-    main_loop(sockfd);
+//    (void)argc;
+//    (void)argv;
+//    register_signal();
+//    const int sockfd = setup_socket();
+//    main_loop(sockfd);
+//
+//    return 0;
 
-    return 0;
+    char* test = "\n \nDies ist ein Test    \r\n\n";
+    string* str = string_new(20);
+    string_concat(str, test);
 
-    /*const char* src1 = "Hallo ";
-    const char* src2 = "Welt!";
-    string* dest = string_new(1);
-    string_concat(dest, src1);
-    string_concat(dest, src2);
+    str = string_strip(str);
+    string_print(str);
 
-    for (int i = 0; i < dest->len; i++) {
-        putchar(*(dest->buf+i));
-    }
-
-    string_free(dest);*/
-
+    string_free(str);
 }

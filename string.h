@@ -25,4 +25,17 @@ void string_free(string* str);
 
 void string_concat(string* str, char* src); //len removed by request of marsel
 
+/**
+ * \brief Entfernt leere Zeichen am Anfang und am Ende des Strings
+ * @param str String
+ * @return Selber String wie Argument
+ */
+string* string_strip(string* str);
+
+/**
+ * \brief Gibt einen String mit Absatz auf der Konsole aus
+ * @param str String
+ */
+void string_print(string* str);
+
 #endif //PSE_STRING_H

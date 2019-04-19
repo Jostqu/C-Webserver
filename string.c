@@ -59,3 +59,57 @@ void string_free(string* str)
     free(str);
 }
 
+string* string_strip(string* str)
+{
+    // leere Zeichen am Anfang entfernen
+    for (size_t i = 0; i < str->len; i++)
+    {
+        // Aktuelles Zeichen
+        char c = str->buf[i];
+
+        // Wenn kein leeres Zeichen
+        if (!(c == ' ' || c == '\n' || c == '\r'))
+        {
+            // Wenn nicht am Anfang
+            if (i > 0)
+            {
+                // String um i nach links verschieben
+                memmove(str->buf, str->buf + i, str->len - i);
+
+                // Neue Länge setzen
+                str->len -= i;
+            }
+            break;
+        }
+    }
+
+    // leere Zeichen am Ende entfernen
+    for (size_t i = str->len - 1; i >= 0; i--)
+    {
+        // Aktuelles Zeichen
+        char c = str->buf[i];
+
+        // Wenn kein leeres Zeichen
+        if (!(c == ' ' || c == '\n' || c == '\r'))
+        {
+            // Wenn nicht am Ende
+            if (i < str->len - 1)
+            {
+                // Neue Länge setzen
+                str->len = i + 1;
+            }
+            break;
+        }
+    }
+
+    return str;
+}
+
+void string_print(string* str)
+{
+    for (size_t i = 0; i < str->len; i++)
+    {
+        putchar(str->buf[i]);
+    }
+    putchar('\n');
+}
