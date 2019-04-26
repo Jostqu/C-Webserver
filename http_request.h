@@ -51,8 +51,9 @@ void free_http_request(HttpRequest httpRequest);
  * \author Marcel Weski
  * @param buffer Void-Pointer auf den Request-Puffer
  * @param bufferSize Größe des Puffers
- * @return Ein Struct mit allen wichtigen Informationen der Anfrage
+ * @param httpRequest der gefüllte HttpRequest-Struct
+ * @return int der Response-Code
  */
-HttpRequest parse_http_request(void* buffer, size_t bufferSize);
+int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest);
 
 #endif //PSE_HTTP_REQUEST_H
