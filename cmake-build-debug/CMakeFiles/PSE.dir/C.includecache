@@ -25,6 +25,8 @@ sys/socket.h
 -
 unistd.h
 -
+http_request.h
+/home/bjoern/CLionProjects/PSE/http_request.h
 response.h
 /home/bjoern/CLionProjects/PSE/response.h
 
@@ -32,23 +34,13 @@ response.h
 string.h
 /home/bjoern/CLionProjects/PSE/string.h
 
-/home/bjoern/CLionProjects/PSE/response.c
-response.h
-/home/bjoern/CLionProjects/PSE/response.h
+/home/bjoern/CLionProjects/PSE/http_request.h
+ctype.h
+-
+hash.h
+/home/bjoern/CLionProjects/PSE/hash.h
 
 /home/bjoern/CLionProjects/PSE/response.h
 hash.h
 /home/bjoern/CLionProjects/PSE/hash.h
-
-/home/bjoern/CLionProjects/PSE/string.h
-malloc.h
--
-stdlib.h
--
-stddef.h
--
-string.h
--
-stdbool.h
--
 

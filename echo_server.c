@@ -243,20 +243,41 @@ void test_hashlist(){
     SHL_remove_all(list);
 }
 
+//this seems to be buggy, but im too tired to fix it now
+void test_response_build(){
 
+    string* s1 = string_new(15);
+    string* s2 = string_new(15);
+    string* s3 = string_new(15);
+    string* s4 = string_new(15);
+
+    string_concat(s1, "Name");
+    string_concat(s2, "surwer");
+    string_concat(s3, "Content-lengh");
+    string_concat(s4, "6");
+
+    HashList* list = SHL_create(SH_create(s1,s2));
+    SHL_append(list, SH_create(s3,s4));
+
+    string *s = build_http_response(OK, list, s2);
+
+    string_print(s);
+
+
+    string_free(s);
+    SHL_remove_all(list);
+}
 
 int main(int argc, char *argv[]) {
-<<<<<<< HEAD
     test_response_build();
-=======
 //    test_hashlist();
->>>>>>> 8de6679c215e0607c1c0763c0b28b883eb06b59f
 
+    /*
     (void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
     main_loop(sockfd);
-
+*/
     return 0;
 }
