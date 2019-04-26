@@ -8,6 +8,7 @@
 #include <string.h>     // memset, strerror
 #include <sys/socket.h> // struct sockaddr_in, socket, setsockopt, bind, listen, socklen_t, accept
 #include <unistd.h> // read, write, close
+#include "http_request.h"
 
 #define PORT 31337
 #define BUFFER_SIZE 1024
@@ -170,6 +171,12 @@ static void main_loop(int sockfd) {
             error("ERROR reading from socket");
         }
 
+        HttpRequest httpRequest;
+
+        parse_http_request(buffer, length, &httpRequest);
+
+        free_http_request(httpRequest);
+
 /*
  * Schreibe die ausgehenden Daten auf den Socket.
  */
@@ -230,14 +237,13 @@ void test_hashlist(){
 }
 
 int main(int argc, char *argv[]) {
-    test_hashlist();
+//    test_hashlist();
 
-    /*
     (void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
     main_loop(sockfd);
-     */
+
     return 0;
 }
