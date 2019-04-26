@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/PSE.dir/echo_server.c.o"
   "CMakeFiles/PSE.dir/string.c.o"
   "CMakeFiles/PSE.dir/hash.c.o"
+  "CMakeFiles/PSE.dir/response.c.o"
   "PSE.pdb"
   "PSE"
 )

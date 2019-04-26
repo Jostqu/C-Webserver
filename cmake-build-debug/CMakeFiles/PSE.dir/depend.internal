@@ -4,9 +4,15 @@
 CMakeFiles/PSE.dir/echo_server.c.o
  /home/bjoern/CLionProjects/PSE/echo_server.c
  /home/bjoern/CLionProjects/PSE/hash.h
+ /home/bjoern/CLionProjects/PSE/response.h
 CMakeFiles/PSE.dir/hash.c.o
  /home/bjoern/CLionProjects/PSE/hash.c
  /home/bjoern/CLionProjects/PSE/hash.h
+ /home/bjoern/CLionProjects/PSE/string.h
+CMakeFiles/PSE.dir/response.c.o
+ /home/bjoern/CLionProjects/PSE/hash.h
+ /home/bjoern/CLionProjects/PSE/response.c
+ /home/bjoern/CLionProjects/PSE/response.h
  /home/bjoern/CLionProjects/PSE/string.h
 CMakeFiles/PSE.dir/string.c.o
  /home/bjoern/CLionProjects/PSE/string.c

@@ -60,6 +60,8 @@ void string_free(string* str);
  */
 void string_concat(string* str, char* src); //len removed by request of marsel
 
+void string_concat_str(string* dst, string*src);
+
 /**
  * \brief Fügt ein Zeichen an das Ende des Strings ein und vergrößert die Kapazität gegenfalls
  * \author Marcel Weski
@@ -80,7 +82,6 @@ string* string_strip(string* str);
 /**
  * \brief vergleicht 2 strings
  * vergleicht 2
- *
  *
  * \author Björn Marx
  *

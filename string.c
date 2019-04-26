@@ -142,3 +142,20 @@ void string_print(string* str)
     }
     putchar('\n');
 }
+
+void string_concat_str(string *dst, string *src) {
+
+    if(dst->len+src->len > dst->capacity){
+
+        dst->capacity = dst->len + src->len;
+        dst->buf = realloc(dst->buf, dst->capacity);
+    }
+
+    if(!dst->buf){
+        perror("failed to realloc");
+        exit(3);
+    }
+
+    memcpy(dst->buf, src->buf, src->len);
+    dst->len += src->len;
+}

@@ -209,10 +209,10 @@ static void main_loop(int sockfd) {
 #endif
 }
 
-#include "string.h"
-#include "hash.h"
+#include "response.h"
 
 void test_hashlist(){
+
     string* s1 = string_new(15);
     string* s2 = string_new(15);
     string* s3 = string_new(15);
@@ -226,11 +226,52 @@ void test_hashlist(){
     HashList* list = SHL_create(SH_create(s1,s2));
     SHL_append(list, SH_create(s3,s4));
 
+    string_print(SHL_at(list, 1).key);
+    string_print(SHL_find_key(list, s1).value);
+
+    int i = SHL_get_size(list);
+
+    printf("%d", i);
+
+    SHL_remove_all(list);
+}
+
+//testing phase, this seems to be buggy
+void test_response_build(){
+    string* s1 = string_new(15);
+    string* s2 = string_new(15);
+    string* s3 = string_new(15);
+    string* s4 = string_new(15);
+    string* s5 = string_new(15);
+    string* s6 = string_new(15);
+
+    string* body = string_new(1);
+    string_concat(body, "0");
+
+    string_concat(s1, "server");
+    string_concat(s2, "PSEHTTP0.5");
+
+    string_concat(s3, "generic");
+    string_concat(s4, "yes");
+
+    string_concat(s5, "copy-pasta-king");
+    string_concat(s6, "Leon-Gau");
+
+    HashList* list = SHL_create(SH_create(s1,s2));
+    SHL_append(list, SH_create(s3,s4));
+    SHL_append(list, SH_create(s5,s6));
+
+    string* res = build_http_response(OK, list, body);
+
+    string_print(res);
+
+    string_free(res);
+    string_free(body);
     SHL_remove_all(list);
 }
 
 int main(int argc, char *argv[]) {
-    test_hashlist();
+    test_response_build();
 
     /*
     (void)argc;

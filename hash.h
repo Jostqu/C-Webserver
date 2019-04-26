@@ -82,7 +82,7 @@ void SHL_remove_all(HashList* first);
  * \param key desired key to be found
  * \return pointer to *first* element with key
  */
-Hash* SHL_find_key(HashList* first, string* key);
+Hash SHL_find_key(HashList* first, string* key);
 
 /*!
  * \brief return index'th element of HashList
@@ -94,7 +94,15 @@ Hash* SHL_find_key(HashList* first, string* key);
  * \param index index of desired element 
  * \return pointer to Hash object, will return last element if index ist out of range
  */
-Hash* SHL_at(HashList* first, unsigned int index);
+Hash SHL_at(HashList* first, unsigned int index);
+
+/*!
+ * \brief function that counts the number of elements in the list beginning at first
+ *
+ * @param first first list element
+ * @return size of Hashlist
+ */
+size_t SHL_get_size(HashList* first);
 
 /*!
  * \brief creates Hash with given key and value

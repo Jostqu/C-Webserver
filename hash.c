@@ -52,33 +52,43 @@ void SHL_remove_all(HashList* first)
 	element = buffer = NULL;
 }
 
-Hash* SHL_find_key(HashList* first, string* key)
+Hash SHL_find_key(HashList* first, string* key)
 {
 	HashList* b = first;
 
 	while (b->next)
 	{
 		if (string_compare(b->data.key, key))
-			return &b->data;
+			return b->data;
         else
             b = b->next;
 	}
 
-	return NULL;
+	return *(struct StringHashStruct*)NULL;
 }
 
-Hash* SHL_at(HashList* first, unsigned int index)
+Hash SHL_at(HashList* first, unsigned int index)
 {
 	HashList* b = first;
 
 	while (index-- > 0 && b->next != NULL)
 		b = b->next;
 	
-	return &b->data;
+	return b->data;
 }
 
 Hash SH_create(string* key, string* value)
 {
 	Hash hash = { key, value };
 	return hash;
+}
+
+size_t SHL_get_size(HashList *first) {
+    int i = 1;
+
+    //count elements
+    for (HashList* b = first; b->next; b = b->next)
+        i++;
+
+    return i;
 }
