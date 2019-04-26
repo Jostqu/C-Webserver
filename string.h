@@ -10,6 +10,13 @@
 #include <stddef.h>
 #include <string.h>
 
+/**
+ * \brief Struct, das die Kapazität (max. Stringlänge), Länge des Strings und den Pointer auf die eigentlichen Zeichen enthält
+ * \author Marcel Weski
+ * @var capacity max. Stringlänge
+ * @var len tatsächliche Stringlänge
+ * @var buf Pointer auf die eigentlichen Zeichen
+ */
 typedef struct string_struct
 {
     size_t capacity;
@@ -17,23 +24,45 @@ typedef struct string_struct
     char *buf;
 } string;
 
+/**
+ * \brief Erstellt einen neuen String mit der gegebenen Kapazität (max. Stringlänge)
+ * Der String wird mittels malloc erzeugt und muss daher mit string_free selber wieder freigegeben werden!
+ * \author Marcel Weski
+ * @param capacity maximale Anzahl an Zeichen, die vor realloc reingeschrieben werden können
+ * @return Pointer auf das neue String-Struct
+ */
 string* string_new(size_t capacity);
 
+/**
+ * \brief Erstellt eine identische Kopie des übergebenen Strings
+ * Der String wird mittels malloc erzeugt und muss daher mit string_free selber wieder freigegeben werden!
+ * \author Marcel Weski
+ * @param str der zu kopierende String-Pointer
+ * @return Der kopierte String als Pointer
+ */
 string* string_copy(string* str);
 
+/**
+ * \brief Gibt den Speicherbereich eines Strings wieder frei
+ * \author Marcel Weski
+ * @param str Der freizugebene String
+ */
 void string_free(string* str);
 
 void string_concat(string* str, char* src); //len removed by request of marsel
 
 /**
  * \brief Entfernt leere Zeichen am Anfang und am Ende des Strings
+ * Alle Leerzeichen, Absätze und Backspaces werden am Anfang und am Ende des String entfernt.
+ * \author Marcel Weski
  * @param str String
- * @return Selber String wie Argument
+ * @return Selber String wie Argument (ändert sich durch Aufruf dieser Funktion nie!)
  */
 string* string_strip(string* str);
 
 /**
  * \brief Gibt einen String mit Absatz auf der Konsole aus
+ * \author Marcel Weski
  * @param str String
  */
 void string_print(string* str);

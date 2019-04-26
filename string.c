@@ -4,28 +4,6 @@
 
 #include "string.h"
 
-void string_concat(string *str, char *src) {
-    int len = strlen(src);
-
-    if(!str){
-        perror("str is null");
-        exit(2);
-    }
-
-    if(str->len + len > str->capacity){
-        str->capacity = ((str->len + len) * 2);
-        str->buf = (char*)realloc(str->buf, str->capacity);
-    }
-
-    if(!str->buf){
-        perror("failed to realloc string->buffer");
-        exit(1);
-    }
-
-    memcpy((str->buf+str->len), src, len);
-    str->len += len;
-}
-
 string* string_new(size_t capacity)
 {
     string* str = malloc(sizeof(string));
@@ -47,6 +25,7 @@ string* string_new(size_t capacity)
 
 string* string_copy(string* str)
 {
+    // Neuen String erstellen und gesamten Inhalt von str hineinkopieren
     string* copy = string_new(str->len * 2);
     memcpy(copy->buf, str->buf, str->len);
     copy->len = str->len;
@@ -55,8 +34,31 @@ string* string_copy(string* str)
 
 void string_free(string* str)
 {
+    // Puffer und Struct freigeben
     free(str->buf);
     free(str);
+}
+
+void string_concat(string *str, char *src) {
+    int len = strlen(src);
+
+    if(!str){
+        perror("str is null");
+        exit(2);
+    }
+
+    if(str->len + len > str->capacity){
+        str->capacity = ((str->len + len) * 2);
+        str->buf = (char*)realloc(str->buf, str->capacity);
+    }
+
+    if(!str->buf){
+        perror("failed to realloc string->buffer");
+        exit(1);
+    }
+
+    memcpy((str->buf+str->len), src, len);
+    str->len += len;
 }
 
 string* string_strip(string* str)
@@ -107,6 +109,7 @@ string* string_strip(string* str)
 
 void string_print(string* str)
 {
+    // Jedes Zeichen auf der Konsole ausgeben
     for (size_t i = 0; i < str->len; i++)
     {
         putchar(str->buf[i]);
