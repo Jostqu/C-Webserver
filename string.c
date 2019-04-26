@@ -42,8 +42,8 @@ void string_free(string* str)
 void string_concat(string *str, char *src) {
     int len = strlen(src);
 
-    if(!str){
-        perror("str is null");
+    if(!str || !src){
+        perror("str or src is null");
         exit(2);
     }
 
@@ -120,6 +120,17 @@ string* string_strip(string* str)
     }
 
     return str;
+}
+
+bool string_compare(string* string1, string* string2){
+
+    if(string1->len != string2->len) //sanity check
+        return false;
+
+    if(memcmp(string1->buf, string2->buf, string1->len) == 0)
+        return true;
+    else
+        return false;
 }
 
 void string_print(string* str)

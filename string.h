@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdbool.h>
 
 /**
  * \brief Struct, das die Kapazität (max. Stringlänge), Länge des Strings und den Pointer auf die eigentlichen Zeichen enthält
@@ -49,6 +50,14 @@ string* string_copy(string* str);
  */
 void string_free(string* str);
 
+/**
+ * \brief appends src to str
+ *
+ * \author Björn Marx
+ *
+ * @param str string to append to
+ * @param src string to append
+ */
 void string_concat(string* str, char* src); //len removed by request of marsel
 
 /**
@@ -67,6 +76,19 @@ void string_add_char(string* str, char c);
  * @return Selber String wie Argument (ändert sich durch Aufruf dieser Funktion nie!)
  */
 string* string_strip(string* str);
+
+/**
+ * \brief vergleicht 2 strings
+ * vergleicht 2
+ *
+ *
+ * \author Björn Marx
+ *
+ * @param string1
+ * @param string2
+ * @return true if string1 == string2
+ */
+bool string_compare(string* string1, string* string2);
 
 /**
  * \brief Gibt einen String mit Absatz auf der Konsole aus

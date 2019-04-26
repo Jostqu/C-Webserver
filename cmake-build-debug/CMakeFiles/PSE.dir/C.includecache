@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/bjoern/CLionProjects/PSE/hash.c
+hash.h
+/home/bjoern/CLionProjects/PSE/hash.h
+
+/home/bjoern/CLionProjects/PSE/hash.h
+string.h
+/home/bjoern/CLionProjects/PSE/string.h
+
+/home/bjoern/CLionProjects/PSE/string.c
+string.h
+/home/bjoern/CLionProjects/PSE/string.h
+
+/home/bjoern/CLionProjects/PSE/string.h
+malloc.h
+-
+stdlib.h
+-
+stddef.h
+-
+string.h
+-
+stdbool.h
+-
+

@@ -48,6 +48,8 @@ void SHL_remove_all(HashList* first)
 	}
 
 	SHL_free_element(element);
+
+	element = buffer = NULL;
 }
 
 Hash* SHL_find_key(HashList* first, string* key)
@@ -56,8 +58,10 @@ Hash* SHL_find_key(HashList* first, string* key)
 
 	while (b->next)
 	{
-		if (str_cmp_str(&b->data.key, key))
+		if (string_compare(b->data.key, key))
 			return &b->data;
+        else
+            b = b->next;
 	}
 
 	return NULL;
@@ -73,7 +77,7 @@ Hash* SHL_at(HashList* first, unsigned int index)
 	return &b->data;
 }
 
-Hash SH_create(string key, string value)
+Hash SH_create(string* key, string* value)
 {
 	Hash hash = { key, value };
 	return hash;

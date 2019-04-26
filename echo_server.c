@@ -210,13 +210,34 @@ static void main_loop(int sockfd) {
 }
 
 #include "string.h"
+#include "hash.h"
+
+void test_hashlist(){
+    string* s1 = string_new(15);
+    string* s2 = string_new(15);
+    string* s3 = string_new(15);
+    string* s4 = string_new(15);
+
+    string_concat(s1, "Name");
+    string_concat(s2, "Bjoern Marx");
+    string_concat(s3, "hummeln");
+    string_concat(s4, "sind bienen");
+
+    HashList* list = SHL_create(SH_create(s1,s2));
+    SHL_append(list, SH_create(s3,s4));
+
+    SHL_remove_all(list);
+}
 
 int main(int argc, char *argv[]) {
+    test_hashlist();
+
+    /*
     (void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
     main_loop(sockfd);
-
+     */
     return 0;
 }
