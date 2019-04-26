@@ -61,6 +61,21 @@ void string_concat(string *str, char *src) {
     str->len += len;
 }
 
+void string_add_char(string* str, char c)
+{
+    if (str->capacity < str->len + 1)
+    {
+        str->capacity = (str->len + 1) * 2;
+        str->buf = realloc(str->buf, str->capacity);
+        if (str->buf == NULL)
+        {
+            perror("string_add_char: failed to reallocate string buffer!");
+        }
+    }
+
+    str->buf[str->len++] = c;
+}
+
 string* string_strip(string* str)
 {
     // leere Zeichen am Anfang entfernen

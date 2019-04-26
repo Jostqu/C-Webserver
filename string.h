@@ -52,6 +52,14 @@ void string_free(string* str);
 void string_concat(string* str, char* src); //len removed by request of marsel
 
 /**
+ * \brief Fügt ein Zeichen an das Ende des Strings ein und vergrößert die Kapazität gegenfalls
+ * \author Marcel Weski
+ * @param str String, an den das Zeichen angehängt werden soll
+ * @param c Das anzuhängende Zeichen
+ */
+void string_add_char(string* str, char c);
+
+/**
  * \brief Entfernt leere Zeichen am Anfang und am Ende des Strings
  * Alle Leerzeichen, Absätze und Backspaces werden am Anfang und am Ende des String entfernt.
  * \author Marcel Weski
