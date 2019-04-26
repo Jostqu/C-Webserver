@@ -8,6 +8,7 @@
 #include <string.h>     // memset, strerror
 #include <sys/socket.h> // struct sockaddr_in, socket, setsockopt, bind, listen, socklen_t, accept
 #include <unistd.h> // read, write, close
+#include "http_request.h"
 
 #define PORT 31337
 #define BUFFER_SIZE 1024
@@ -170,6 +171,12 @@ static void main_loop(int sockfd) {
             error("ERROR reading from socket");
         }
 
+        HttpRequest httpRequest;
+
+        parse_http_request(buffer, length, &httpRequest);
+
+        free_http_request(httpRequest);
+
 /*
  * Schreibe die ausgehenden Daten auf den Socket.
  */
@@ -236,49 +243,20 @@ void test_hashlist(){
     SHL_remove_all(list);
 }
 
-//testing phase, this seems to be buggy
-void test_response_build(){
-    string* s1 = string_new(15);
-    string* s2 = string_new(15);
-    string* s3 = string_new(15);
-    string* s4 = string_new(15);
-    string* s5 = string_new(15);
-    string* s6 = string_new(15);
 
-    string* body = string_new(1);
-    string_concat(body, "0");
-
-    string_concat(s1, "server");
-    string_concat(s2, "PSEHTTP0.5");
-
-    string_concat(s3, "generic");
-    string_concat(s4, "yes");
-
-    string_concat(s5, "copy-pasta-king");
-    string_concat(s6, "Leon-Gau");
-
-    HashList* list = SHL_create(SH_create(s1,s2));
-    SHL_append(list, SH_create(s3,s4));
-    SHL_append(list, SH_create(s5,s6));
-
-    string* res = build_http_response(OK, list, body);
-
-    string_print(res);
-
-    string_free(res);
-    string_free(body);
-    SHL_remove_all(list);
-}
 
 int main(int argc, char *argv[]) {
+<<<<<<< HEAD
     test_response_build();
+=======
+//    test_hashlist();
+>>>>>>> 8de6679c215e0607c1c0763c0b28b883eb06b59f
 
-    /*
     (void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
     main_loop(sockfd);
-     */
+
     return 0;
 }

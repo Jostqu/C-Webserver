@@ -118,7 +118,7 @@ int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest
                 {
                     strValue = string_strip(strValue);
 
-                    Hash pair = SH_create(*strKey, *strValue);
+                    Hash pair = SH_create(strKey, strValue);
                     if (httpRequest->fields == NULL)
                     {
                         httpRequest->fields = SHL_create(pair);
@@ -127,6 +127,10 @@ int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest
                     {
                         SHL_append(httpRequest->fields, pair);
                     }
+
+                    // TODO: könnte gut memory leaks verursachen
+                    strKey = string_new(30);
+                    strValue = string_new(50);
 
                     // Wenn eine neue Zeile anfängt, wieder den Key parsen
                     parsingState = PARSING_FIELD_KEY;
