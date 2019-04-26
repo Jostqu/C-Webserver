@@ -19,9 +19,8 @@ void free_http_request(HttpRequest httpRequest)
 // \r\n
 // Daten
 //
-HttpRequest parse_http_request(void* buffer, size_t bufferSize)
+int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest)
 {
-    HttpRequest httpRequest;
     HttpRequestParsingState parsingState = PARSING_METHOD;
 
     string* strMethod = string_new(10);
@@ -30,10 +29,11 @@ HttpRequest parse_http_request(void* buffer, size_t bufferSize)
     string* strKey = string_new(30);
     string* strValue = string_new(50);
 
-    httpRequest.fields = NULL;
+    httpRequest->fields = NULL;
+    httpRequest->data = NULL;
 
     // Zeichenweise durch den Anfrage-Puffer gehen
-    for (size_t i = 0; i < bufferSize; i++)
+    for (size_t i = 0; i < bufferSize && httpRequest->data == NULL; i++)
     {
         // Aktuelles Zeichen
         char c = ((char*)(buffer))[i];
@@ -89,7 +89,12 @@ HttpRequest parse_http_request(void* buffer, size_t bufferSize)
                 break;
 
             case PARSING_FIELD_KEY:
-                if (c != ':')
+                if (c == '\n')
+                {
+                    // Wenn beim Parsen des Keys eine neue Zeile gefunden wird, sind die Felder zu Ende und es folgen die Daten
+                    parsingState = PARSING_DATA;
+                }
+                else if (c != ':')
                 {
                     // Wenn kein Doppelpunkt, dann Zeichen an den String anhängen
                     string_add_char(strKey, tolower(c));
@@ -111,14 +116,16 @@ HttpRequest parse_http_request(void* buffer, size_t bufferSize)
                 }
                 else
                 {
+                    strValue = string_strip(strValue);
+
                     Hash pair = SH_create(*strKey, *strValue);
-                    if (httpRequest.fields == NULL)
+                    if (httpRequest->fields == NULL)
                     {
-                        httpRequest.fields = SHL_create(pair);
+                        httpRequest->fields = SHL_create(pair);
                     }
                     else
                     {
-                        SHL_append(httpRequest.fields, pair);
+                        SHL_append(httpRequest->fields, pair);
                     }
 
                     // Wenn eine neue Zeile anfängt, wieder den Key parsen
@@ -127,6 +134,7 @@ HttpRequest parse_http_request(void* buffer, size_t bufferSize)
                 break;
 
             case PARSING_DATA:
+                httpRequest->data = buffer + i;
                 break;
 
             default:
@@ -138,5 +146,6 @@ HttpRequest parse_http_request(void* buffer, size_t bufferSize)
     string_free(strPath);
     string_free(strMethod);
 
-    return httpRequest;
+    // OK
+    return 200;
 }
