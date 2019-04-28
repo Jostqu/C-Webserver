@@ -253,16 +253,15 @@ void test_response_build(){
 
     string_concat(s1, "Name");
     string_concat(s2, "surwer");
-    string_concat(s3, "Content-lengh");
-    string_concat(s4, "6");
+    string_concat(s3, "yabba");
+    string_concat(s4, "dabbadooh");
 
     HashList* list = SHL_create(SH_create(s1,s2));
     SHL_append(list, SH_create(s3,s4));
 
-    string *s = build_http_response(OK, list, s2);
+    string *s = build_http_response(OK, list, s3);
 
     string_print(s);
-
 
     string_free(s);
     SHL_remove_all(list);

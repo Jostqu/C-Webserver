@@ -98,4 +98,6 @@ bool string_compare(string* string1, string* string2);
  */
 void string_print(string* str);
 
+string* int_to_string(int i);
+
 #endif //PSE_STRING_H

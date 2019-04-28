@@ -30,7 +30,7 @@ typedef enum {
  *
  * @return code as string
  */
-string* code_to_string(HttpResponseCodes code);
+char* code_to_string(HttpResponseCodes code);
 
 /*!
  * \brief simple wrapper to build HTTP response

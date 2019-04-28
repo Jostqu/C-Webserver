@@ -1,48 +1,41 @@
 #include "response.h"
 
-string *code_to_string(HttpResponseCodes code) {
+char *code_to_string(HttpResponseCodes code) {
 
-    string* b;
+    char* b = NULL;
 
     switch (code){
 
         case OK:{
-            b = string_new(15);
-            string_concat(b, "200 OK");
+            b = "200 OK";
             break;
         }
         case BAD_REQUEST:{
-            b = string_new(15);
-            string_concat(b, "400 Bad Request");
+            b = "400 Bad Request";
             break;
         }
 
         case UNAUTHORIZED:{
-            b = string_new(15);
-            string_concat(b, "401 Unauthorized");
+            b = "401 Unauthorized";
             break;
         }
 
         case FORBIDDEN:{
-            b = string_new(15);
-            string_concat(b, "403 Forbidden");
+            b = "403 Forbidden";
             break;
         }
 
         case NOT_FOUND:{
-            b = string_new(15);
-            string_concat(b, "404 Not Found");
+            b = "404 Not Found";
             break;
         }
 
         case METHOD_NOT_ALLOWED:{
-            b = string_new(20);
-            string_concat(b, "405 Method Not Allowed");
+            b = "405 Method Not Allowed";
             break;
         }
 
         default:
-            b = NULL; //just to make sure it really is null
             break;
     }
 
@@ -51,34 +44,50 @@ string *code_to_string(HttpResponseCodes code) {
 
 string *build_http_response(HttpResponseCodes code, HashList *fields, string *body) {
 
-    string* strCode = code_to_string(code);
+    char* strCode = code_to_string(code);
     if(!strCode)
         return NULL;
 
-    string* response = string_new(1000);
+    string* response = 0;
+
+    while (!response)
+        response = string_new(1000);
 
     //add HTTP version and response code
     string_concat(response, "HTTP/1.1 ");
-    string_concat_str(response, strCode);
+    string_concat(response, strCode);
     string_add_char(response, '\r');
     string_add_char(response, '\n');
 
     //add custom fields
-    int n = SHL_get_size(fields);
-    for (int i = 0; i < n; i++) {
-        string_concat_str(response, SHL_at(fields, i).key);
-        string_concat(response, ": ");
-        string_concat_str(response, SHL_at(fields, i).value);
-        string_add_char(response, '\r');
-        string_add_char(response, '\n');
+    if(fields) {
+        int n = SHL_get_size(fields);
+        for (int i = 0; i < n; i++) {
+            string_concat_str(response, SHL_at(fields, i).key);
+            string_concat(response, ": ");
+            string_concat_str(response, SHL_at(fields, i).value);
+            string_add_char(response, '\r');
+            string_add_char(response, '\n');
+        }
     }
 
-    //add seperating empty line
-    string_add_char(response, '\r');
-    string_add_char(response, '\n');
-    string_concat_str(response, body);
+    if(body) {
+        string* bodyLength = int_to_string(body->len);
 
-    string_free(strCode);
+        //add content length field
+        string_concat(response, "Content-Length: ");
+        string_concat_str(response, bodyLength);
+        string_add_char(response, '\r');
+        string_add_char(response, '\n');
+
+        string_free(bodyLength);
+
+        //add seperating empty line
+        string_add_char(response, '\r');
+        string_add_char(response, '\n');
+
+        string_concat_str(response, body);
+    }
 
     return response;
 }

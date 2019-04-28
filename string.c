@@ -10,12 +10,14 @@ string* string_new(size_t capacity)
     if (str == NULL)
     {
         perror("string_new: failed to allocate string!");
+        exit(1);
     }
 
     str->buf = malloc(capacity);
     if (str->buf == NULL)
     {
         perror("string_new: failed to allocate string buffer!");
+        exit(2);
     }
 
     str->capacity = capacity;
@@ -145,9 +147,9 @@ void string_print(string* str)
 
 void string_concat_str(string *dst, string *src) {
 
-    if(dst->len+src->len > dst->capacity){
+    if((dst->len + src->len) > dst->capacity){
 
-        dst->capacity = dst->len + src->len;
+        dst->capacity = (dst->len + src->len)*2;
         dst->buf = realloc(dst->buf, dst->capacity);
     }
 
@@ -156,6 +158,19 @@ void string_concat_str(string *dst, string *src) {
         exit(3);
     }
 
-    memcpy(dst->buf, src->buf, src->len);
+    memcpy((dst->buf + dst->len), src->buf, src->len);
     dst->len += src->len;
 }
+
+string* int_to_string(int i) {
+
+    string* str = string_new(12);
+    char number[12];
+
+    sprintf(number, "%d", i);
+
+    string_concat(str, number);
+
+    return str;
+}
+
