@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/PSE.dir/hash.c.o"
   "CMakeFiles/PSE.dir/response.c.o"
   "CMakeFiles/PSE.dir/http_request.c.o"
+  "CMakeFiles/PSE.dir/helpers.c.o"
   "PSE.pdb"
   "PSE"
 )

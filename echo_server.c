@@ -267,9 +267,37 @@ void test_response_build(){
     SHL_remove_all(list);
 }
 
+void test_string_split(){
+    string* str = string_new(10);
+    string_concat(str, "hallo erik du herd");
+
+    int splits;
+    string** splitted = string_split(str, ' ', &splits);
+
+    for (int i = 0; i < 4; ++i) {
+        string_print(splitted[i]);
+        string_free(splitted[i]);
+    }
+
+    string_free(str);
+    free(splitted);
+}
+
+#include "helpers.h"
+
+void test_get_ctype() {
+    string* type = get_content_type("/home/bjoern/Desktop/xp");
+
+    string_print(type);
+
+    string_free(type);
+}
+
 int main(int argc, char *argv[]) {
-    test_response_build();
-//    test_hashlist();
+//    test_response_build();    //works
+//    test_hashlist();          //works
+//    test_string_split();      //works
+    test_get_ctype();
 
     /*
     (void)argc;

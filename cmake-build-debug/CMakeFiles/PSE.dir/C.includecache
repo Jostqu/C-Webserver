@@ -6,17 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/bjoern/CLionProjects/PSE/hash.h
+/home/bjoern/CLionProjects/PSE/helpers.c
+helpers.h
+/home/bjoern/CLionProjects/PSE/helpers.h
+
+/home/bjoern/CLionProjects/PSE/helpers.h
 string.h
 /home/bjoern/CLionProjects/PSE/string.h
-
-/home/bjoern/CLionProjects/PSE/response.c
-response.h
-/home/bjoern/CLionProjects/PSE/response.h
-
-/home/bjoern/CLionProjects/PSE/response.h
-hash.h
-/home/bjoern/CLionProjects/PSE/hash.h
 
 /home/bjoern/CLionProjects/PSE/string.h
 malloc.h

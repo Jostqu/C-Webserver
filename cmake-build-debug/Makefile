@@ -177,6 +177,33 @@ hash.c.s:
 	$(MAKE) -f CMakeFiles/PSE.dir/build.make CMakeFiles/PSE.dir/hash.c.s
 .PHONY : hash.c.s
 
+helpers.o: helpers.c.o
+
+.PHONY : helpers.o
+
+# target to build an object file
+helpers.c.o:
+	$(MAKE) -f CMakeFiles/PSE.dir/build.make CMakeFiles/PSE.dir/helpers.c.o
+.PHONY : helpers.c.o
+
+helpers.i: helpers.c.i
+
+.PHONY : helpers.i
+
+# target to preprocess a source file
+helpers.c.i:
+	$(MAKE) -f CMakeFiles/PSE.dir/build.make CMakeFiles/PSE.dir/helpers.c.i
+.PHONY : helpers.c.i
+
+helpers.s: helpers.c.s
+
+.PHONY : helpers.s
+
+# target to generate assembly for a file
+helpers.c.s:
+	$(MAKE) -f CMakeFiles/PSE.dir/build.make CMakeFiles/PSE.dir/helpers.c.s
+.PHONY : helpers.c.s
+
 http_request.o: http_request.c.o
 
 .PHONY : http_request.o
@@ -273,6 +300,9 @@ help:
 	@echo "... hash.o"
 	@echo "... hash.i"
 	@echo "... hash.s"
+	@echo "... helpers.o"
+	@echo "... helpers.i"
+	@echo "... helpers.s"
 	@echo "... http_request.o"
 	@echo "... http_request.i"
 	@echo "... http_request.s"

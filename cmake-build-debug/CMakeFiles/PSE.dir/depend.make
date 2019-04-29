@@ -3,12 +3,17 @@
 
 CMakeFiles/PSE.dir/echo_server.c.o: ../echo_server.c
 CMakeFiles/PSE.dir/echo_server.c.o: ../hash.h
+CMakeFiles/PSE.dir/echo_server.c.o: ../helpers.h
 CMakeFiles/PSE.dir/echo_server.c.o: ../http_request.h
 CMakeFiles/PSE.dir/echo_server.c.o: ../response.h
 
 CMakeFiles/PSE.dir/hash.c.o: ../hash.c
 CMakeFiles/PSE.dir/hash.c.o: ../hash.h
 CMakeFiles/PSE.dir/hash.c.o: ../string.h
+
+CMakeFiles/PSE.dir/helpers.c.o: ../helpers.c
+CMakeFiles/PSE.dir/helpers.c.o: ../helpers.h
+CMakeFiles/PSE.dir/helpers.c.o: ../string.h
 
 CMakeFiles/PSE.dir/http_request.c.o: ../hash.h
 CMakeFiles/PSE.dir/http_request.c.o: ../http_request.c

@@ -174,3 +174,37 @@ string* int_to_string(int i) {
     return str;
 }
 
+string **string_split(string *str, char splitter, int* splits) {
+    if(!str)
+        return NULL;
+
+    *splits = 0;
+
+    //count splitters
+    for (int i = 0; i < str->len; i++) {
+        if(str->buf[i] == splitter)
+            (*splits)++;
+    }
+
+    string** list = calloc(*splits, sizeof(struct string_struct));
+
+    if(!list)
+        return NULL;
+
+    list[0] = string_new(10);
+
+    int i = 0;
+    for (int j = 0; j < str->len; j++) {
+        if (str->buf[j] != splitter) {
+            if(list[i])
+                string_add_char(list[i], str->buf[j]);
+            else
+                return NULL;
+        }else {
+            i++;
+            list[i] = string_new(10);
+        }
+    }
+
+    return list;
+}

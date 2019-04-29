@@ -11,6 +11,7 @@
 
 /*!
  * \brief struct defining supported HTTP response codes
+ * \author Björn Marx
  */
 typedef enum {
 

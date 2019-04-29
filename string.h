@@ -1,6 +1,8 @@
-//
-// Created by bm502101 on 17.04.19.
-//
+///
+/// \file string.h
+/// \author Björn Marx
+/// \author Marcel Weski
+///
 
 #ifndef PSE_STRING_H
 #define PSE_STRING_H
@@ -60,6 +62,15 @@ void string_free(string* str);
  */
 void string_concat(string* str, char* src); //len removed by request of marsel
 
+/*!
+ * \brief concat string typed string src to dst
+ * equivalent to string_concat
+ *
+ * \author Björn Marx
+ *
+ * @param dst destination
+ * @param src source
+ */
 void string_concat_str(string* dst, string*src);
 
 /**
@@ -98,6 +109,29 @@ bool string_compare(string* string1, string* string2);
  */
 void string_print(string* str);
 
+/*!
+ * \brief int to string function
+ *
+ * \author Björn Marx
+ *
+ * @param i an integer
+ * @return string containing i
+ */
 string* int_to_string(int i);
+
+/*!
+ * \brief splits a string by c
+ * its a basic method with a rather bad runtime of O(n²)
+ *
+ * \warning function returns NULL when any routine fails, this *might* (but should not happen) cause a memory leak when some memory allocation fails
+ *
+ * \author Björn Marx
+ *
+ * @param splits pointer to integer to store stringlists length in
+ * @param str an string
+ * @param splitter charakter defining when to split
+ * @return list of strings
+ */
+string** string_split(string* str, char splitter, int* splits);
 
 #endif //PSE_STRING_H
