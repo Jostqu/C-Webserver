@@ -1,3 +1,0 @@
-/mnt/c/Users/Marcel/CLionProjects/pse20/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/Marcel/CLionProjects/pse20/cmake-build-debug/CMakeFiles/pse20.dir
-/mnt/c/Users/Marcel/CLionProjects/pse20/cmake-build-debug/CMakeFiles/edit_cache.dir
