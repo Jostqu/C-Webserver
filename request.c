@@ -4,6 +4,12 @@
 
 #include "request.h"
 
+#define METHOD_CAPACITY 7
+#define PATH_CAPACITY 2000
+#define VERSION_CAPACITY 8
+#define KEY_CAPACITY 50
+#define VALUE_CAPACITY 100
+
 void free_http_request(HttpRequest httpRequest)
 {
     SHL_remove_all(httpRequest.fields);
@@ -23,11 +29,11 @@ int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest
 {
     HttpRequestParsingState parsingState = PARSING_METHOD;
 
-    string* strMethod = string_new(10);
-    string* strPath = string_new(2500);
-    string* strVersion = string_new(10);
-    string* strKey = string_new(30);
-    string* strValue = string_new(50);
+    string* strMethod = string_new(METHOD_CAPACITY);
+    string* strPath = string_new(PATH_CAPACITY);
+    string* strVersion = string_new(VERSION_CAPACITY);
+    string* strKey = NULL;
+    string* strValue = NULL;
 
     httpRequest->fields = NULL;
     httpRequest->data = NULL;
@@ -96,6 +102,11 @@ int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest
                 }
                 else if (c != ':')
                 {
+                	if (!strKey)
+	                {
+                		strKey = string_new(KEY_CAPACITY);
+	                }
+
                     // Wenn kein Doppelpunkt, dann Zeichen an den String anhängen
                     string_add_char(strKey, tolower(c));
                 }
@@ -111,6 +122,11 @@ int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest
             case PARSING_FIELD_VALUE:
                 if (c != '\n')
                 {
+                	if (!strValue)
+	                {
+                		strValue = string_new(VALUE_CAPACITY);
+	                }
+
                     // Wenn keine neue Zeile, dann Zeichen an den String anhängen
                     string_add_char(strValue, c);
                 }
@@ -118,6 +134,7 @@ int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest
                 {
                     strValue = string_strip(strValue);
 
+                    // strKey und strValue werden am Ende von der Hashmap freigegeben
                     Hash pair = SH_create(strKey, strValue);
                     if (httpRequest->fields == NULL)
                     {
@@ -128,9 +145,8 @@ int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest
                         SHL_append(httpRequest->fields, pair);
                     }
 
-                    // TODO: könnte gut memory leaks verursachen
-                    strKey = string_new(30);
-                    strValue = string_new(50);
+                    strKey = NULL;
+                    strValue = NULL;
 
                     // Wenn eine neue Zeile anfängt, wieder den Key parsen
                     parsingState = PARSING_FIELD_KEY;
