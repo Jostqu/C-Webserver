@@ -172,28 +172,30 @@ static void main_loop(int sockfd) {
             error("ERROR reading from socket");
         }
 
-        HttpRequest httpRequest;
+        HttpRequest* httpRequest = calloc(sizeof(HttpRequest), 1);
 
-        parse_http_request(buffer, length, &httpRequest);
-
-        free_http_request(httpRequest);
+        HttpResponseCodes responseCode = parse_http_request(buffer, length, httpRequest);
 
 /*
  * Schreibe die ausgehenden Daten auf den Socket.
  */
 #ifndef STDIN_ONLY
-        length = write(newsockfd, buffer, (size_t)length);
-        if (length < 0) {
-            error("ERROR writing to socket");
-        }
+	    send_http_response(newsockfd, responseCode, httpRequest->path);
+//        length = write(newsockfd, buffer, (size_t)length);
+//        if (length < 0) {
+//            error("ERROR writing to socket");
+//        }
 #else
-        /*
-     * Gib die eingegangenen Daten auf der Kommandozeile aus.
-     */
-    if (write(STDOUT_FILENO, buffer, length) < 0) {
-      error("ERROR writing to STDOUT");
-    }
+	    send_http_response(STDOUT_FILENO, responseCode, httpRequest.path);
+//        /*
+//     * Gib die eingegangenen Daten auf der Kommandozeile aus.
+//     */
+//    if (write(STDOUT_FILENO, buffer, length) < 0) {
+//      error("ERROR writing to STDOUT");
+//    }
 #endif
+
+	    free_http_request(httpRequest);
 
 /*
  * Schließe die Verbindung.

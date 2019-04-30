@@ -7,7 +7,9 @@
 #ifndef PSE_RESPONSE_H
 #define PSE_RESPONSE_H
 
+#include <unistd.h>
 #include "hash.h"
+#include "helpers.h"
 
 /*!
  * \brief struct defining supported HTTP response codes
@@ -50,5 +52,14 @@ char* code_to_string(HttpResponseCodes code);
  * @return Http response as string
  */
 string* build_http_response(HttpResponseCodes code, HashList* fields, string* body);
+
+/**
+ * \brief Nutzt die build_http_response-Funktion um eine Antwort an den Client zusenden
+ * \author Marcel Weski
+ * @param targetStream socket-Instanz oder STDOUT-Stream
+ * @param code responseCode von der parse_http_request-Funktion
+ * @param path vom Client angeforderter Pfad
+ */
+void send_http_response(int targetStream, HttpResponseCodes code, string* path);
 
 #endif //PSE_RESPONSE_H

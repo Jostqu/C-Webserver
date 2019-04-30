@@ -134,4 +134,12 @@ string* int_to_string(int i);
  */
 string** string_split(string* str, char splitter, int* splits);
 
+/**
+ * \brief Terminiert einen String mit \0, um diesen z.B. bei fopen übergeben zu können
+ * \author Marcel Weski
+ * @param str zu terminierender String
+ * @return Selber String wie Argument (ändert sich durch Aufruf dieser Funktion nie!)
+ */
+string* string_terminate(string* str);
+
 #endif //PSE_STRING_H

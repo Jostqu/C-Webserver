@@ -10,13 +10,15 @@
 #define KEY_CAPACITY 50
 #define VALUE_CAPACITY 100
 
-void free_http_request(HttpRequest httpRequest)
+void free_http_request(HttpRequest* httpRequest)
 {
-	if (httpRequest.path)
-		string_free(httpRequest.path);
+	if (httpRequest->path)
+		string_free(httpRequest->path);
 
-	if (httpRequest.fields)
-        SHL_remove_all(httpRequest.fields);
+	if (httpRequest->fields)
+        SHL_remove_all(httpRequest->fields);
+
+	free(httpRequest);
 }
 
 //
@@ -166,10 +168,14 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
         }
     }
 
-	// TODO: Pfad validieren und in httpRequest speichern. Referer-Key beachten! (Marcel)
-	httpRequest->path = strPath;
+	// TODO: Pfad validieren. Referer-Key beachten! (Marcel)
+	string* validatedPath = string_new(PATH_CAPACITY);
+    string_concat(validatedPath, "../htdocs");
+    string_concat_str(validatedPath, strPath);
+	httpRequest->path = validatedPath;
 
 	string_free(strVersion);
+	string_free(strPath);
     string_free(strMethod);
 
     return OK;

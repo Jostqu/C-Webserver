@@ -208,3 +208,20 @@ string **string_split(string *str, char splitter, int* splits) {
 
     return list;
 }
+
+string *string_terminate(string *str)
+{
+	if (str->len + 1 > str->capacity)
+	{
+		str->capacity = (str->len + 1) * 2;
+		str->buf = realloc(str->buf, str->capacity);
+		if (!str->buf)
+		{
+			perror("string_terminate: failed to reallocate string buffer!");
+			exit(1);
+		}
+	}
+
+	str->buf[str->len] = '\0';
+	return str;
+}

@@ -1,5 +1,8 @@
 #include "response.h"
 
+#define SERVER_NAME "PSE HTTP-Server v1.0"
+#define FILE_BUFFER_SIZE 65536 // 64 kB
+
 char *code_to_string(HttpResponseCodes code) {
 
     char* b = NULL;
@@ -71,23 +74,91 @@ string *build_http_response(HttpResponseCodes code, HashList *fields, string *bo
         }
     }
 
-    if(body) {
-        string* bodyLength = int_to_string(body->len);
+	string_add_char(response, '\r');
+	string_add_char(response, '\n');
 
-        //add content length field
-        string_concat(response, "Content-Length: ");
-        string_concat_str(response, bodyLength);
-        string_add_char(response, '\r');
-        string_add_char(response, '\n');
-
-        string_free(bodyLength);
-
-        //add seperating empty line
-        string_add_char(response, '\r');
-        string_add_char(response, '\n');
-
-        string_concat_str(response, body);
-    }
+//    if(body) {
+//        string* bodyLength = int_to_string(body->len);
+//
+//        //add content length field
+//        string_concat(response, "Content-Length: ");
+//        string_concat_str(response, bodyLength);
+//        string_add_char(response, '\r');
+//        string_add_char(response, '\n');
+//
+//        string_free(bodyLength);
+//
+//        //add seperating empty line
+//        string_add_char(response, '\r');
+//        string_add_char(response, '\n');
+//
+//        string_concat_str(response, body);
+//    }
 
     return response;
+}
+
+void send_http_response(int targetStream, HttpResponseCodes code, string *path)
+{
+	string_terminate(path);
+
+	string* strServerKey = string_new(6);
+	string_concat(strServerKey, "Server");
+
+	string* strServerValue = string_new(50);
+	string_concat(strServerValue, SERVER_NAME);
+
+	string* strContentTypeKey = string_new(20);
+	string_concat(strContentTypeKey, "Content-Type");
+	string* strContentTypeValue = get_content_type(path->buf);
+
+	HashList* fields = SHL_create(SH_create(strServerKey, strServerValue));
+	SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
+
+	FILE* fp = fopen(path->buf, "rb");
+	if (fp)
+	{
+		// Für die Dateigröße, an das Ende springen und Position lesen
+		fseek(fp, 0, SEEK_END);
+		long fileSize = ftell(fp);
+
+		string* strFileSizeKey = string_new(20);
+		string_concat(strFileSizeKey, "Content-Length");
+		string* strFileSizeValue = int_to_string(fileSize);
+
+		SHL_append(fields, SH_create(strFileSizeKey, strFileSizeValue));
+
+		string* strResponse = build_http_response(code, fields, NULL);
+
+		// Antwort-Header senden
+		if (write(targetStream, strResponse->buf, strResponse->len) < 0)
+		{
+			perror("ERROR writing to stream!");
+			exit(1);
+		}
+
+		// Wieder an den Anfang der Datei springen
+		fseek(fp, 0, SEEK_SET);
+
+		// Daten senden
+		size_t length = 0;
+		char fileBuffer[FILE_BUFFER_SIZE];
+		while ((length = fread(fileBuffer, 1, sizeof(fileBuffer), fp)) > 0)
+		{
+			if (write(targetStream, fileBuffer, length) < 0)
+			{
+				perror("ERROR writing to stream!");
+				break;
+			}
+		}
+
+		string_free(strResponse);
+		fclose(fp);
+	}
+	else
+	{
+		fprintf(stderr, "File '%s' not found!\n", path->buf);
+	}
+
+	SHL_remove_all(fields);
 }

@@ -45,7 +45,7 @@ typedef enum http_request_parsing_state
  * \author Marcel Weski
  * @param httpRequest das freizugebene HttpRequest-Struct
  */
-void free_http_request(HttpRequest httpRequest);
+void free_http_request(HttpRequest* httpRequest);
 
 /**
  * \brief Parsed den eingehenden Void-Buffer und gibt ein Struct mit den Informationen im Header zurück
