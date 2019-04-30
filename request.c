@@ -12,7 +12,11 @@
 
 void free_http_request(HttpRequest httpRequest)
 {
-    SHL_remove_all(httpRequest.fields);
+	if (httpRequest.path)
+		string_free(httpRequest.path);
+
+	if (httpRequest.fields)
+        SHL_remove_all(httpRequest.fields);
 }
 
 //
@@ -25,7 +29,7 @@ void free_http_request(HttpRequest httpRequest)
 // \r\n
 // Daten
 //
-int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest)
+HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest)
 {
     HttpRequestParsingState parsingState = PARSING_METHOD;
 
@@ -35,6 +39,7 @@ int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest
     string* strKey = NULL;
     string* strValue = NULL;
 
+    httpRequest->path = NULL;
     httpRequest->fields = NULL;
     httpRequest->data = NULL;
 
@@ -72,7 +77,6 @@ int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest
                 else
                 {
                     // TODO: Url decoden (Leon)
-                    // TODO: Pfad validieren und in httpRequest speichern (Marcel)
 
                     // Wenn ein Leerzeichen gefunden wurde, die Version parsen
                     parsingState = PARSING_VERSION;
@@ -162,10 +166,11 @@ int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest
         }
     }
 
-    string_free(strVersion);
-    string_free(strPath);
+	// TODO: Pfad validieren und in httpRequest speichern. Referer-Key beachten! (Marcel)
+	httpRequest->path = strPath;
+
+	string_free(strVersion);
     string_free(strMethod);
 
-    // OK
-    return 200;
+    return OK;
 }

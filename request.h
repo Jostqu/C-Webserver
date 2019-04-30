@@ -7,6 +7,7 @@
 
 #include <ctype.h>
 #include "hash.h"
+#include "response.h"
 
 /**
  * \brief Struct, das Informationen aus der HTTP-Request enthält
@@ -17,7 +18,7 @@
 typedef struct http_request_struct
 {
     // TODO: Methode
-    // TODO: Pfad
+    string* path;
     // TODO: Version
 
     HashList* fields;
@@ -54,6 +55,6 @@ void free_http_request(HttpRequest httpRequest);
  * @param httpRequest der gefüllte HttpRequest-Struct
  * @return int der Response-Code
  */
-int parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest);
+HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest);
 
 #endif //PSE_HTTP_REQUEST_H
