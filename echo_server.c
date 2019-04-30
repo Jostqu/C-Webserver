@@ -8,7 +8,8 @@
 #include <string.h>     // memset, strerror
 #include <sys/socket.h> // struct sockaddr_in, socket, setsockopt, bind, listen, socklen_t, accept
 #include <unistd.h> // read, write, close
-#include "http_request.h"
+#include "request.h"
+#include "response.h"
 
 #define PORT 31337
 #define BUFFER_SIZE 1024
@@ -216,7 +217,6 @@ static void main_loop(int sockfd) {
 #endif
 }
 
-#include "response.h"
 
 void test_hashlist(){
 
@@ -297,14 +297,14 @@ int main(int argc, char *argv[]) {
 //    test_response_build();    //works
 //    test_hashlist();          //works
 //    test_string_split();      //works
-    test_get_ctype();
+//    test_get_ctype();
 
-    /*
+
     (void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
     main_loop(sockfd);
-*/
+
     return 0;
 }
