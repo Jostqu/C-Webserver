@@ -225,3 +225,8 @@ string *string_terminate(string *str)
 	str->buf[str->len] = '\0';
 	return str;
 }
+
+long string_to_long(string *str, int base) {
+    string_terminate(str); //to be sure
+    return strtol(str->buf, NULL, base);
+}

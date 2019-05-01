@@ -25,10 +25,6 @@ string *get_content_type(char *path) {
 
     fclose(f);
 
-    //note, this seems to not work for some weird reason
-    //it is supposed be triggered if the file does not exist so the path would be
-    //something like /../folder/lol.jpg and buffer[0] should be 'c' from the "cannot open" message
-    //so for not its needed to bechecked after the fuction returned wether the file was evaluated or not
     if(path[0] != buffer[0])
         return NULL;
 
@@ -47,4 +43,28 @@ string *get_content_type(char *path) {
     free(list);
 
     return ret;
+}
+
+void url_decode(string *str) {
+    if(!str)
+        return;
+
+    string* numAsString = string_new(3);
+
+    for (int i = 0; i < str->len; ++i) {
+        if(str->buf[i] == '%'){
+
+            string_add_char(numAsString, str->buf[i+1]);
+            string_add_char(numAsString, str->buf[i+2]);
+            string_terminate(numAsString);
+
+            str->buf[i] = string_to_long(numAsString, 16);
+            memmove(str->buf+i+1, str->buf+i+3, str->len-i-2);
+            str->len -= 2;
+
+            numAsString->len = 0;
+        }
+    }
+
+    string_free(numAsString);
 }

@@ -120,6 +120,16 @@ void string_print(string* str);
 string* int_to_string(int i);
 
 /*!
+ * \brief wrapper for strtol
+ *
+ * \author Björn Marx
+ *
+ * @param str
+ * @return
+ */
+long string_to_long(string *str, int base);
+
+/*!
  * \brief splits a string by c
  * its a basic method with a rather bad runtime of O(n²)
  *

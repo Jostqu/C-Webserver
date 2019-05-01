@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include "hash.h"
 #include "response.h"
+#include "helpers.h"
 
 /**
  * \brief Struct, das Informationen aus der HTTP-Request enthält

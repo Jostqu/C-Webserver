@@ -79,7 +79,7 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
                 else
                 {
                     // TODO: Url decoden (Leon)
-
+                    url_decode(strPath);
                     // Wenn ein Leerzeichen gefunden wurde, die Version parsen
                     parsingState = PARSING_VERSION;
                 }
