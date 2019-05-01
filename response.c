@@ -45,7 +45,7 @@ char *code_to_string(HttpResponseCodes code) {
     return b;
 }
 
-string *build_http_response(HttpResponseCodes code, HashList *fields, string *body) {
+string *build_http_response_header(HttpResponseCodes code, HashList *fields) {
 
     char* strCode = code_to_string(code);
     if(!strCode)
@@ -74,26 +74,9 @@ string *build_http_response(HttpResponseCodes code, HashList *fields, string *bo
         }
     }
 
+    //add separating empty line
 	string_add_char(response, '\r');
 	string_add_char(response, '\n');
-
-//    if(body) {
-//        string* bodyLength = int_to_string(body->len);
-//
-//        //add content length field
-//        string_concat(response, "Content-Length: ");
-//        string_concat_str(response, bodyLength);
-//        string_add_char(response, '\r');
-//        string_add_char(response, '\n');
-//
-//        string_free(bodyLength);
-//
-//        //add seperating empty line
-//        string_add_char(response, '\r');
-//        string_add_char(response, '\n');
-//
-//        string_concat_str(response, body);
-//    }
 
     return response;
 }
@@ -128,7 +111,7 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path)
 
 		SHL_append(fields, SH_create(strFileSizeKey, strFileSizeValue));
 
-		string* strResponse = build_http_response(code, fields, NULL);
+		string* strResponse = build_http_response_header(code, fields);
 
 		// Antwort-Header senden
 		if (write(targetStream, strResponse->buf, strResponse->len) < 0)

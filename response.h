@@ -51,7 +51,7 @@ char* code_to_string(HttpResponseCodes code);
  * @param fields list of header fields
  * @return Http response as string
  */
-string* build_http_response(HttpResponseCodes code, HashList* fields, string* body);
+string* build_http_response_header(HttpResponseCodes code, HashList *fields);
 
 /**
  * \brief Nutzt die build_http_response-Funktion um eine Antwort an den Client zusenden

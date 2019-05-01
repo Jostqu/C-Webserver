@@ -261,7 +261,7 @@ void test_response_build(){
     HashList* list = SHL_create(SH_create(s1,s2));
     SHL_append(list, SH_create(s3,s4));
 
-    string *s = build_http_response(OK, list, s3);
+    string *s = build_http_response_header(OK, list);
 
     string_print(s);
 
@@ -290,9 +290,10 @@ void test_string_split(){
 void test_get_ctype() {
     string* type = get_content_type("/home/bjoern/Desktop/xp");
 
-    string_print(type);
-
-    string_free(type);
+    if(type) {
+        string_print(type);
+        string_free(type);
+    }
 }
 
 int main(int argc, char *argv[]) {
