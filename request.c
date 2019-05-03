@@ -63,8 +63,7 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
                 }
                 else
                 {
-                    // TODO: Methode validieren und in httpRequest speichern (Leon)
-
+                    httpRequest->method = get_method_from_string(strMethod);
                     // Wenn ein Leerzeichen gefunden wurde, den Pfad parsen
                     parsingState = PARSING_PATH;
                 }
@@ -78,7 +77,6 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
                 }
                 else
                 {
-                    // TODO: Url decoden (Leon)
                     url_decode(strPath);
                     // Wenn ein Leerzeichen gefunden wurde, die Version parsen
                     parsingState = PARSING_VERSION;
@@ -93,8 +91,7 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
                 }
                 else
                 {
-                    // TODO: Version validieren und in httpRequest speichern (Leon)
-
+                    httpRequest->version = validate_version(strVersion);
                     // Wenn eine neue Zeile beginnt, Key eines Feldes parsen
                     parsingState = PARSING_FIELD_KEY;
                 }
@@ -133,7 +130,7 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
                 		strValue = string_new(VALUE_CAPACITY);
 	                }
 
-                    // Wenn keine neue Zeile, dann Zeichen an den String anhängen
+                	// Wenn keine neue Zeile, dann Zeichen an den String anhängen
                     string_add_char(strValue, c);
                 }
                 else

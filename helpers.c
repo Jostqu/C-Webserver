@@ -68,3 +68,19 @@ void url_decode(string *str) {
 
     string_free(numAsString);
 }
+
+HTTPVersion validate_version(string *ver) {
+    if(string_compare_cstr(ver, "HTTP/1.1"))
+        return VERSION_1_1;
+    else
+        return UNSUPPORTED;
+}
+
+HTTPMethod get_method_from_string(string *method) {
+    if(string_compare_cstr(method, "GET"))
+        return GET;
+    else if(string_compare_cstr(method, "POST"))
+        return POST;
+    else
+        return INVALID;
+}

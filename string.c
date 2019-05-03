@@ -129,10 +129,7 @@ bool string_compare(string* string1, string* string2){
     if(string1->len != string2->len) //sanity check
         return false;
 
-    if(memcmp(string1->buf, string2->buf, string1->len) == 0)
-        return true;
-    else
-        return false;
+    return memcmp(string1->buf, string2->buf, string1->len) == 0;
 }
 
 void string_print(string* str)
@@ -229,4 +226,15 @@ string *string_terminate(string *str)
 long string_to_long(string *str, int base) {
     string_terminate(str); //to be sure
     return strtol(str->buf, NULL, base);
+}
+
+bool string_compare_cstr(string *string1, char *string2) {
+    string* str = string_new(strlen(string2));
+    string_concat(str, string2);
+
+    bool b = string_compare(string1, str);
+
+    string_free(str);
+
+    return b;
 }

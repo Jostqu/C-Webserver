@@ -18,9 +18,9 @@
  */
 typedef struct http_request_struct
 {
-    // TODO: Methode
+    HTTPMethod method;
     string* path;
-    // TODO: Version
+    HTTPVersion version;
 
     HashList* fields;
     void* data;

@@ -9,6 +9,47 @@
 #include "string.h"
 
 /*!
+ * \brief enum containing supported version(s)
+ * \author Björn Marx
+ */
+typedef enum {
+    UNSUPPORTED,
+    VERSION_1_1
+}HTTPVersion;
+
+
+/*!
+ * \brief enum containing supported methods
+ * \author Björn Marx
+ */
+typedef enum {
+    INVALID,
+    GET,
+    POST
+}HTTPMethod;
+
+/*!
+ * \brief checks whether the HTTP version is supported or not
+ * note that the string must be valid by HTTP header standard ("HTTP/1.1", others not supported)
+ *
+ * \author Björn Marx
+ *
+ * @param ver a string containing the HTTP version
+ * @return Version or unsupported
+ */
+HTTPVersion validate_version(string* ver);
+
+/*!
+ * \brief gets the HTTP method from a string
+ *
+ * \author Björn Marx
+ *
+ * @param method string containing the method
+ * @return Method or Invalid
+ */
+HTTPMethod get_method_from_string(string* method);
+
+/*!
  * \brief gets content type of file with help of the file command
  *
  * \author Björn Marx
@@ -19,7 +60,7 @@
 string* get_content_type(char* path);
 
 /*!
- * \brief decodes url
+ * \brief decodes url, obviously
  *
  * replaces the %xx placeholder from HTML with their corresponding ascii chars
  *
