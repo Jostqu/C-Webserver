@@ -152,4 +152,12 @@ string** string_split(string* str, char splitter, int* splits);
  */
 string* string_terminate(string* str);
 
+/*!
+ * \brief little extension to the string_compare
+ *
+ * @param string1 a string
+ * @param string2 a cstring (char*)
+ * @return true if equal
+ */
+bool string_compare_cstr(string *string1, char *string2);
 #endif //PSE_STRING_H
