@@ -133,6 +133,10 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
                 else
                 {
                     httpRequest->method = get_method_from_string(strMethod);
+                    if (httpRequest->method != GET)
+                    {
+                    	responseCode = NOT_IMPLEMENTED;
+                    }
 
                     // Wenn ein Leerzeichen gefunden wurde, den Pfad parsen
                     parsingState = PARSING_PATH;
@@ -275,13 +279,18 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 //	    }
 //    }
 
-	string* validatedPath = NULL;
-	responseCode = validate_path(strPath, &validatedPath);
-	string_free(strPath);
+
 
 	if (responseCode == OK)
 	{
-		httpRequest->path = validatedPath;
+		string* validatedPath = NULL;
+		responseCode = validate_path(strPath, &validatedPath);
+		string_free(strPath);
+
+		if (responseCode == OK)
+		{
+			httpRequest->path = validatedPath;
+		}
 	}
 
 	string_free(strVersion);
