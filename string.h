@@ -143,8 +143,6 @@ long string_to_long(string *str, int base);
  * \brief splits a string by c
  * its a basic method with a rather bad runtime of O(n²)
  *
- * \warning function returns NULL when any routine fails, this *might* (but should not happen) cause a memory leak when some memory allocation fails
- *
  * \author Björn Marx
  *
  * @param splits pointer to integer to store stringlists length in
@@ -153,6 +151,17 @@ long string_to_long(string *str, int base);
  * @return list of strings
  */
 string** string_split(string* str, char splitter, int* splits);
+
+/*!
+ * \brief recombines list from string_split
+ * function returns null on failure or if splitted is null or if splits is 0
+ *
+ * @param splitted list of splitted strings
+ * @param splits number of strings in splitted
+ * @param separator char to put between individual strings
+ * @return string containing all substrings of splitted
+ */
+string* string_join(string** splitted, int splits, char separator);
 
 /**
  * \brief Terminiert einen String mit \0, um diesen z.B. bei fopen übergeben zu können
@@ -170,4 +179,21 @@ string* string_terminate(string* str);
  * @return true if equal
  */
 bool string_compare_cstr(string *string1, char *string2);
+
+/*!
+ * \brief inserts src at index
+ *
+ * @param dst string to insert to
+ * @param src string to insert from
+ * @param index explains itself
+ */
+void string_insert(string* dst, string* src, int index);
+
+/*!
+ * \brief extension of string_insert to support char*
+ *
+ * \see string_insert
+ */
+void string_insert_cstr(string* dst, char* src, int index);
+
 #endif //PSE_STRING_H

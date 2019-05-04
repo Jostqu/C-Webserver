@@ -245,3 +245,52 @@ string *string_new_from_cstr(char *str) {
 
     return b;
 }
+
+string *string_join(string **splitted, int splits, char separator) {
+    if(!splitted || splits == 0)
+        return NULL;
+
+    if(splits == 1)
+        return *splitted;
+
+    string* str = string_new(1);
+
+    string_concat_str(str, splitted[0]);
+
+    for (int i = 1; i < splits; ++i) {
+        if(splitted[i]) {
+
+            string_add_char(str, separator);
+            string_concat_str(str, splitted[i]);
+
+        } else { // should never happen
+            string_free(str);
+            return NULL;
+        }
+    }
+
+    return str;
+}
+
+void string_insert(string *dst, string *src, int index) {
+    if((dst->len + src->len) > dst->capacity) {
+
+        dst->capacity = (dst->len + src->len)*2;
+        dst->buf = realloc(dst->buf, dst->capacity);
+
+        if(!dst->buf){
+            perror("failed to realloc");
+            exit(1);
+        }
+    }
+
+    memmove(dst->buf+index+src->len, dst->buf+index, dst->len-index);
+    memcpy(dst->buf+index, src->buf, src->len);
+    dst->len += src->len;
+}
+
+void string_insert_cstr(string *dst, char *src, int index) {
+    string* srcStr = string_new_from_cstr(src);
+    string_insert(dst, srcStr, index);
+    string_free(srcStr);
+}
