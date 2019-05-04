@@ -6,6 +6,7 @@
 
 #define METHOD_CAPACITY 7
 #define PATH_CAPACITY 2083
+#define PATH_CAPACITY_ABSOLUTE (PATH_CAPACITY + 200)
 #define VERSION_CAPACITY 8
 #define KEY_CAPACITY 50
 #define VALUE_CAPACITY 100
@@ -23,8 +24,8 @@ void free_http_request(HttpRequest* httpRequest)
 
 HttpResponseCodes validate_path(string *path, string** validatedPath)
 {
-	string* htdocsDir = string_new(PATH_CAPACITY);
-	getcwd(htdocsDir->buf, PATH_CAPACITY);
+	string* htdocsDir = string_new(PATH_CAPACITY_ABSOLUTE);
+	getcwd(htdocsDir->buf, PATH_CAPACITY_ABSOLUTE);
 	htdocsDir->len = strlen(htdocsDir->buf);
 
 #ifndef NDEBUG
@@ -35,13 +36,13 @@ HttpResponseCodes validate_path(string *path, string** validatedPath)
 	string_concat(htdocsDir, "/htdocs");
 	string_terminate(htdocsDir);
 
-	string* absoluteHtdocsDir = string_new(PATH_CAPACITY);
+	string* absoluteHtdocsDir = string_new(PATH_CAPACITY_ABSOLUTE);
 	realpath(htdocsDir->buf, absoluteHtdocsDir->buf);
 	absoluteHtdocsDir->len = strlen(absoluteHtdocsDir->buf);
 
 	string_free(htdocsDir);
 
-	string* tmp = string_new(PATH_CAPACITY);
+	string* tmp = string_new(PATH_CAPACITY_ABSOLUTE);
 	string_concat_str(tmp, absoluteHtdocsDir);
 	string_concat_str(tmp, path);
 
@@ -52,7 +53,7 @@ HttpResponseCodes validate_path(string *path, string** validatedPath)
 
 	string_terminate(tmp);
 
-	string* absolutePath = string_new(PATH_CAPACITY);
+	string* absolutePath = string_new(PATH_CAPACITY_ABSOLUTE);
 	realpath(tmp->buf, absolutePath->buf);
 	absolutePath->len = strlen(absolutePath->buf);
 
@@ -248,22 +249,31 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
         }
     }
 
-//    string* strReferer = string_new(10);
-//    string_concat(strReferer, "referer");
-//    Hash hash = SHL_find_key(httpRequest->fields, strReferer);
-//    if (&hash)
+//    if (httpRequest->fields)
 //    {
-//    	int splits;
-//    	string** refererParts = string_split(hash.value, '/', &splits);
+//	    Hash *hash = SHL_find_key_cstr(httpRequest->fields, "referer");
+//	    if (hash)
+//	    {
+//		    int splits;
+//		    string **refererParts = string_split(hash->value, '/', &splits);
+//		    for (int x = 0; x < splits; x++)
+//		    {
+//		    	string_print(refererParts[x]);
+//		    }
 //
-////    	string* newStrPath = string_new(PATH_CAPACITY);
-////    	string_concat_str(newStrPath, );
-////    	string_concat_str(newStrPath, strPath);
+//		    if (splits > 0)
+//		    {
+//    	        string* newStrPath = string_new(PATH_CAPACITY);
+//    	        string_concat_str(newStrPath, refererParts[splits-1]);
+//    	        string_concat_str(newStrPath, strPath);
+//    	        string_free(strPath);
+//    	        strPath = newStrPath;
 //
-//		for (int x = 0; x < splits; x++)
-//			string_free(refererParts[x]);
+//			    for (int x = 0; x < splits; x++)
+//				    string_free(refererParts[x]);
+//		    }
+//	    }
 //    }
-//    string_free(strReferer);
 
 	string* validatedPath = NULL;
 	responseCode = validate_path(strPath, &validatedPath);
