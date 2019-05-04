@@ -158,17 +158,6 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
                 {
                     url_decode(strPath);
 
-	                string_print(strPath);
-
-	                string* validatedPath = NULL;
-	                responseCode = validate_path(strPath, &validatedPath);
-	                string_free(strPath);
-
-	                if (responseCode == OK)
-	                {
-	                	httpRequest->path = validatedPath;
-	                }
-
                     // Wenn ein Leerzeichen gefunden wurde, die Version parsen
                     parsingState = PARSING_VERSION;
                 }
@@ -258,6 +247,32 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
                 break;
         }
     }
+
+//    string* strReferer = string_new(10);
+//    string_concat(strReferer, "referer");
+//    Hash hash = SHL_find_key(httpRequest->fields, strReferer);
+//    if (&hash)
+//    {
+//    	int splits;
+//    	string** refererParts = string_split(hash.value, '/', &splits);
+//
+////    	string* newStrPath = string_new(PATH_CAPACITY);
+////    	string_concat_str(newStrPath, );
+////    	string_concat_str(newStrPath, strPath);
+//
+//		for (int x = 0; x < splits; x++)
+//			string_free(refererParts[x]);
+//    }
+//    string_free(strReferer);
+
+	string* validatedPath = NULL;
+	responseCode = validate_path(strPath, &validatedPath);
+	string_free(strPath);
+
+	if (responseCode == OK)
+	{
+		httpRequest->path = validatedPath;
+	}
 
 	string_free(strVersion);
     string_free(strMethod);
