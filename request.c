@@ -5,7 +5,7 @@
 #include "request.h"
 
 #define METHOD_CAPACITY 7
-#define PATH_CAPACITY 2000
+#define PATH_CAPACITY 2083
 #define VERSION_CAPACITY 8
 #define KEY_CAPACITY 50
 #define VALUE_CAPACITY 100
@@ -21,6 +21,68 @@ void free_http_request(HttpRequest* httpRequest)
 	free(httpRequest);
 }
 
+HttpResponseCodes validate_path(string *path, string** validatedPath)
+{
+	string* htdocsDir = string_new(PATH_CAPACITY);
+	getcwd(htdocsDir->buf, PATH_CAPACITY);
+	htdocsDir->len = strlen(htdocsDir->buf);
+
+#ifndef NDEBUG
+	// Ein Verzeichnis zurückgehen, da wir uns beim Debug-Build im cmake-build-debug Ordner befinden
+	string_concat(htdocsDir, "/..");
+#endif
+
+	string_concat(htdocsDir, "/htdocs");
+	string_terminate(htdocsDir);
+
+	string* absoluteHtdocsDir = string_new(PATH_CAPACITY);
+	realpath(htdocsDir->buf, absoluteHtdocsDir->buf);
+	absoluteHtdocsDir->len = strlen(absoluteHtdocsDir->buf);
+
+	string_free(htdocsDir);
+
+	string* tmp = string_new(PATH_CAPACITY);
+	string_concat_str(tmp, absoluteHtdocsDir);
+	string_concat_str(tmp, path);
+
+	if (!isfile(tmp))
+	{
+		string_concat(tmp, "/index.html");
+	}
+
+	string_terminate(tmp);
+
+	string* absolutePath = string_new(PATH_CAPACITY);
+	realpath(tmp->buf, absolutePath->buf);
+	absolutePath->len = strlen(absolutePath->buf);
+
+	string_free(tmp);
+
+	HttpResponseCodes responseCode;
+	if (absolutePath->len < absoluteHtdocsDir->len || memcmp(absolutePath->buf, absoluteHtdocsDir->buf, absoluteHtdocsDir->len) < 0) // TODO: Oder Datei darf nicht zurückgegeben werden z.B. htpasswd
+	{
+		string_free(absolutePath);
+		responseCode = FORBIDDEN;
+	}
+	else
+	{
+		if (file_exists(absolutePath))
+		{
+			*validatedPath = absolutePath;
+			responseCode = OK;
+		}
+		else
+		{
+			string_free(absolutePath);
+			responseCode = NOT_FOUND;
+		}
+	}
+
+	string_free(absoluteHtdocsDir);
+	return responseCode;
+}
+
+
 //
 // Request-Aufbau
 // --------------
@@ -31,12 +93,16 @@ void free_http_request(HttpRequest* httpRequest)
 // \r\n
 // Daten
 //
-HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest)
+HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpRequest* httpRequest)
 {
+	if (bufferSize == 0)
+		return BAD_REQUEST;
+
     HttpRequestParsingState parsingState = PARSING_METHOD;
+    HttpResponseCodes responseCode = OK;
 
     string* strMethod = string_new(METHOD_CAPACITY);
-    string* strPath = string_new(PATH_CAPACITY);
+    string* strPath = NULL;
     string* strVersion = string_new(VERSION_CAPACITY);
     string* strKey = NULL;
     string* strValue = NULL;
@@ -45,8 +111,10 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
     httpRequest->fields = NULL;
     httpRequest->data = NULL;
 
+    size_t i;
+
     // Zeichenweise durch den Anfrage-Puffer gehen
-    for (size_t i = 0; i < bufferSize && httpRequest->data == NULL; i++)
+    for (i = 0; i < bufferSize && httpRequest->data == NULL && responseCode == OK; i++)
     {
         // Aktuelles Zeichen
         char c = ((char*)(buffer))[i];
@@ -64,6 +132,7 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
                 else
                 {
                     httpRequest->method = get_method_from_string(strMethod);
+
                     // Wenn ein Leerzeichen gefunden wurde, den Pfad parsen
                     parsingState = PARSING_PATH;
                 }
@@ -72,12 +141,34 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
             case PARSING_PATH:
                 if (c != ' ')
                 {
+                	if (!strPath)
+	                {
+		                strPath = string_new(PATH_CAPACITY);
+	                }
+
                     // Wenn kein Leerzeichen, dann Zeichen an den String anhängen
                     string_add_char(strPath, c);
+
+                	if (strPath->len > PATH_CAPACITY)
+	                {
+                		responseCode = BAD_REQUEST;
+	                }
                 }
                 else
                 {
                     url_decode(strPath);
+
+	                string_print(strPath);
+
+	                string* validatedPath = NULL;
+	                responseCode = validate_path(strPath, &validatedPath);
+	                string_free(strPath);
+
+	                if (responseCode == OK)
+	                {
+	                	httpRequest->path = validatedPath;
+	                }
+
                     // Wenn ein Leerzeichen gefunden wurde, die Version parsen
                     parsingState = PARSING_VERSION;
                 }
@@ -92,6 +183,11 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
                 else
                 {
                     httpRequest->version = validate_version(strVersion);
+                    if (httpRequest->version == UNSUPPORTED)
+                    {
+                    	responseCode = BAD_REQUEST;
+                    }
+
                     // Wenn eine neue Zeile beginnt, Key eines Feldes parsen
                     parsingState = PARSING_FIELD_KEY;
                 }
@@ -115,8 +211,6 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
                 }
                 else
                 {
-                    // TODO: Key ggf. validieren
-
                     // Wenn ein Doppelpunkt gefunden wurde, den Value parsen
                     parsingState = PARSING_FIELD_VALUE;
                 }
@@ -165,15 +259,8 @@ HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpReques
         }
     }
 
-	// TODO: Pfad validieren. Referer-Key beachten! (Marcel)
-	string* validatedPath = string_new(PATH_CAPACITY);
-    string_concat(validatedPath, "../htdocs");
-    string_concat_str(validatedPath, strPath);
-	httpRequest->path = validatedPath;
-
 	string_free(strVersion);
-	string_free(strPath);
     string_free(strMethod);
 
-    return OK;
+    return responseCode;
 }

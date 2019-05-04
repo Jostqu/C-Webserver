@@ -6,6 +6,7 @@
 #ifndef PSE_HELPERS_H
 #define PSE_HELPERS_H
 
+#include <sys/stat.h>
 #include "string.h"
 
 /*!
@@ -69,5 +70,19 @@ string* get_content_type(char* path);
  * @param str a string with html's weird %XX placeholders
  */
 void url_decode(string *str);
+
+/**
+ * Überprüft ob ein Pfad eine Datei ist
+ * @param path Pfad
+ * @return Wahr, wenn Pfad ist Datei
+ */
+bool isfile(string* path);
+
+/**
+ * Überprüft ob eine Datei existiert
+ * @param path Dateipfad
+ * @return Wahr, wenn Datei existiert
+ */
+bool file_exists(string* path);
 
 #endif //PSE_HELPERS_H

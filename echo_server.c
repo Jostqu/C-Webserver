@@ -12,7 +12,7 @@
 #include "response.h"
 
 #define PORT 31337
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 65536
 
 /**
  * Globale Variablen.
@@ -131,7 +131,7 @@ static void main_loop(int sockfd) {
     socklen_t clilen = sizeof(cli_addr);
 #endif
 
-    char* buffer = malloc(BUFFER_SIZE);
+    void* const buffer = malloc(BUFFER_SIZE);
     if (buffer == NULL) {
         error("ERROR at malloc.");
     }

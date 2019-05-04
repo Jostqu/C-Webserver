@@ -84,3 +84,18 @@ HTTPMethod get_method_from_string(string *method) {
     else
         return INVALID;
 }
+
+bool isfile(string *path)
+{
+	string_terminate(path);
+	struct stat s;
+	stat(path->buf, &s);
+	return S_ISREG(s.st_mode);
+}
+
+bool file_exists(string *path)
+{
+	string_terminate(path);
+	struct stat s;
+	return stat(path->buf, &s) == 0;
+}

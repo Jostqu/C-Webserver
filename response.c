@@ -83,8 +83,6 @@ string *build_http_response_header(HttpResponseCodes code, HashList *fields) {
 
 void send_http_response(int targetStream, HttpResponseCodes code, string *path)
 {
-	string_terminate(path);
-
 	string* strServerKey = string_new(6);
 	string_concat(strServerKey, "Server");
 
@@ -93,15 +91,15 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path)
 
 	HashList* fields = SHL_create(SH_create(strServerKey, strServerValue));
 
-	string* strContentTypeKey = string_new(20);
-	string_concat(strContentTypeKey, "Content-Type");
-	string* strContentTypeValue = get_content_type(path->buf);
-	if (!strContentTypeValue)
+	if (code == OK)
 	{
-		code = NOT_FOUND;
-	}
-	else
-	{
+		string_terminate(path);
+
+		string* strContentTypeKey = string_new(20);
+		string_concat(strContentTypeKey, "Content-Type");
+
+		string* strContentTypeValue = get_content_type(path->buf);
+
 		SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
 
 		FILE* fp = fopen(path->buf, "rb");
@@ -148,6 +146,32 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path)
 		{
 			fprintf(stderr, "File '%s' not found!\n", path->buf);
 		}
+	}
+	else
+	{
+		string* strContentTypeKey = string_new(20);
+		string_concat(strContentTypeKey, "Content-Type");
+
+		string* strContentTypeValue = string_new(30);
+		string_concat(strContentTypeValue, "text/plain");
+
+		SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
+
+		string* strContent = string_new(30);
+		string_concat(strContent, code_to_string(code));
+
+		string* strResponse = build_http_response_header(code, fields);
+		string_concat_str(strResponse, strContent);
+
+		// Antwort senden
+		if (write(targetStream, strResponse->buf, strResponse->len) < 0)
+		{
+			perror("ERROR writing to stream!");
+			exit(1);
+		}
+
+		string_free(strResponse);
+		string_free(strContent);
 	}
 
 	SHL_remove_all(fields);

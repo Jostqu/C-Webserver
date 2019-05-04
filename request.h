@@ -49,6 +49,15 @@ typedef enum http_request_parsing_state
 void free_http_request(HttpRequest* httpRequest);
 
 /**
+ * \brief Validiert den eingehenden Pfad
+ * Stellt sicher, dass der Client sich nur innerhalb des DocumentRoots bewegt und gibt entsprechende ResponseCodes zurück.
+ * @param path Pfad vom Client
+ * @param validatedPath der neue absolute Pfad, wenn die Datei existiert. Muss selber freigegeben werden!
+ * @return OK wenn die Datei existiert und der Client Zugriff haben darf. 403 bei Zugriffen außerhalb des DocumentRoots. 404 wenn die Datei nicht vorhanden ist.
+ */
+HttpResponseCodes validate_path(string* path, string** validatedPath);
+
+/**
  * \brief Parsed den eingehenden Void-Buffer und gibt ein Struct mit den Informationen im Header zurück
  * \author Marcel Weski
  * @param buffer Void-Pointer auf den Request-Puffer
@@ -56,6 +65,6 @@ void free_http_request(HttpRequest* httpRequest);
  * @param httpRequest der gefüllte HttpRequest-Struct
  * @return int der Response-Code
  */
-HttpResponseCodes parse_http_request(void* buffer, size_t bufferSize, HttpRequest* httpRequest);
+HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpRequest* httpRequest);
 
 #endif //PSE_HTTP_REQUEST_H
