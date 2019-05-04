@@ -22,7 +22,8 @@ typedef enum {
     UNAUTHORIZED = 401,
     FORBIDDEN = 403,
     NOT_FOUND = 404,
-    METHOD_NOT_ALLOWED = 405
+    METHOD_NOT_ALLOWED = 405,
+    NOT_IMPLEMENTED = 501
 
 }HttpResponseCodes;
 

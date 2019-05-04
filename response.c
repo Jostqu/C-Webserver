@@ -38,6 +38,11 @@ char *code_to_string(HttpResponseCodes code) {
             break;
         }
 
+        case NOT_IMPLEMENTED: {
+			b = "501 Not Implemented";
+			break;
+        }
+
         default:
             break;
     }
