@@ -172,15 +172,15 @@ static void main_loop(int sockfd) {
             error("ERROR reading from socket");
         }
 
+        string* staticPage = NULL;
         HttpRequest* httpRequest = calloc(sizeof(HttpRequest), 1);
-
-        HttpResponseCodes responseCode = parse_http_request(buffer, length, httpRequest);
+        HttpResponseCodes responseCode = parse_http_request(buffer, length, httpRequest, &staticPage);
 
 /*
  * Schreibe die ausgehenden Daten auf den Socket.
  */
 #ifndef STDIN_ONLY
-	    send_http_response(newsockfd, responseCode, httpRequest->path);
+	    send_http_response(newsockfd, responseCode, httpRequest->path, staticPage);
 //        length = write(newsockfd, buffer, (size_t)length);
 //        if (length < 0) {
 //            error("ERROR writing to socket");
@@ -195,6 +195,7 @@ static void main_loop(int sockfd) {
 //    }
 #endif
 
+		string_free(staticPage);
 	    free_http_request(httpRequest);
 
 /*

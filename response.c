@@ -100,7 +100,7 @@ void write_string_to_socket(int socket, string* str)
 	write_buffer_to_socket(socket, str->buf, str->len);
 }
 
-void send_http_response(int targetStream, HttpResponseCodes code, string *path)
+void send_http_response(int targetStream, HttpResponseCodes code, string *path, string* staticPage)
 {
 	string* strServerKey = string_new_from_cstr("Server");
 	string* strServerValue = string_new_from_cstr(SERVER_NAME);
@@ -109,55 +109,71 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path)
 	string* strContentTypeKey = string_new_from_cstr("Content-Type");
 	string* strContentTypeValue;
 
-	if (code == OK)
-	{
-		string_terminate(path);
-
-		strContentTypeValue = get_content_type(path->buf);
-		SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
-
-		FILE* fp = fopen(path->buf, "rb");
-		if (fp)
-		{
-			string* strContentLengthKey = string_new_from_cstr("Content-Length");
-			string* strContentLengthValue = int_to_string(get_file_size(fp));
-			SHL_append(fields, SH_create(strContentLengthKey, strContentLengthValue));
-
-			// Antwort erstellen und versenden
-			string* strResponse = build_http_response_header(code, fields);
-			write_string_to_socket(targetStream, strResponse);
-			string_free(strResponse);
-
-			// Datei senden
-			size_t length = 0;
-			char fileBuffer[FILE_BUFFER_SIZE];
-			while ((length = fread(fileBuffer, 1, sizeof(fileBuffer), fp)) > 0)
-			{
-				write_buffer_to_socket(targetStream, fileBuffer, length);
-			}
-
-			fclose(fp);
-		}
-		else
-		{
-			// Dürfte nie ausgeführt werden
-			fprintf(stderr, "File '%s' not found!\n", path->buf);
-		}
-	}
-	else
+	if (staticPage)
 	{
 		strContentTypeValue = string_new_from_cstr("text/plain");
 		SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
 
-		string* strContent = string_new_from_cstr(code_to_string(code));
 		string* strResponse = build_http_response_header(code, fields);
-		string_concat_str(strResponse, strContent);
-		string_free(strContent);
+		string_concat_str(strResponse, staticPage);
 
 		// Antwort senden
 		write_string_to_socket(targetStream, strResponse);
 
 		string_free(strResponse);
+	}
+	else
+	{
+		if (code == OK)
+		{
+			string_terminate(path);
+
+			strContentTypeValue = get_content_type(path->buf);
+			SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
+
+			FILE* fp = fopen(path->buf, "rb");
+			if (fp)
+			{
+				string* strContentLengthKey = string_new_from_cstr("Content-Length");
+				string* strContentLengthValue = int_to_string(get_file_size(fp));
+				SHL_append(fields, SH_create(strContentLengthKey, strContentLengthValue));
+
+				// Antwort erstellen und versenden
+				string* strResponse = build_http_response_header(code, fields);
+				write_string_to_socket(targetStream, strResponse);
+				string_free(strResponse);
+
+				// Datei senden
+				size_t length = 0;
+				char fileBuffer[FILE_BUFFER_SIZE];
+				while ((length = fread(fileBuffer, 1, sizeof(fileBuffer), fp)) > 0)
+				{
+					write_buffer_to_socket(targetStream, fileBuffer, length);
+				}
+
+				fclose(fp);
+			}
+			else
+			{
+				// Dürfte nie ausgeführt werden
+				fprintf(stderr, "File '%s' not found!\n", path->buf);
+			}
+		}
+		else
+		{
+			strContentTypeValue = string_new_from_cstr("text/plain");
+			SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
+
+			string* strContent = string_new_from_cstr(code_to_string(code));
+			string* strResponse = build_http_response_header(code, fields);
+			string_concat_str(strResponse, strContent);
+			string_free(strContent);
+
+			// Antwort senden
+			write_string_to_socket(targetStream, strResponse);
+
+			string_free(strResponse);
+		}
 	}
 
 	SHL_remove_all(fields);

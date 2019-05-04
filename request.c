@@ -235,7 +235,7 @@ HttpRequestParsingState parsing_field_value(char c, string** strKey, string** st
 // \r\n
 // Daten
 //
-HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpRequest* httpRequest)
+HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpRequest* httpRequest, string** staticPage)
 {
 	if (bufferSize == 0)
 		return BAD_REQUEST;
@@ -322,12 +322,31 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 
 	if (responseCode == OK)
 	{
-		string* validatedPath = NULL;
-		responseCode = validate_path(strPath, &validatedPath);
-
-		if (responseCode == OK)
+		if (string_compare_cstr(strPath, "/debug"))
 		{
-			httpRequest->path = validatedPath;
+			*staticPage = string_new(200);
+
+			string_concat(*staticPage, "Methode: ");
+			string_concat_str(*staticPage, strMethod);
+			string_concat(*staticPage, "\n");
+
+			string_concat(*staticPage, "Ressource: ");
+			string_concat_str(*staticPage, strPath);
+			string_concat(*staticPage, "\n");
+
+			string_concat(*staticPage, "Version: ");
+			string_concat_str(*staticPage, strVersion);
+			string_concat(*staticPage, "\n");
+		}
+		else
+		{
+			string* validatedPath = NULL;
+			responseCode = validate_path(strPath, &validatedPath);
+
+			if (responseCode == OK)
+			{
+				httpRequest->path = validatedPath;
+			}
 		}
 	}
 
