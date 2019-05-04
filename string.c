@@ -36,9 +36,12 @@ string* string_copy(string* str)
 
 void string_free(string* str)
 {
-    // Puffer und Struct freigeben
-    free(str->buf);
-    free(str);
+	if (str)
+	{
+		// Puffer und Struct freigeben
+		free(str->buf);
+		free(str);
+	}
 }
 
 void string_concat(string *str, char *src) {

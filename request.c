@@ -324,7 +324,6 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 	{
 		string* validatedPath = NULL;
 		responseCode = validate_path(strPath, &validatedPath);
-		string_free(strPath);
 
 		if (responseCode == OK)
 		{
@@ -332,6 +331,7 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 		}
 	}
 
+	string_free(strPath);
 	string_free(strVersion);
     string_free(strMethod);
 
