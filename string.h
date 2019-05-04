@@ -36,6 +36,14 @@ typedef struct string_struct
  */
 string* string_new(size_t capacity);
 
+/*!
+ * \brief creates new string from given char*
+ *
+ * \author Björn Marx
+ *
+ * @param str a string
+ * @return new string with content of str
+ */
 string* string_new_from_cstr(char* str);
 
 /**

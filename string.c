@@ -175,7 +175,7 @@ string **string_split(string *str, char splitter, int* splits) {
     if(!str)
         return NULL;
 
-    *splits = 0;
+    *splits = 1;
 
     //count splitters
     for (int i = 0; i < str->len; i++) {

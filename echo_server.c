@@ -276,7 +276,7 @@ void test_string_split(){
     int splits;
     string** splitted = string_split(str, ' ', &splits);
 
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < splits; ++i) {
         string_print(splitted[i]);
         string_free(splitted[i]);
     }
@@ -288,7 +288,7 @@ void test_string_split(){
 #include "helpers.h"
 
 void test_get_ctype() {
-    string* type = get_content_type("/home/bjoern/Desktop/xp");
+    string* type = get_content_type("/home/bjoern/Desktop/LMAO");
 
     if(type) {
         string_print(type);
@@ -299,15 +299,15 @@ void test_get_ctype() {
 int main(int argc, char *argv[]) {
 //    test_response_build();    //works
 //    test_hashlist();          //works
-//    test_string_split();      //works
-//    test_get_ctype();
+//    test_string_split();      //works again
+    test_get_ctype();
 
 
-    (void)argc;
+    /*(void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
-    main_loop(sockfd);
+    main_loop(sockfd);*/
 
     return 0;
 }

@@ -53,6 +53,8 @@ HTTPMethod get_method_from_string(string* method);
 /*!
  * \brief gets content type of file with help of the file command
  *
+ * \warning as it seems to be forgotten otherwise: YOU HAVE TO FREE THE RETURNED STRING YOURSELF!
+ *
  * \author Björn Marx
  *
  * @param path path to file
