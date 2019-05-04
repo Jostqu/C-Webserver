@@ -5,30 +5,31 @@ string *get_content_type(char *path) {
     if(!path)
         return NULL;
 
-    if(strlen(path) > 1024){
+    if(strlen(path) > 3072){
         perror("path too long, shorten it to 1024 digits or less");
         return NULL;
     }
 
-    //1024 chars max path length + 8 chars command ("file -i ") + terminating 0 = 1033
-    char command[1033] = "file -i ";
+    //3072 chars max path length + 10 chars command and '' ("file -i '<path>'") + terminating 0 = 3081
+    char command[3081] = "file -i \"";
     strcat(command, path);
+    strcat(command, "\"");
 
     FILE* f = popen(command, "r");
 
     if(!f)
         return NULL;
 
-    char buffer[128];
-    memset(buffer, 0, 128);
-    fread(buffer, 128, 128, f);
+    char buffer[3200];
+    memset(buffer, 0, 3200);
+    fread(buffer, 3200, 3200, f);
 
     fclose(f);
 
     if(path[0] != buffer[0])
         return NULL;
 
-    string* b = string_new(10);
+    string* b = string_new(3200);
     string_concat(b, buffer);
 
     int splits;

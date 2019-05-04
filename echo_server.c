@@ -301,16 +301,16 @@ void test_get_ctype() {
 
 int main(int argc, char *argv[]) {
 //    test_response_build();    //works
-    test_hashlist();          //works
+//    test_hashlist();          //works
 //    test_string_split();      //works again
 //    test_get_ctype();
 
 
-    /*(void)argc;
+    (void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
-    main_loop(sockfd);*/
+    main_loop(sockfd);
 
     return 0;
 }

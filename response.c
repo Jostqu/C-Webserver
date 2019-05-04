@@ -99,7 +99,7 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path)
 {
 	string* strServerKey = string_new_from_cstr("Server");
 	string* strServerValue = string_new_from_cstr(SERVER_NAME);
-	HashList* fields = SHL_create(SH_create(strServerKey, strServerValue));
+    HashList* fields = SHL_create(SH_create(strServerKey, strServerValue));
 
 	string* strContentTypeKey = string_new_from_cstr("Content-Type");
 	string* strContentTypeValue;
