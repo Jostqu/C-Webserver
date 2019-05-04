@@ -52,19 +52,19 @@ void SHL_remove_all(HashList* first)
 	element = buffer = NULL;
 }
 
-Hash SHL_find_key(HashList* first, string* key)
+Hash* SHL_find_key(HashList* first, string* key)
 {
 	HashList* b = first;
 
 	while (b->next)
 	{
 		if (string_compare(b->data.key, key))
-			return b->data;
+			return &b->data;
         else
             b = b->next;
 	}
 
-	return *(struct StringHashStruct*)NULL;
+	return NULL;
 }
 
 Hash SHL_at(HashList* first, unsigned int index)
@@ -91,4 +91,14 @@ size_t SHL_get_size(HashList *first) {
         i++;
 
     return i;
+}
+
+Hash *SHL_find_key_cstr(HashList *first, char *key) {
+
+    string* strKey = string_new_from_cstr(key);
+
+    Hash* b = SHL_find_key(first, strKey);
+    string_free(strKey);
+
+    return b;
 }

@@ -238,3 +238,10 @@ bool string_compare_cstr(string *string1, char *string2) {
 
     return b;
 }
+
+string *string_new_from_cstr(char *str) {
+    string* b = string_new(strlen(str));
+    string_concat(b, str);
+
+    return b;
+}

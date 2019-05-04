@@ -36,6 +36,8 @@ typedef struct string_struct
  */
 string* string_new(size_t capacity);
 
+string* string_new_from_cstr(char* str);
+
 /**
  * \brief Erstellt eine identische Kopie des übergebenen Strings
  * Der String wird mittels malloc erzeugt und muss daher mit string_free selber wieder freigegeben werden!

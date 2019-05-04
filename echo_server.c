@@ -236,7 +236,7 @@ void test_hashlist(){
     SHL_append(list, SH_create(s3,s4));
 
     string_print(SHL_at(list, 1).key);
-    string_print(SHL_find_key(list, s1).value);
+    string_print(SHL_find_key(list, s1)->value);
 
     int i = SHL_get_size(list);
 

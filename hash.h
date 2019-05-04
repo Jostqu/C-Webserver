@@ -82,7 +82,9 @@ void SHL_remove_all(HashList* first);
  * \param key desired key to be found
  * \return pointer to *first* element with key
  */
-Hash SHL_find_key(HashList* first, string* key);
+Hash* SHL_find_key(HashList* first, string* key);
+
+Hash* SHL_find_key_cstr(HashList* first, char* key);
 
 /*!
  * \brief return index'th element of HashList
