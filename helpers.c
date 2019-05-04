@@ -99,3 +99,15 @@ bool file_exists(string *path)
 	struct stat s;
 	return stat(path->buf, &s) == 0;
 }
+
+long get_file_size(FILE *fp)
+{
+	// Für die Dateigröße, an das Ende springen und Position lesen
+	fseek(fp, 0, SEEK_END);
+	long fileSize = ftell(fp);
+
+	// Wieder an den Anfang der Datei springen
+	fseek(fp, 0, SEEK_SET);
+
+	return fileSize;
+}

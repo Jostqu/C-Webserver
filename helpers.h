@@ -85,4 +85,11 @@ bool isfile(string* path);
  */
 bool file_exists(string* path);
 
+/**
+ * \brief Gibt die Dateigröße einer offenen Datei zurück
+ * @param fp Pointer auf die offene Datei
+ * @return Dateigröße
+ */
+long get_file_size(FILE* fp);
+
 #endif //PSE_HELPERS_H
