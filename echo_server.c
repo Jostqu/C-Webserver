@@ -222,25 +222,28 @@ static void main_loop(int sockfd) {
 
 void test_hashlist(){
 
-    string* s1 = string_new(15);
-    string* s2 = string_new(15);
-    string* s3 = string_new(15);
-    string* s4 = string_new(15);
-
-    string_concat(s1, "Name");
-    string_concat(s2, "Bjoern Marx");
-    string_concat(s3, "hummeln");
-    string_concat(s4, "sind bienen");
+    string* s1 = string_new_from_cstr("Pepsi ist besser als");
+    string* s2 = string_new_from_cstr("coca cola");
+    string* s3 = string_new_from_cstr("Hummeln sind");
+    string* s4 = string_new_from_cstr("Bienen");
+    string* s5 = string_new_from_cstr("Henning fand es");
+    string* s6 = string_new_from_cstr("lustig");
+    string* s7 = string_new_from_cstr("Ctype from Destop/LMAO: ");
+    string* s8 = get_content_type("/home/bjoern/Desktop/LMAO");
 
     HashList* list = SHL_create(SH_create(s1,s2));
-    SHL_append(list, SH_create(s3,s4));
-
-    string_print(SHL_at(list, 1).key);
-    string_print(SHL_find_key(list, s1)->value);
+    SHL_append(list, SH_create(s3, s4));
+    SHL_append(list, SH_create(s5, s6));
+    SHL_append(list, SH_create(s7, s8));
 
     int i = SHL_get_size(list);
 
     printf("%d", i);
+
+    for (int j = 0; j < i; ++j) {
+        string_print(SHL_at(list, j).key);
+        string_print(SHL_at(list, j).value);
+    }
 
     SHL_remove_all(list);
 }
@@ -298,9 +301,9 @@ void test_get_ctype() {
 
 int main(int argc, char *argv[]) {
 //    test_response_build();    //works
-//    test_hashlist();          //works
+    test_hashlist();          //works
 //    test_string_split();      //works again
-    test_get_ctype();
+//    test_get_ctype();
 
 
     /*(void)argc;

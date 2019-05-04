@@ -84,6 +84,11 @@ void SHL_remove_all(HashList* first);
  */
 Hash* SHL_find_key(HashList* first, string* key);
 
+/*!
+ * \see SHL_find_key
+ *
+ * \brief but with a char*
+ */
 Hash* SHL_find_key_cstr(HashList* first, char* key);
 
 /*!

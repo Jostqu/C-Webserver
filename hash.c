@@ -48,8 +48,6 @@ void SHL_remove_all(HashList* first)
 	}
 
 	SHL_free_element(element);
-
-	element = buffer = NULL;
 }
 
 Hash* SHL_find_key(HashList* first, string* key)
