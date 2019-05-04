@@ -279,11 +279,16 @@ void test_string_split(){
     int splits;
     string** splitted = string_split(str, ' ', &splits);
 
+    string* recombined = string_join(splitted, splits, '_');
+
     for (int i = 0; i < splits; ++i) {
         string_print(splitted[i]);
         string_free(splitted[i]);
     }
 
+    string_print(recombined);
+
+    string_free(recombined);
     string_free(str);
     free(splitted);
 }
@@ -299,18 +304,31 @@ void test_get_ctype() {
     }
 }
 
+void test_string_insert(){
+    string* dst = string_new_from_cstr("Ha Welt");
+    string* src = string_new_from_cstr("lo");
+
+    string_insert_cstr(src, "l", 1);
+    string_insert(dst, src, 2);
+
+    string_print(dst);
+
+    string_free(dst);
+    string_free(src);
+}
+
 int main(int argc, char *argv[]) {
 //    test_response_build();    //works
 //    test_hashlist();          //works
 //    test_string_split();      //works again
 //    test_get_ctype();
+    test_string_insert();
 
-
-    (void)argc;
+    /*(void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
-    main_loop(sockfd);
+    main_loop(sockfd);*/
 
     return 0;
 }
