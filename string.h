@@ -96,9 +96,8 @@ void string_add_char(string* str, char c);
  * Alle Leerzeichen, Absätze und Backspaces werden am Anfang und am Ende des String entfernt.
  * \author Marcel Weski
  * @param str String
- * @return Selber String wie Argument (ändert sich durch Aufruf dieser Funktion nie!)
  */
-string* string_strip(string* str);
+void string_strip(string* str);
 
 /**
  * \brief vergleicht 2 strings

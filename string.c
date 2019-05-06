@@ -81,7 +81,7 @@ void string_add_char(string* str, char c)
     str->buf[str->len++] = c;
 }
 
-string* string_strip(string* str)
+void string_strip(string* str)
 {
     // leere Zeichen am Anfang entfernen
     for (size_t i = 0; i < str->len; i++)
@@ -123,8 +123,6 @@ string* string_strip(string* str)
             break;
         }
     }
-
-    return str;
 }
 
 bool string_compare(string* string1, string* string2){
