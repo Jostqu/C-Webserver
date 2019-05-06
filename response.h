@@ -60,7 +60,8 @@ string* build_http_response_header(HttpResponseCodes code, HashList *fields);
  * @param targetStream socket-Instanz oder STDOUT-Stream
  * @param code responseCode von der parse_http_request-Funktion
  * @param path vom Client angeforderter Pfad
+ * @param staticPage ggf. eine statische Seite. z.B. /debug
  */
-void send_http_response(int targetStream, HttpResponseCodes code, string* path);
+void send_http_response(int targetStream, HttpResponseCodes code, string* path, string* staticPage);
 
 #endif //PSE_RESPONSE_H

@@ -63,8 +63,9 @@ HttpResponseCodes validate_path(string* path, string** validatedPath);
  * @param buffer Void-Pointer auf den Request-Puffer
  * @param bufferSize Größe des Puffers
  * @param httpRequest der gefüllte HttpRequest-Struct
+ * @param staticPage ggf. eine statische Seite. z.B. bei /debug
  * @return int der Response-Code
  */
-HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpRequest* httpRequest);
+HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpRequest* httpRequest, string** staticPage);
 
 #endif //PSE_HTTP_REQUEST_H
