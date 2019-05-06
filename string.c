@@ -6,14 +6,14 @@
 
 string* string_new(size_t capacity)
 {
-    string* str = malloc(sizeof(string));
+    string* str = calloc(1, sizeof(string));
     if (str == NULL)
     {
         perror("string_new: failed to allocate string!");
         exit(1);
     }
 
-    str->buf = malloc(capacity);
+    str->buf = calloc(capacity, sizeof(char));
     if (str->buf == NULL)
     {
         perror("string_new: failed to allocate string buffer!");
@@ -23,6 +23,18 @@ string* string_new(size_t capacity)
     str->capacity = capacity;
     str->len = 0;
     return str;
+}
+
+void string_realloc(string* str, size_t newCap){
+    if(str){
+        str->buf = realloc(str->buf, newCap);
+        str->capacity = newCap;
+
+        if(!str->buf){
+            perror("string_realloc: failed to reallocate buffer");
+            exit(3);
+        }
+    }
 }
 
 string* string_copy(string* str)
@@ -52,15 +64,8 @@ void string_concat(string *str, char *src) {
         exit(2);
     }
 
-    if(str->len + len > str->capacity){
-        str->capacity = ((str->len + len) * 2);
-        str->buf = (char*)realloc(str->buf, str->capacity);
-    }
-
-    if(!str->buf){
-        perror("failed to realloc string->buffer");
-        exit(1);
-    }
+    if(str->len + len > str->capacity)
+        string_realloc(str, (str->len + len) * 2);
 
     memcpy((str->buf+str->len), src, len);
     str->len += len;
@@ -69,14 +74,7 @@ void string_concat(string *str, char *src) {
 void string_add_char(string* str, char c)
 {
     if (str->capacity < str->len + 1)
-    {
-        str->capacity = (str->len + 1) * 2;
-        str->buf = realloc(str->buf, str->capacity);
-        if (str->buf == NULL)
-        {
-            perror("string_add_char: failed to reallocate string buffer!");
-        }
-    }
+        string_realloc(str, (str->len + 1) * 2);
 
     str->buf[str->len++] = c;
 }
@@ -145,16 +143,8 @@ void string_print(string* str)
 
 void string_concat_str(string *dst, string *src) {
 
-    if((dst->len + src->len) > dst->capacity){
-
-        dst->capacity = (dst->len + src->len)*2;
-        dst->buf = realloc(dst->buf, dst->capacity);
-    }
-
-    if(!dst->buf){
-        perror("failed to realloc");
-        exit(3);
-    }
+    if((dst->len + src->len) > dst->capacity)
+        string_realloc(dst, (dst->len + src->len)*2);
 
     memcpy((dst->buf + dst->len), src->buf, src->len);
     dst->len += src->len;
@@ -184,6 +174,7 @@ string **string_split(string *str, char splitter, int* splits) {
             (*splits)++;
     }
 
+    //i am actually sorry for this, but its the easiest way
     string** list = calloc(*splits, sizeof(struct string_struct));
 
     if(!list)
@@ -210,15 +201,7 @@ string **string_split(string *str, char splitter, int* splits) {
 string *string_terminate(string *str)
 {
 	if (str->len + 1 > str->capacity)
-	{
-		str->capacity = (str->len + 1) * 2;
-		str->buf = realloc(str->buf, str->capacity);
-		if (!str->buf)
-		{
-			perror("string_terminate: failed to reallocate string buffer!");
-			exit(1);
-		}
-	}
+	    string_realloc(str, (str->len + 1) * 2);
 
 	str->buf[str->len] = '\0';
 	return str;
@@ -274,16 +257,8 @@ string *string_join(string **splitted, int splits, char separator) {
 }
 
 void string_insert(string *dst, string *src, int index) {
-    if((dst->len + src->len) > dst->capacity) {
-
-        dst->capacity = (dst->len + src->len)*2;
-        dst->buf = realloc(dst->buf, dst->capacity);
-
-        if(!dst->buf){
-            perror("failed to realloc");
-            exit(1);
-        }
-    }
+    if((dst->len + src->len) > dst->capacity)
+        string_realloc(dst, (dst->len + src->len)*2);
 
     memmove(dst->buf+index+src->len, dst->buf+index, dst->len-index);
     memcpy(dst->buf+index, src->buf, src->len);
@@ -294,4 +269,29 @@ void string_insert_cstr(string *dst, char *src, int index) {
     string* srcStr = string_new_from_cstr(src);
     string_insert(dst, srcStr, index);
     string_free(srcStr);
+}
+
+bool string_startswith(string *str, string *needle) {
+
+    if(needle->len >= str->len)
+        return false;
+
+    int strLen = str->len;
+    str->len = needle->len;
+
+    bool b = string_compare(str, needle);
+
+    str->len = strLen;
+
+    return b;
+}
+
+bool string_startswith_cstr(string *str, char *needle) {
+    string* strNeedle = string_new_from_cstr(needle);
+
+    bool b = string_startswith(str, strNeedle);
+
+    string_free(strNeedle);
+
+    return b;
 }

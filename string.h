@@ -101,7 +101,7 @@ void string_strip(string* str);
 
 /**
  * \brief vergleicht 2 strings
- * vergleicht 2
+ * vergleicht 2 string auf glaichheit mit memcmp
  *
  * \author Björn Marx
  *
@@ -182,6 +182,8 @@ bool string_compare_cstr(string *string1, char *string2);
 /*!
  * \brief inserts src at index
  *
+ * \author Björn marx
+ *
  * @param dst string to insert to
  * @param src string to insert from
  * @param index explains itself
@@ -194,5 +196,23 @@ void string_insert(string* dst, string* src, int index);
  * \see string_insert
  */
 void string_insert_cstr(string* dst, char* src, int index);
+
+/*!
+ * \brief checks is str starts with needle
+ * uses string_compare \see string_compare for detailed info
+ *
+ * \author Björn Marx
+ *
+ * @param str string to check if it starts with needle
+ * @param needle a string
+ * @return true if string starts with needle
+ */
+bool string_startswith(string* str, string* needle);
+
+/*!
+ * \brief checks if str starts with needle
+ * \see string_startswith to see how it works
+ */
+bool string_startswith_cstr(string* str, char* needle);
 
 #endif //PSE_STRING_H
