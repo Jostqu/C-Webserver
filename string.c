@@ -175,7 +175,7 @@ string **string_split(string *str, char splitter, int* splits) {
     }
 
     //i am actually sorry for this, but its the easiest way
-    string** list = calloc(*splits, sizeof(struct string_struct));
+    string** list = calloc(*splits, sizeof(string*));
 
     if(!list)
         return NULL;
