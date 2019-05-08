@@ -235,7 +235,7 @@ string *string_join(string **splitted, int splits, char separator) {
         return NULL;
 
     if(splits == 1)
-        return *splitted;
+        return string_copy(*splitted);
 
     string* str = string_new(1);
 

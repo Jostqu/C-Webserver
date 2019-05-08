@@ -57,7 +57,7 @@ HttpResponseCodes validate_path(string *path, string** validatedPath)
 	realpath(tmp->buf, absolutePath->buf);
 	absolutePath->len = strlen(absolutePath->buf);
 
-	string_print(absolutePath);
+//	string_print(absolutePath);
 
 	string_free(tmp);
 
@@ -294,31 +294,26 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
         }
     }
 
-//    if (httpRequest->fields)
-//    {
-//	    Hash *hash = SHL_find_key_cstr(httpRequest->fields, "referer");
-//	    if (hash)
-//	    {
-//		    int splits;
-//		    string **refererParts = string_split(hash->value, '/', &splits);
-//		    for (int x = 0; x < splits; x++)
-//		    {
-//		    	string_print(refererParts[x]);
-//		    }
-//
-//		    if (splits > 0)
-//		    {
-//    	        string* newStrPath = string_new(PATH_CAPACITY);
-//    	        string_concat_str(newStrPath, refererParts[splits-1]);
-//    	        string_concat_str(newStrPath, strPath);
-//    	        string_free(strPath);
-//    	        strPath = newStrPath;
-//
-//			    for (int x = 0; x < splits; x++)
-//				    string_free(refererParts[x]);
-//		    }
-//	    }
-//    }
+    string* refererPath = NULL;
+    if (httpRequest->fields)
+    {
+        // check if referer-field exists
+	    Hash *hash = SHL_find_key_cstr(httpRequest->fields, "referer");
+	    if (hash)
+	    {
+	        // get relative ressource path from referer-value
+		    int splits;
+		    string **refererParts = string_split(hash->value, '/', &splits);
+		    if (splits > 3)
+            {
+		        refererPath = string_join(refererParts + 3, splits - 3, '/');
+                string_insert_cstr(refererPath, "/", 0);
+            }
+
+            for (int x = 0; x < splits; x++)
+                string_free(refererParts[x]);
+	    }
+    }
 
 	if (responseCode == OK)
 	{
@@ -340,6 +335,15 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 		}
 		else
 		{
+		    if (refererPath)
+            {
+		        if (!string_startswith(strPath, refererPath))
+                {
+                    string_insert(strPath, refererPath, 0);
+                }
+		        string_free(refererPath);
+            }
+
 			string* validatedPath = NULL;
 			responseCode = validate_path(strPath, &validatedPath);
 
