@@ -11,6 +11,9 @@
 #define KEY_CAPACITY 50
 #define VALUE_CAPACITY 100
 
+static bool debugPage = false;
+static HttpResponseCodes methodCode = OK;
+
 void free_http_request(HttpRequest* httpRequest)
 {
 	if (httpRequest->path)
@@ -100,7 +103,8 @@ HttpRequestParsingState parsing_method(char c, string* strMethod, HttpRequest** 
 		(*httpRequest)->method = get_method_from_string(strMethod);
 		if ((*httpRequest)->method != GET)
 		{
-			*responseCode = NOT_IMPLEMENTED;
+			methodCode = NOT_IMPLEMENTED;
+			*responseCode = OK; // liar
 		}
 
 		// Wenn ein Leerzeichen gefunden wurde, den Pfad parsen
@@ -131,6 +135,15 @@ HttpRequestParsingState parsing_path(char c, string** strPath, HttpRequest** htt
 	else
 	{
 		url_decode(*strPath);
+
+		if (!string_compare_cstr(*strPath, "/debug") && !string_compare_cstr(*strPath, "/debug/"))
+		{
+			*responseCode = methodCode;
+		}
+		else
+		{
+			debugPage = true;
+		}
 
 		// Wenn ein Leerzeichen gefunden wurde, die Version parsen
 		return PARSING_VERSION;
@@ -253,6 +266,9 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
     httpRequest->fields = NULL;
     httpRequest->data = NULL;
 
+    debugPage = false;
+    methodCode = OK;
+
     size_t i;
 
     // Zeichenweise durch den Anfrage-Puffer gehen
@@ -312,12 +328,14 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 
             for (int x = 0; x < splits; x++)
                 string_free(refererParts[x]);
+
+            free(refererParts);
 	    }
     }
 
-	if (responseCode == OK)
+	if (responseCode == OK || debugPage)
 	{
-		if (string_compare_cstr(strPath, "/debug"))
+		if (debugPage)
 		{
 			*staticPage = string_new(200);
 
