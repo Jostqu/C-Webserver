@@ -8,6 +8,7 @@
 #define PSE_RESPONSE_H
 
 #include <unistd.h>
+#include <sys/socket.h>
 #include "hash.h"
 #include "helpers.h"
 

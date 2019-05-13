@@ -86,18 +86,19 @@ string *build_http_response_header(HttpResponseCodes code, HashList *fields) {
     return response;
 }
 
-void write_buffer_to_socket(int socket, char* buffer, size_t len)
+bool write_buffer_to_socket(int socket, char* buffer, size_t len)
 {
-	if (write(socket, buffer, len) < 0)
+    if (send(socket, buffer, len, MSG_NOSIGNAL) < 0)
 	{
 		perror("write_buffer_to_socket: failed to write to socket!");
-		exit(1);
+		return false;
 	}
+	return true;
 }
 
-void write_string_to_socket(int socket, string* str)
+bool write_string_to_socket(int socket, string* str)
 {
-	write_buffer_to_socket(socket, str->buf, str->len);
+	return write_buffer_to_socket(socket, str->buf, str->len);
 }
 
 void send_http_response(int targetStream, HttpResponseCodes code, string *path, string* staticPage)
@@ -148,7 +149,8 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path, 
 				char fileBuffer[FILE_BUFFER_SIZE];
 				while ((length = fread(fileBuffer, 1, sizeof(fileBuffer), fp)) > 0)
 				{
-					write_buffer_to_socket(targetStream, fileBuffer, length);
+					if (!write_buffer_to_socket(targetStream, fileBuffer, length))
+                        break;
 				}
 
 				fclose(fp);
