@@ -110,18 +110,18 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path, 
 	string* strContentTypeKey = string_new_from_cstr("Content-Type");
 	string* strContentTypeValue;
 
+	string* strResponse = NULL;
+
 	if (staticPage)
 	{
+		// add 'Content-Type: text/plain' field
 		strContentTypeValue = string_new_from_cstr("text/plain");
 		SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
 
-		string* strResponse = build_http_response_header(code, fields);
+		strResponse = build_http_response_header(code, fields);
 		string_concat_str(strResponse, staticPage);
 
-		// Antwort senden
 		write_string_to_socket(targetStream, strResponse);
-
-		string_free(strResponse);
 	}
 	else
 	{
@@ -139,12 +139,11 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path, 
 				string* strContentLengthValue = int_to_string(get_file_size(fp));
 				SHL_append(fields, SH_create(strContentLengthKey, strContentLengthValue));
 
-				// Antwort erstellen und versenden
-				string* strResponse = build_http_response_header(code, fields);
+				// create response and send to client
+				strResponse = build_http_response_header(code, fields);
 				write_string_to_socket(targetStream, strResponse);
-				string_free(strResponse);
 
-				// Datei senden
+				// Send file
 				size_t length = 0;
 				char fileBuffer[FILE_BUFFER_SIZE];
 				while ((length = fread(fileBuffer, 1, sizeof(fileBuffer), fp)) > 0)
@@ -157,7 +156,7 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path, 
 			}
 			else
 			{
-				// Dürfte nie ausgeführt werden
+				// should never get to this point because if file exists is checked in validate_path (request.c)
 				fprintf(stderr, "File '%s' not found!\n", path->buf);
 			}
 		}
@@ -167,16 +166,14 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path, 
 			SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
 
 			string* strContent = string_new_from_cstr(code_to_string(code));
-			string* strResponse = build_http_response_header(code, fields);
+			strResponse = build_http_response_header(code, fields);
 			string_concat_str(strResponse, strContent);
 			string_free(strContent);
 
-			// Antwort senden
 			write_string_to_socket(targetStream, strResponse);
-
-			string_free(strResponse);
 		}
 	}
 
+	string_free(strResponse);
 	SHL_remove_all(fields);
 }

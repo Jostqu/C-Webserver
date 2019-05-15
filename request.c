@@ -290,14 +290,13 @@ static string* build_debug_page(string* method, string* resource, string* versio
 }
 
 //
-// Request-Aufbau
+// Request-Schema
 // --------------
-// METHOD path HTTP/VERSION\r\n
+// METHOD resource HTTP/VERSION\r\n
 // key: value\r\n
-// ...
+// ...\r\n
 // \r\n
-// \r\n
-// Daten
+// Data
 //
 HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpRequest* httpRequest, string** staticPage)
 {
@@ -361,8 +360,6 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
         }
     }
 
-    string* refererPath = get_referer_path(httpRequest->fields);
-
 	if (responseCode == OK || debugPage)
 	{
 		if (debugPage)
@@ -371,13 +368,17 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 		}
 		else
 		{
-		    if (refererPath)
+			string* refererPath = get_referer_path(httpRequest->fields);
+
+			if (refererPath)
             {
 		    	// if relative path to image file was delivered by referer-field, insert it at start of strResource
 		        if (!string_startswith(strResource, refererPath))
                 {
                     string_insert(strResource, refererPath, 0);
                 }
+
+	            string_free(refererPath);
             }
 
 		    // validatedPath will only be allocated by validate_path if path is valid (responseCode = OK), and then freed with free_http_request
@@ -390,9 +391,6 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 			}
 		}
 	}
-
-	if (refererPath)
-		string_free(refererPath);
 
 	string_free(strResource);
 	string_free(strVersion);
