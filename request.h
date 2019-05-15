@@ -34,7 +34,7 @@ typedef struct http_request_struct
 typedef enum http_request_parsing_state
 {
     PARSING_METHOD,
-    PARSING_PATH,
+    PARSING_RESOURCE,
     PARSING_VERSION,
     PARSING_FIELD_KEY,
     PARSING_FIELD_VALUE,
@@ -49,13 +49,13 @@ typedef enum http_request_parsing_state
 void free_http_request(HttpRequest* httpRequest);
 
 /**
- * \brief Validiert den eingehenden Pfad
+ * \brief Validates the requested resource
  * Stellt sicher, dass der Client sich nur innerhalb des DocumentRoots bewegt und gibt entsprechende ResponseCodes zurück.
  * @param path Pfad vom Client
  * @param validatedPath der neue absolute Pfad, wenn die Datei existiert. Muss selber freigegeben werden!
  * @return OK wenn die Datei existiert und der Client Zugriff haben darf. 403 bei Zugriffen außerhalb des DocumentRoots. 404 wenn die Datei nicht vorhanden ist.
  */
-HttpResponseCodes validate_path(string* path, string** validatedPath);
+HttpResponseCodes validate_resource(string *resource, string **path);
 
 /**
  * \brief Parsed den eingehenden Void-Buffer und gibt ein Struct mit den Informationen im Header zurück

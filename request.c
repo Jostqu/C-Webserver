@@ -25,7 +25,7 @@ void free_http_request(HttpRequest* httpRequest)
 	free(httpRequest);
 }
 
-HttpResponseCodes validate_path(string *path, string** validatedPath)
+static string* get_absolut_document_root_path()
 {
 	string* htdocsDir = string_new(PATH_CAPACITY_ABSOLUTE);
 	getcwd(htdocsDir->buf, PATH_CAPACITY_ABSOLUTE);
@@ -45,9 +45,15 @@ HttpResponseCodes validate_path(string *path, string** validatedPath)
 
 	string_free(htdocsDir);
 
-	string* tmp = string_new(PATH_CAPACITY_ABSOLUTE);
-	string_concat_str(tmp, absoluteHtdocsDir);
-	string_concat_str(tmp, path);
+	return absoluteHtdocsDir;
+}
+
+HttpResponseCodes validate_resource(string *resource, string **path)
+{
+	string* absolutDocumentRootPath = get_absolut_document_root_path();
+
+	string* tmp = string_copy(absolutDocumentRootPath);
+	string_concat_str(tmp, resource);
 
 	// causes 'conditional jump or move depends on uninitialised value' warning
 	if (!isfile(tmp))
@@ -57,63 +63,73 @@ HttpResponseCodes validate_path(string *path, string** validatedPath)
 
 	string_terminate(tmp);
 
-	string* absolutePath = string_new(PATH_CAPACITY_ABSOLUTE);
-	realpath(tmp->buf, absolutePath->buf);
-	absolutePath->len = strlen(absolutePath->buf);
-
-//	string_print(absolutePath);
+	string* absoluteResourcePath = string_new(PATH_CAPACITY_ABSOLUTE);
+	realpath(tmp->buf, absoluteResourcePath->buf);
+	absoluteResourcePath->len = strlen(absoluteResourcePath->buf);
 
 	string_free(tmp);
 
 	HttpResponseCodes responseCode;
-	if (absolutePath->len < absoluteHtdocsDir->len || memcmp(absolutePath->buf, absoluteHtdocsDir->buf, absoluteHtdocsDir->len) < 0) // TODO: Oder Datei darf nicht zurückgegeben werden z.B. htpasswd
+	if (absoluteResourcePath->len < absolutDocumentRootPath->len || !string_startswith(absoluteResourcePath, absolutDocumentRootPath)) // TODO: also check if file access is not allowed (htpasswd)
 	{
-		string_free(absolutePath);
+		string_free(absoluteResourcePath);
 		responseCode = FORBIDDEN;
 	}
 	else
 	{
-		if (file_exists(absolutePath))
+		if (file_exists(absoluteResourcePath))
 		{
-			*validatedPath = absolutePath;
+			*path = absoluteResourcePath;
 			responseCode = OK;
 		}
 		else
 		{
-			string_free(absolutePath);
+			string_free(absoluteResourcePath);
 			responseCode = NOT_FOUND;
 		}
 	}
 
-	string_free(absoluteHtdocsDir);
+	string_free(absolutDocumentRootPath);
 	return responseCode;
 }
 
-HttpRequestParsingState parsing_method(char c, string* strMethod, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
+HttpRequestParsingState parsing_method(char c, string** strMethod, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
 {
 	if (c != ' ')
 	{
-		// Wenn kein Leerzeichen, dann Zeichen an den String anhängen
-		string_add_char(strMethod, c);
+		if (!(*strMethod))
+		{
+			*strMethod = string_new(METHOD_CAPACITY);
+		}
 
-		// Weiterhin die Methode parsen
+		// add current char to string
+		string_add_char(*strMethod, c);
+
+		// go on with parsing method
 		return PARSING_METHOD;
 	}
 	else
 	{
-		(*httpRequest)->method = get_method_from_string(strMethod);
-		if ((*httpRequest)->method != GET)
+		if (!(*strMethod))
 		{
-			methodCode = NOT_IMPLEMENTED;
-			*responseCode = OK; // liar
+			*responseCode = BAD_REQUEST;
+		}
+		else
+		{
+			(*httpRequest)->method = get_method_from_string(*strMethod);
+			if ((*httpRequest)->method != GET)
+			{
+				methodCode = NOT_IMPLEMENTED;
+				*responseCode = OK; // liar
+			}
 		}
 
-		// Wenn ein Leerzeichen gefunden wurde, den Pfad parsen
-		return PARSING_PATH;
+		// if current char is a space, start parsing resource
+		return PARSING_RESOURCE;
 	}
 }
 
-HttpRequestParsingState parsing_path(char c, string** strPath, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
+HttpRequestParsingState parsing_resource(char c, string **strPath, HttpRequest **httpRequest, HttpResponseCodes *responseCode)
 {
 	if (c != ' ')
 	{
@@ -122,7 +138,7 @@ HttpRequestParsingState parsing_path(char c, string** strPath, HttpRequest** htt
 			*strPath = string_new(PATH_CAPACITY);
 		}
 
-		// Wenn kein Leerzeichen, dann Zeichen an den String anhängen
+		// add current char to string
 		string_add_char(*strPath, c);
 
 		if ((*strPath)->len > PATH_CAPACITY)
@@ -130,55 +146,74 @@ HttpRequestParsingState parsing_path(char c, string** strPath, HttpRequest** htt
 			*responseCode = BAD_REQUEST;
 		}
 
-		// Weiterhin den Pfad parsen
-		return PARSING_PATH;
+		// go on with parsing resource
+		return PARSING_RESOURCE;
 	}
 	else
 	{
-		url_decode(*strPath);
-
-		if (!string_startswith_cstr(*strPath, "/debug"))
+		if (!(*strPath))
 		{
-			*responseCode = methodCode;
+			*responseCode = BAD_REQUEST;
 		}
 		else
 		{
-			debugPage = true;
+			url_decode(*strPath);
+
+			if (!string_startswith_cstr(*strPath, "/debug"))
+			{
+				*responseCode = methodCode;
+			}
+			else
+			{
+				debugPage = true;
+			}
 		}
 
-		// Wenn ein Leerzeichen gefunden wurde, die Version parsen
+		// if current space is a space, start parsing version
 		return PARSING_VERSION;
 	}
 }
 
-HttpRequestParsingState parsing_version(char c, string* strVersion, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
+HttpRequestParsingState parsing_version(char c, string** strVersion, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
 {
 	if (c != '\n')
 	{
-		// Wenn keine neue Zeile, dann Zeichen an den String anhängen
-		string_add_char(strVersion, c);
+		if (!(*strVersion))
+		{
+			*strVersion = string_new(VERSION_CAPACITY);
+		}
 
-		// Weiterhin die Version parsen
+		// if no new line, add current char to string
+		string_add_char(*strVersion, c);
+
+		// go on with parsing version
 		return PARSING_VERSION;
 	}
 	else
 	{
-		(*httpRequest)->version = validate_version(strVersion);
-		if ((*httpRequest)->version == UNSUPPORTED)
+		if (!(*strVersion))
 		{
 			*responseCode = BAD_REQUEST;
 		}
+		else
+		{
+			(*httpRequest)->version = validate_version(*strVersion);
+			if ((*httpRequest)->version == UNSUPPORTED)
+			{
+				*responseCode = BAD_REQUEST;
+			}
+		}
 
-		// Wenn eine neue Zeile beginnt, Key eines Feldes parsen
+		// start parsing key of next field
 		return PARSING_FIELD_KEY;
 	}
 }
 
-HttpRequestParsingState parsing_field_key(char c, string** strKey)
+HttpRequestParsingState parsing_field_key(char c, string** strKey, HttpResponseCodes* responseCode)
 {
 	if (c == '\n')
 	{
-		// Wenn beim Parsen des Keys eine neue Zeile gefunden wird, sind die Felder zu Ende und es folgen die Daten
+		// if current char is new line, start parsing data
 		return PARSING_DATA;
 	}
 	else if (c != ':')
@@ -188,20 +223,25 @@ HttpRequestParsingState parsing_field_key(char c, string** strKey)
 			*strKey = string_new(KEY_CAPACITY);
 		}
 
-		// Wenn kein Doppelpunkt, dann Zeichen an den String anhängen
+		// add current char to string (ignore case)
 		string_add_char(*strKey, tolower(c));
 
-		// Weiterhin den Key des Feldes parsen
+		// go on parsing key of field
 		return PARSING_FIELD_KEY;
 	}
 	else
 	{
-		// Wenn ein Doppelpunkt gefunden wurde, den Value parsen
+		if (!(*strKey))
+		{
+			*responseCode = BAD_REQUEST;
+		}
+
+		// if current char is ':', start parsing value of field
 		return PARSING_FIELD_VALUE;
 	}
 }
 
-HttpRequestParsingState parsing_field_value(char c, string** strKey, string** strValue, HttpRequest** httpRequest)
+HttpRequestParsingState parsing_field_value(char c, string** strKey, string** strValue, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
 {
 	if (c != '\n')
 	{
@@ -210,31 +250,34 @@ HttpRequestParsingState parsing_field_value(char c, string** strKey, string** st
 			*strValue = string_new(VALUE_CAPACITY);
 		}
 
-		// Wenn keine neue Zeile, dann Zeichen an den String anhängen
+		// add current char to string
 		string_add_char(*strValue, c);
 
-		// Weiterhin den Value des Feldes parsen
+		// go on parsing field value
 		return PARSING_FIELD_VALUE;
 	}
 	else
 	{
-		string_strip(*strValue);
-
-		// strKey und strValue werden am Ende von der Hashmap freigegeben
-		Hash pair = SH_create(*strKey, *strValue);
-		if ((*httpRequest)->fields == NULL)
+		if (!(*strValue))
 		{
-			(*httpRequest)->fields = SHL_create(pair);
+			*responseCode = BAD_REQUEST;
 		}
 		else
 		{
-			SHL_append((*httpRequest)->fields, pair);
+			string_strip(*strValue);
+
+			Hash pair = SH_create(*strKey, *strValue);
+			if (!(*httpRequest)->fields) {
+				(*httpRequest)->fields = SHL_create(pair);
+			} else {
+				SHL_append((*httpRequest)->fields, pair);
+			}
+
+			*strKey = NULL;
+			*strValue = NULL;
 		}
 
-		*strKey = NULL;
-		*strValue = NULL;
-
-		// Wenn eine neue Zeile anfängt, wieder den Key parsen
+		// if current char is a new line, start parsing key of next field
 		return PARSING_FIELD_KEY;
 	}
 }
@@ -306,9 +349,9 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
     HttpRequestParsingState parsingState = PARSING_METHOD;
     HttpResponseCodes responseCode = OK;
 
-    string* strMethod = string_new(METHOD_CAPACITY);
+    string* strMethod = NULL;
     string* strResource = NULL;
-    string* strVersion = string_new(VERSION_CAPACITY);
+    string* strVersion = NULL;
     string* strKey = NULL;
     string* strValue = NULL;
 
@@ -325,30 +368,30 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
     for (i = 0; i < bufferSize && httpRequest->data == NULL && responseCode == OK; i++)
     {
         // current char
-        char c = ((char*)(buffer))[i];
+        char c = buffer[i];
         if (c == '\r') // skip backspaces
             continue;
 
         switch (parsingState)
         {
             case PARSING_METHOD:
-                parsingState = parsing_method(c, strMethod, &httpRequest, &responseCode);
+                parsingState = parsing_method(c, &strMethod, &httpRequest, &responseCode);
                 break;
 
-            case PARSING_PATH:
-            	parsingState = parsing_path(c, &strResource, &httpRequest, &responseCode);
+            case PARSING_RESOURCE:
+            	parsingState = parsing_resource(c, &strResource, &httpRequest, &responseCode);
                 break;
 
             case PARSING_VERSION:
-            	parsingState = parsing_version(c, strVersion, &httpRequest, &responseCode);
+            	parsingState = parsing_version(c, &strVersion, &httpRequest, &responseCode);
                 break;
 
             case PARSING_FIELD_KEY:
-            	parsingState = parsing_field_key(c, &strKey);
+            	parsingState = parsing_field_key(c, &strKey, &responseCode);
                 break;
 
             case PARSING_FIELD_VALUE:
-            	parsingState = parsing_field_value(c, &strKey, &strValue, &httpRequest);
+            	parsingState = parsing_field_value(c, &strKey, &strValue, &httpRequest, &responseCode);
                 break;
 
             case PARSING_DATA:
@@ -364,6 +407,7 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 	{
 		if (debugPage)
 		{
+			responseCode = OK;
 			*staticPage = build_debug_page(strMethod, strResource, strVersion);
 		}
 		else
@@ -381,9 +425,9 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 	            string_free(refererPath);
             }
 
-		    // validatedPath will only be allocated by validate_path if path is valid (responseCode = OK), and then freed with free_http_request
+		    // validatedPath will only be allocated by validate_resource if path is valid (responseCode = OK), and then freed with free_http_request
 			string* validatedPath = NULL;
-			responseCode = validate_path(strResource, &validatedPath);
+			responseCode = validate_resource(strResource, &validatedPath);
 
 			if (responseCode == OK)
 			{

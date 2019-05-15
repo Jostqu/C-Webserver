@@ -165,7 +165,7 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path, 
 		}
 		else
 		{
-			// should never get to this point because if file exists is checked in validate_path (request.c)
+			// should never get to this point because if file exists is checked in validate_resource (request.c)
 			fprintf(stderr, "File '%s' not found!\n", path->buf);
 		}
 	}

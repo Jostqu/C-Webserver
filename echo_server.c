@@ -12,7 +12,7 @@
 #include "response.h"
 
 #define PORT 31337
-#define BUFFER_SIZE 65536
+#define BUFFER_SIZE 1024
 
 /**
  * Globale Variablen.
