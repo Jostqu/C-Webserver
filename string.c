@@ -295,3 +295,23 @@ bool string_startswith_cstr(string *str, char *needle) {
 
     return b;
 }
+
+bool string_endswith(string *str, string *part)
+{
+	if (!str || !part || str->len < part->len)
+		return false;
+
+	return memcmp(str->buf + (str->len - part->len), part->buf, part->len) == 0;
+}
+
+bool string_endswith_cstr(string *str, char *part)
+{
+	if (!str || !part)
+		return false;
+
+	size_t partLen = strlen(part);
+	if (str->len < partLen)
+		return false;
+
+	return memcmp(str->buf + (str->len - partLen), part, partLen) == 0;
+}

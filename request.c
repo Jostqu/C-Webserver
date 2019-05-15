@@ -324,6 +324,12 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
             {
 		        refererPath = string_join(refererParts + 3, splits - 3, '/');
                 string_insert_cstr(refererPath, "/", 0);
+
+                if (string_endswith_cstr(refererPath, "index.html"))
+                {
+                	string_free(refererPath);
+                	refererPath = NULL;
+                }
             }
 
             for (int x = 0; x < splits; x++)

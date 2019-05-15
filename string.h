@@ -215,4 +215,19 @@ bool string_startswith(string* str, string* needle);
  */
 bool string_startswith_cstr(string* str, char* needle);
 
+/*!
+ * \brief compares end of string with another string
+ * \author Marcel Weski
+ * @param str string to compare end with
+ * @param part end part of str
+ * @return true, if part is equal to last chars of str
+ */
+bool string_endswith(string* str, string* part);
+
+/*!
+ * \brief compars end of string with another string (char pointer)
+ * \see string_endswith
+ */
+bool string_endswith_cstr(string* str, char* part);
+
 #endif //PSE_STRING_H
