@@ -273,7 +273,7 @@ void string_insert_cstr(string *dst, char *src, int index) {
 
 bool string_startswith(string *str, string *needle) {
 
-    if(needle->len >= str->len)
+    if(needle->len > str->len)
         return false;
 
     int strLen = str->len;

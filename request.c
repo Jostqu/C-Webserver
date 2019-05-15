@@ -32,7 +32,7 @@ HttpResponseCodes validate_path(string *path, string** validatedPath)
 	htdocsDir->len = strlen(htdocsDir->buf);
 
 #ifndef NDEBUG
-	// Ein Verzeichnis zurückgehen, da wir uns beim Debug-Build im cmake-build-debug Ordner befinden
+	// going back one directory (working dir is in cmake-build-debug in debug-configuration)
 	string_concat(htdocsDir, "/..");
 #endif
 
@@ -49,6 +49,7 @@ HttpResponseCodes validate_path(string *path, string** validatedPath)
 	string_concat_str(tmp, absoluteHtdocsDir);
 	string_concat_str(tmp, path);
 
+	// causes 'conditional jump or move depends on uninitialised value' warning
 	if (!isfile(tmp))
 	{
 		string_concat(tmp, "/index.html");
@@ -136,7 +137,7 @@ HttpRequestParsingState parsing_path(char c, string** strPath, HttpRequest** htt
 	{
 		url_decode(*strPath);
 
-		if (!string_compare_cstr(*strPath, "/debug") && !string_compare_cstr(*strPath, "/debug/"))
+		if (!string_startswith_cstr(*strPath, "/debug"))
 		{
 			*responseCode = methodCode;
 		}
@@ -238,6 +239,56 @@ HttpRequestParsingState parsing_field_value(char c, string** strKey, string** st
 	}
 }
 
+static string* get_referer_path(HashList* fields)
+{
+	string* refererPath = NULL;
+	if (fields)
+	{
+		// check if referer-field exists
+		Hash *hash = SHL_find_key_cstr(fields, "referer");
+		if (hash)
+		{
+			// get relative resource path from referer-value
+			int splits;
+			string **refererParts = string_split(hash->value, '/', &splits);
+			if (splits > 3)
+			{
+				// only take parts after domain name and rejoin them
+				refererPath = string_join(refererParts + 3, splits - 3, '/');
+				string_insert_cstr(refererPath, "/", 0);
+
+				if (string_endswith_cstr(refererPath, "index.html"))
+				{
+					string_free(refererPath);
+					refererPath = NULL;
+				}
+			}
+
+			// free all parts from string_split
+			for (int x = 0; x < splits; x++)
+				string_free(refererParts[x]);
+			free(refererParts);
+		}
+	}
+	return refererPath;
+}
+
+static string* build_debug_page(string* method, string* resource, string* version)
+{
+	string* s = string_new(200);
+
+	string_concat(s, "Methode: ");
+	string_concat_str(s, method);
+
+	string_concat(s, "\nRessource: ");
+	string_concat_str(s, resource);
+
+	string_concat(s, "\nVersion: ");
+	string_concat_str(s, version);
+
+	return s;
+}
+
 //
 // Request-Aufbau
 // --------------
@@ -257,7 +308,7 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
     HttpResponseCodes responseCode = OK;
 
     string* strMethod = string_new(METHOD_CAPACITY);
-    string* strPath = NULL;
+    string* strResource = NULL;
     string* strVersion = string_new(VERSION_CAPACITY);
     string* strKey = NULL;
     string* strValue = NULL;
@@ -271,12 +322,12 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 
     size_t i;
 
-    // Zeichenweise durch den Anfrage-Puffer gehen
+    // iterate through input buffer char by char
     for (i = 0; i < bufferSize && httpRequest->data == NULL && responseCode == OK; i++)
     {
-        // Aktuelles Zeichen
+        // current char
         char c = ((char*)(buffer))[i];
-        if (c == '\r') // Backspaces überspringen
+        if (c == '\r') // skip backspaces
             continue;
 
         switch (parsingState)
@@ -286,7 +337,7 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
                 break;
 
             case PARSING_PATH:
-            	parsingState = parsing_path(c, &strPath, &httpRequest, &responseCode);
+            	parsingState = parsing_path(c, &strResource, &httpRequest, &responseCode);
                 break;
 
             case PARSING_VERSION:
@@ -310,66 +361,28 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
         }
     }
 
-    string* refererPath = NULL;
-    if (httpRequest->fields)
-    {
-        // check if referer-field exists
-	    Hash *hash = SHL_find_key_cstr(httpRequest->fields, "referer");
-	    if (hash)
-	    {
-	        // get relative ressource path from referer-value
-		    int splits;
-		    string **refererParts = string_split(hash->value, '/', &splits);
-		    if (splits > 3)
-            {
-		        refererPath = string_join(refererParts + 3, splits - 3, '/');
-                string_insert_cstr(refererPath, "/", 0);
-
-                if (string_endswith_cstr(refererPath, "index.html"))
-                {
-                	string_free(refererPath);
-                	refererPath = NULL;
-                }
-            }
-
-            for (int x = 0; x < splits; x++)
-                string_free(refererParts[x]);
-
-            free(refererParts);
-	    }
-    }
+    string* refererPath = get_referer_path(httpRequest->fields);
 
 	if (responseCode == OK || debugPage)
 	{
 		if (debugPage)
 		{
-			*staticPage = string_new(200);
-
-			string_concat(*staticPage, "Methode: ");
-			string_concat_str(*staticPage, strMethod);
-			string_concat(*staticPage, "\n");
-
-			string_concat(*staticPage, "Ressource: ");
-			string_concat_str(*staticPage, strPath);
-			string_concat(*staticPage, "\n");
-
-			string_concat(*staticPage, "Version: ");
-			string_concat_str(*staticPage, strVersion);
-			string_concat(*staticPage, "\n");
+			*staticPage = build_debug_page(strMethod, strResource, strVersion);
 		}
 		else
 		{
 		    if (refererPath)
             {
-		        if (!string_startswith(strPath, refererPath))
+		    	// if relative path to image file was delivered by referer-field, insert it at start of strResource
+		        if (!string_startswith(strResource, refererPath))
                 {
-                    string_insert(strPath, refererPath, 0);
+                    string_insert(strResource, refererPath, 0);
                 }
-		        string_free(refererPath);
             }
 
+		    // validatedPath will only be allocated by validate_path if path is valid (responseCode = OK), and then freed with free_http_request
 			string* validatedPath = NULL;
-			responseCode = validate_path(strPath, &validatedPath);
+			responseCode = validate_path(strResource, &validatedPath);
 
 			if (responseCode == OK)
 			{
@@ -378,7 +391,10 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 		}
 	}
 
-	string_free(strPath);
+	if (refererPath)
+		string_free(refererPath);
+
+	string_free(strResource);
 	string_free(strVersion);
     string_free(strMethod);
 
