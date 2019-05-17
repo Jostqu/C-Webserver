@@ -159,7 +159,7 @@ HttpRequestParsingState parsing_resource(char c, string **strPath, HttpRequest *
 		{
 			url_decode(*strPath);
 
-			if (!string_startswith_cstr(*strPath, "/debug"))
+			if (!string_startswith_cstr(*strPath, "/debug?") && !string_compare_cstr(*strPath, "/debug"))
 			{
 				*responseCode = methodCode;
 			}
