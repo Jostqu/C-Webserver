@@ -332,6 +332,43 @@ static string* build_debug_page(string* method, string* resource, string* versio
 	return s;
 }
 
+static HttpResponseCodes get_resource_from_host_field(string* strResource, HashList* fields)
+{
+	HttpResponseCodes responseCode = OK;
+	if (fields)
+	{
+		Hash *hostField = SHL_find_key_cstr(fields, "host");
+		if (hostField)
+		{
+			int splits;
+			string** hostFieldParts = string_split(hostField->value, ':', &splits);
+
+			if (string_compare_cstr(hostFieldParts[0], "extern"))
+			{
+				string_insert_cstr(strResource, "/extern", 0);
+			}
+			else if (string_compare_cstr(hostFieldParts[0], "intern"))
+			{
+				responseCode = UNAUTHORIZED;
+			}
+			else
+			{
+				string_insert_cstr(strResource, "/default", 0);
+			}
+
+			for (int i = 0; i < splits; i++)
+				string_free(hostFieldParts[i]);
+			free(hostFieldParts);
+		}
+		else
+		{
+			string_insert_cstr(strResource, "/default", 0);
+		}
+	}
+
+	return responseCode;
+}
+
 //
 // Request-Schema
 // --------------
@@ -412,26 +449,30 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 		}
 		else
 		{
-			string* refererPath = get_referer_path(httpRequest->fields);
-
-			if (refererPath)
-            {
-		    	// if relative path to image file was delivered by referer-field, insert it at start of strResource
-		        if (!string_startswith(strResource, refererPath))
-                {
-                    string_insert(strResource, refererPath, 0);
-                }
-
-	            string_free(refererPath);
-            }
-
-		    // validatedPath will only be allocated by validate_resource if path is valid (responseCode = OK), and then freed with free_http_request
-			string* validatedPath = NULL;
-			responseCode = validate_resource(strResource, &validatedPath);
-
+			responseCode = get_resource_from_host_field(strResource, httpRequest->fields);
 			if (responseCode == OK)
 			{
-				httpRequest->path = validatedPath;
+				//			string* refererPath = get_referer_path(httpRequest->fields);
+
+//			if (refererPath)
+//            {
+//		    	// if relative path to image file was delivered by referer-field, insert it at start of strResource
+//		        if (!string_startswith(strResource, refererPath))
+//                {
+//                    string_insert(strResource, refererPath, 0);
+//                }
+//
+//	            string_free(refererPath);
+//            }
+
+				// validatedPath will only be allocated by validate_resource if path is valid (responseCode = OK), and then freed with free_http_request
+				string* validatedPath = NULL;
+				responseCode = validate_resource(strResource, &validatedPath);
+
+				if (responseCode == OK)
+				{
+					httpRequest->path = validatedPath;
+				}
 			}
 		}
 	}

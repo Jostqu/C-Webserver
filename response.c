@@ -118,6 +118,13 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path, 
 		strContentTypeValue = string_new_from_cstr("text/plain");
 		SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
 
+		if (code == UNAUTHORIZED)
+		{
+			string* strWWWAuthenticateKey = string_new_from_cstr("WWW-Authenticate");
+			string* strWWWAuthenticateValue = string_new_from_cstr("Basic realm=\"Authentication Required\"");
+			SHL_append(fields, SH_create(strWWWAuthenticateKey, strWWWAuthenticateValue));
+		}
+
 		strResponse = build_http_response_header(code, fields);
 
 		if (staticPage)
@@ -127,8 +134,15 @@ void send_http_response(int targetStream, HttpResponseCodes code, string *path, 
 		}
 		else
 		{
-			// just take code as string and add to response
-			string_concat(strResponse, code_to_string(code));
+			if (code == UNAUTHORIZED)
+			{
+				string_concat(strResponse, "Authentication Required");
+			}
+			else
+			{
+				// just take code as string and add to response
+				string_concat(strResponse, code_to_string(code));
+			}
 		}
 
 		write_string_to_socket(targetStream, strResponse);
