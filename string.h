@@ -14,11 +14,11 @@
 #include <stdbool.h>
 
 /**
- * \brief Struct, das die Kapazität (max. Stringlänge), Länge des Strings und den Pointer auf die eigentlichen Zeichen enthält
+ * \brief contains the capacity (max. length and buffer size), length of the string, pointer to buffer that contains the chars
  * \author Marcel Weski
- * @var capacity max. Stringlänge
- * @var len tatsächliche Stringlänge
- * @var buf Pointer auf die eigentlichen Zeichen
+ * @var capacity max. length (buffer size)
+ * @var len actual string length
+ * @var buf pointer to chars
  */
 typedef struct string_struct
 {
@@ -28,11 +28,11 @@ typedef struct string_struct
 } string;
 
 /**
- * \brief Erstellt einen neuen String mit der gegebenen Kapazität (max. Stringlänge)
- * Der String wird mittels malloc erzeugt und muss daher mit string_free selber wieder freigegeben werden!
+ * \brief creates a new string with the given capacity
+ * allocates memory with calloc that needs to be freed by string_free
  * \author Marcel Weski
- * @param capacity maximale Anzahl an Zeichen, die vor realloc reingeschrieben werden können
- * @return Pointer auf das neue String-Struct
+ * @param capacity max. amount of chars that can be saved before reallocating
+ * @return pointer to string struct
  */
 string* string_new(size_t capacity);
 
@@ -47,18 +47,18 @@ string* string_new(size_t capacity);
 string* string_new_from_cstr(char* str);
 
 /**
- * \brief Erstellt eine identische Kopie des übergebenen Strings
- * Der String wird mittels malloc erzeugt und muss daher mit string_free selber wieder freigegeben werden!
+ * \brief creates a identical copy of a given string
+ * allocates memory with calloc that needs to be freed by string_free
  * \author Marcel Weski
- * @param str der zu kopierende String-Pointer
- * @return Der kopierte String als Pointer
+ * @param str string to copy
+ * @return pointer to the new string struct
  */
 string* string_copy(string* str);
 
 /**
- * \brief Gibt den Speicherbereich eines Strings wieder frei
+ * \brief frees a string
  * \author Marcel Weski
- * @param str Der freizugebene String
+ * @param str string to free
  */
 void string_free(string* str);
 
@@ -84,24 +84,23 @@ void string_concat(string* str, char* src); //len removed by request of marsel
 void string_concat_str(string* dst, string*src);
 
 /**
- * \brief Fügt ein Zeichen an das Ende des Strings ein und vergrößert die Kapazität gegenfalls
+ * \brief adds a char to a string that may be reallocated if capacity isn't big enough
  * \author Marcel Weski
- * @param str String, an den das Zeichen angehängt werden soll
- * @param c Das anzuhängende Zeichen
+ * @param str string to add char to
+ * @param c the char
  */
 void string_add_char(string* str, char c);
 
 /**
- * \brief Entfernt leere Zeichen am Anfang und am Ende des Strings
- * Alle Leerzeichen, Absätze und Backspaces werden am Anfang und am Ende des String entfernt.
+ * \brief removes all spaces at begin and end of a string
  * \author Marcel Weski
- * @param str String
+ * @param str string to be stripped
  */
 void string_strip(string* str);
 
 /**
- * \brief vergleicht 2 strings
- * vergleicht 2 string auf glaichheit mit memcmp
+ * \brief compares two strings
+ * compares two string with memcmp
  *
  * \author Björn Marx
  *
@@ -112,7 +111,7 @@ void string_strip(string* str);
 bool string_compare(string* string1, string* string2);
 
 /**
- * \brief Gibt einen String mit Absatz auf der Konsole aus
+ * \brief prints a string onto the console
  * \author Marcel Weski
  * @param str String
  */
@@ -154,7 +153,7 @@ string** string_split(string* str, char splitter, int* splits);
 /*!
  * \brief recombines list from string_split
  * function returns null on failure or if splitted is null or if splits is 0
- *
+ * \author Björn Marx
  * @param splitted list of splitted strings
  * @param splits number of strings in splitted
  * @param separator char to put between individual strings
@@ -163,16 +162,16 @@ string** string_split(string* str, char splitter, int* splits);
 string* string_join(string** splitted, int splits, char separator);
 
 /**
- * \brief Terminiert einen String mit \0, um diesen z.B. bei fopen übergeben zu können
+ * \brief terminates a string (adds a \0 to the end). Needed for functions like fopen
  * \author Marcel Weski
- * @param str zu terminierender String
- * @return Selber String wie Argument (ändert sich durch Aufruf dieser Funktion nie!)
+ * @param str string to terminate
+ * @return same string as argument (never changes, just to make code more compact)
  */
 string* string_terminate(string* str);
 
 /*!
  * \brief little extension to the string_compare
- *
+ * \author Björn Marx
  * @param string1 a string
  * @param string2 a cstring (char*)
  * @return true if equal
@@ -192,7 +191,7 @@ void string_insert(string* dst, string* src, int index);
 
 /*!
  * \brief extension of string_insert to support char*
- *
+ * \author Björn Marx
  * \see string_insert
  */
 void string_insert_cstr(string* dst, char* src, int index);
@@ -211,6 +210,7 @@ bool string_startswith(string* str, string* needle);
 
 /*!
  * \brief checks if str starts with needle
+ * \author Björn Marx
  * \see string_startswith to see how it works
  */
 bool string_startswith_cstr(string* str, char* needle);

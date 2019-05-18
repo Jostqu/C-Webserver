@@ -39,7 +39,6 @@ void string_realloc(string* str, size_t newCap){
 
 string* string_copy(string* str)
 {
-    // Neuen String erstellen und gesamten Inhalt von str hineinkopieren
     string* copy = string_new(str->len * 2);
     memcpy(copy->buf, str->buf, str->len);
     copy->len = str->len;
@@ -50,7 +49,6 @@ void string_free(string* str)
 {
 	if (str)
 	{
-		// Puffer und Struct freigeben
 		free(str->buf);
 		free(str);
 	}
@@ -81,41 +79,39 @@ void string_add_char(string* str, char c)
 
 void string_strip(string* str)
 {
-    // leere Zeichen am Anfang entfernen
+    // remove empty chars at begin
     for (size_t i = 0; i < str->len; i++)
     {
-        // Aktuelles Zeichen
         char c = str->buf[i];
 
-        // Wenn kein leeres Zeichen
+        // if a space, new line or backspace was found
         if (!(c == ' ' || c == '\n' || c == '\r'))
         {
-            // Wenn nicht am Anfang
+            // if not the begin
             if (i > 0)
             {
-                // String um i nach links verschieben
+                // remove empty space
                 memmove(str->buf, str->buf + i, str->len - i);
 
-                // Neue Länge setzen
+                // apply new length
                 str->len -= i;
             }
             break;
         }
     }
 
-    // leere Zeichen am Ende entfernen
+    // remove empty chars at end
     for (size_t i = str->len - 1; i >= 0; i--)
     {
-        // Aktuelles Zeichen
         char c = str->buf[i];
 
-        // Wenn kein leeres Zeichen
+	    // if a space, new line or backspace was found
         if (!(c == ' ' || c == '\n' || c == '\r'))
         {
-            // Wenn nicht am Ende
+            // if not at the end
             if (i < str->len - 1)
             {
-                // Neue Länge setzen
+                // apply the length (ignore spaces at the end)
                 str->len = i + 1;
             }
             break;
@@ -133,7 +129,6 @@ bool string_compare(string* string1, string* string2){
 
 void string_print(string* str)
 {
-    // Jedes Zeichen auf der Konsole ausgeben
     for (size_t i = 0; i < str->len; i++)
     {
         putchar(str->buf[i]);

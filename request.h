@@ -11,10 +11,10 @@
 #include "helpers.h"
 
 /**
- * \brief Struct, das Informationen aus der HTTP-Request enthält
+ * \brief contains all information from request
  * \author Marcel Weski
- * @var fields Alle Felder als HashList (key, value Tupel)
- * @var data Void-Pointer auf das erste Zeichen der Daten
+ * @var fields HashList of requested fields (key: value)
+ * @var data Void-Pointer to first char of received body
  */
 typedef struct http_request_struct
 {
@@ -27,8 +27,7 @@ typedef struct http_request_struct
 } HttpRequest;
 
 /**
- * \brief Enum, für den aktuellen Parsing-State
- * Da zeichenweise durch den Puffer gegangen wird, wird hiermit festgehalten was gerade geparst wird
+ * \brief the current parsing state of the current char (we go through the received buffer char by char)
  * \author Marcel Weski
  */
 typedef enum http_request_parsing_state
@@ -42,29 +41,30 @@ typedef enum http_request_parsing_state
 } HttpRequestParsingState;
 
 /**
- * \brief Gibt die HashList im HttpRequest-Struct wieder frei
+ * \brief frees the HttpRequest-Struct
  * \author Marcel Weski
- * @param httpRequest das freizugebene HttpRequest-Struct
+ * @param httpRequest struct to free
  */
 void free_http_request(HttpRequest* httpRequest);
 
 /**
- * \brief Validates the requested resource
- * Stellt sicher, dass der Client sich nur innerhalb des DocumentRoots bewegt und gibt entsprechende ResponseCodes zurück.
- * @param path Pfad vom Client
- * @param validatedPath der neue absolute Pfad, wenn die Datei existiert. Muss selber freigegeben werden!
- * @return OK wenn die Datei existiert und der Client Zugriff haben darf. 403 bei Zugriffen außerhalb des DocumentRoots. 404 wenn die Datei nicht vorhanden ist.
+ * \brief validates the requested resource
+ * Makes sure that the client is only able to access files within the DocumentRoot and returns the right response code
+ * \author Marcel Weski
+ * @param resource requested resource
+ * @param path the new absolute path from the resource, if the file exists. Must be freed!
+ * @return 200, if the file exists. 403, if the access is not allowed (specific files and all files outside the document root). 404, if the file doesn't exists
  */
 HttpResponseCodes validate_resource(string *resource, string **path);
 
 /**
- * \brief Parsed den eingehenden Void-Buffer und gibt ein Struct mit den Informationen im Header zurück
+ * \brief parses the received buffer, returns a response code and fills the httpRequest-Struct
  * \author Marcel Weski
- * @param buffer Void-Pointer auf den Request-Puffer
- * @param bufferSize Größe des Puffers
- * @param httpRequest der gefüllte HttpRequest-Struct
- * @param staticPage ggf. eine statische Seite. z.B. bei /debug
- * @return int der Response-Code
+ * @param buffer Void-Pointer of the request buffer
+ * @param bufferSize size of buffer
+ * @param httpRequest the filled httpRequest. Must be freed!
+ * @param staticPage returns the debug-Page if /debug is requested. Must be freed!
+ * @return int the response code
  */
 HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpRequest* httpRequest, string** staticPage);
 
