@@ -30,6 +30,11 @@ cannon = Laz0rCannon(host=host, port=port)
 
 # Laz0r Beams (Tests to fire against the server).
 cannon += Beam(
+    description='Datei "/debug"',
+    request='GET /debug HTTP/1.1\r\nHost: {host}\r\n\r\n',
+    response=['HTTP/1.1 200']
+)
+cannon += Beam(
     description='außerhalb des DocumentRoot',
     request='GET /..//..//..///..//.. HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 403']
@@ -51,7 +56,7 @@ cannon += Beam(
 )
 cannon += Beam(
     description='Ungültige Methode "GETS"',
-    request='GETS /debug HTTP/1.1\r\nHost: {host}\r\n\r\n',
+    request='GETS / HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 501']
 )
 cannon += Beam(
@@ -61,7 +66,7 @@ cannon += Beam(
 )
 cannon += Beam(
     description='Host test "intern"',
-    request='GET /debug HTTP/1.1\r\nHost: intern\r\n\r\n',
+    request='GET / HTTP/1.1\r\nHost: intern\r\n\r\n',
     response=['HTTP/1.1 401']
 )
 cannon += Beam(

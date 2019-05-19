@@ -213,14 +213,6 @@ static void main_loop(int sockfd) {
 	    HttpRequest* httpRequest = NULL;
 	    HttpResponseCode responseCode = parse_http_request(strRequest, &httpRequest, &staticPage);
 
-
-
-//        string_free(strRequest);
-
-//        string* staticPage = NULL;
-//        HttpRequest* httpRequest = calloc(sizeof(HttpRequest), 1);
-//        HttpResponseCode responseCode = parse_http_request(buffer, length, httpRequest, &staticPage);
-
 /*
  * Schreibe die ausgehenden Daten auf den Socket.
  */
@@ -231,7 +223,7 @@ static void main_loop(int sockfd) {
 //            error("ERROR writing to socket");
 //        }
 #else
-	    send_http_response(STDOUT_FILENO, responseCode, httpRequest->path, staticPage);
+	    send_http_response(newsockfd, responseCode, httpRequest->resource, staticPage);
 //        /*
 //     * Gib die eingegangenen Daten auf der Kommandozeile aus.
 //     */
