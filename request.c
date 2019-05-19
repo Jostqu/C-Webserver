@@ -30,6 +30,22 @@ static string* get_absolut_document_root_path()
 	return absoluteHtdocsDir;
 }
 
+static string* build_debug_page(string* method, string* resource, string* version)
+{
+	string* s = string_new(200);
+
+	string_concat(s, "Method: ");
+	string_concat_str(s, method);
+
+	string_concat(s, "\nResource: ");
+	string_concat_str(s, resource);
+
+	string_concat(s, "\nVersion: ");
+	string_concat_str(s, version);
+
+	return s;
+}
+
 static HttpResponseCode get_directory_from_host_field(HashList* fields, string** dir)
 {
 	HttpResponseCode responseCode = OK;
@@ -71,21 +87,101 @@ static HttpResponseCode get_directory_from_host_field(HashList* fields, string**
 	return responseCode;
 }
 
-static string* build_debug_page(string* method, string* resource, string* version)
+static HttpResponseCode parse_first_line(string* firstHeaderLine, HttpRequest* httpRequest, string** debugPage)
 {
-	string* s = string_new(200);
+	HttpResponseCode responseCode = OK;
 
-	string_concat(s, "Method: ");
-	string_concat_str(s, method);
+	// parse first line with method, resource and version
+	int firstLineSplits;
+	string** firstLine = string_split(firstHeaderLine, ' ', &firstLineSplits);
+	if (firstLineSplits != 3)
+	{
+		responseCode = BAD_REQUEST;
+	}
+	else
+	{
+		// build the debug page, for /debug
+		*debugPage = build_debug_page(firstLine[0], firstLine[1], firstLine[2]);
 
-	string_concat(s, "\nResource: ");
-	string_concat_str(s, resource);
+		httpRequest->method = get_method_from_string(firstLine[0]);
 
-	string_concat(s, "\nVersion: ");
-	string_concat_str(s, version);
+		httpRequest->resource = string_copy(firstLine[1]); // is validated later because it depends on some fields
+		url_decode(httpRequest->resource);
 
-	return s;
+		httpRequest->version = validate_version(firstLine[2]);
+
+		if (httpRequest->method == INVALID)
+		{
+			responseCode = NOT_IMPLEMENTED;
+		}
+		else if (httpRequest->method != GET)
+		{
+			responseCode = METHOD_NOT_ALLOWED;
+		}
+		else
+		{
+			if (httpRequest->version == UNSUPPORTED)
+			{
+				responseCode = BAD_REQUEST;
+			}
+		}
+	}
+
+	string_free_stringlist(firstLine, firstLineSplits);
+
+	return responseCode;
 }
+
+static HttpResponseCode parse_fields(string** headerLines, int headerLineCount, HttpRequest* httpRequest)
+{
+	HttpResponseCode responseCode = OK;
+	for (int i = 1; i < headerLineCount; i++)
+	{
+		int fieldSplits;
+		string** field = string_split(headerLines[i], ':', &fieldSplits);
+		if (fieldSplits < 2)
+		{
+			responseCode = BAD_REQUEST;
+		}
+		else
+		{
+			string* key = field[0];
+			string_to_lower(key);
+
+			bool keyIsValid = true;
+			for (int x = 0; x < key->len && keyIsValid; x++)
+			{
+				char c = key->buf[x];
+				if (!isalpha(c) && !isdigit(c) && c != '-')
+					keyIsValid = false;
+			}
+
+			if (!keyIsValid)
+			{
+				responseCode = BAD_REQUEST;
+			}
+			else
+			{
+				string* value = string_strip(string_join(field + 1, fieldSplits - 1, ':'));
+
+				Hash fieldhash = SH_create(string_copy(key), value);
+				if (!httpRequest->fields)
+				{
+					httpRequest->fields = SHL_create(fieldhash);
+				}
+				else
+				{
+					SHL_append(httpRequest->fields, fieldhash);
+				}
+			}
+		}
+
+		string_free_stringlist(field, fieldSplits);
+	}
+
+	return responseCode;
+}
+
 
 void free_http_request(HttpRequest* httpRequest)
 {
@@ -117,7 +213,7 @@ HttpResponseCode validate_resource(HashList* fields, string *resource, string **
 		string* tmp = string_copy(absolutDocumentRootPath);
 		string_concat_str(tmp, resource);
 
-		// causes 'conditional jump or move depends on uninitialised value' warning
+		// causes 'conditional jump or move depends on uninitialised value' warning (just a false positive)
 		if (!isfile(tmp))
 		{
 			string_concat(tmp, "/index.html");
@@ -184,90 +280,11 @@ HttpResponseCode parse_http_request(string* request, HttpRequest** httpRequest, 
 	}
 	else
 	{
-		// parse first line with method, resource and version
-		int firstLineSplits;
-		string** firstLine = string_split(headerLines[0], ' ', &firstLineSplits);
-		if (firstLineSplits != 3)
-		{
-			responseCode = BAD_REQUEST;
-		}
-		else
-		{
-			// build the debug page, for /debug
-			debugPage = build_debug_page(firstLine[0], firstLine[1], firstLine[2]);
-
-			(*httpRequest)->method = get_method_from_string(firstLine[0]);
-
-			(*httpRequest)->resource = string_copy(firstLine[1]); // is validated later because it depends on some fields
-			url_decode((*httpRequest)->resource);
-
-			(*httpRequest)->version = validate_version(firstLine[2]);
-
-			if ((*httpRequest)->method == INVALID)
-			{
-				responseCode = NOT_IMPLEMENTED;
-			}
-			else if ((*httpRequest)->method != GET)
-			{
-				responseCode = METHOD_NOT_ALLOWED;
-			}
-			else
-			{
-				if ((*httpRequest)->version == UNSUPPORTED)
-				{
-					responseCode = BAD_REQUEST;
-				}
-			}
-		}
-
-		string_free_stringlist(firstLine, firstLineSplits);
+		responseCode = parse_first_line(headerLines[0], *httpRequest, &debugPage);
 
 		if (responseCode == OK)
 		{
-			// parse fields
-			for (int i = 1; i < headerLineCount; i++)
-			{
-				int fieldSplits;
-				string** field = string_split(headerLines[i], ':', &fieldSplits);
-				if (fieldSplits < 2)
-				{
-					responseCode = BAD_REQUEST;
-				}
-				else
-				{
-					string* key = field[0];
-					string_to_lower(key);
-
-					bool keyIsValid = true;
-					for (int x = 0; x < key->len && keyIsValid; x++)
-					{
-						char c = key->buf[x];
-						if (!isalpha(c) && !isdigit(c) && c != '-')
-							keyIsValid = false;
-					}
-
-					if (!keyIsValid)
-					{
-						responseCode = BAD_REQUEST;
-					}
-					else
-					{
-						string* value = string_strip(string_join(field + 1, fieldSplits - 1, ':'));
-
-						Hash fieldhash = SH_create(string_copy(key), value);
-						if (!(*httpRequest)->fields)
-						{
-							(*httpRequest)->fields = SHL_create(fieldhash);
-						}
-						else
-						{
-							SHL_append((*httpRequest)->fields, fieldhash);
-						}
-					}
-				}
-
-				string_free_stringlist(field, fieldSplits);
-			}
+			responseCode = parse_fields(headerLines, headerLineCount, *httpRequest);
 		}
 	}
 
@@ -296,8 +313,6 @@ HttpResponseCode parse_http_request(string* request, HttpRequest** httpRequest, 
 
 		string_free(debugPage);
 	}
-
-
 
 	printf("responseCode: %s\n", code_to_string(responseCode));
 	return responseCode;
