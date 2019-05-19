@@ -363,12 +363,12 @@ void test_string_insert(){
 }
 
 void test_string_split_string(){
-    string* str = string_new_from_cstr("einsLLzweiLLdreiLL");
+    string* str = string_new_from_cstr("GET / HTTP/1.1\r\n\r\n");
 
 
     int splits;
 
-    string** arr = string_split_cstr(str, "LL", &splits);
+    string** arr = string_split_cstr(str, "\r\n\r\n", &splits);
 
     printf("%d\n", splits);
 
