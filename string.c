@@ -246,7 +246,9 @@ string *string_join(string **splitted, int splits, char separator) {
     for (int i = 1; i < splits; ++i) {
         if(splitted[i]) {
 
-            string_add_char(str, separator);
+            if(separator != 0)
+                string_add_char(str, separator);
+
             string_concat_str(str, splitted[i]);
 
         } else { // should never happen
@@ -324,7 +326,7 @@ void move_string_x_left(string* str, int x){
     memmove(str->buf, str->buf+x, --str->len);
 }
 
-//im sorry for the treatment your ram gets.
+//im sorry.
 string **string_split_string(string *str, string *splitter, int *splits) {
     if(!str || !splitter || !splits)
         return NULL;

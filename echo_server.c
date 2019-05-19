@@ -339,13 +339,13 @@ int main(int argc, char *argv[]) {
 //    test_string_split();      //works again
 //    test_get_ctype();
 //    test_string_insert();
-    test_string_split_string();
+//    test_string_split_string();
 
-    /*(void)argc;
+    (void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
-    main_loop(sockfd);*/
+    main_loop(sockfd);
 
     return 0;
 }
