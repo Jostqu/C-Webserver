@@ -186,7 +186,7 @@ static void main_loop(int sockfd) {
 //            error("ERROR writing to socket");
 //        }
 #else
-	    send_http_response(STDOUT_FILENO, responseCode, httpRequest.path);
+	    send_http_response(STDOUT_FILENO, responseCode, httpRequest->path, staticPage);
 //        /*
 //     * Gib die eingegangenen Daten auf der Kommandozeile aus.
 //     */

@@ -14,17 +14,6 @@
 static bool debugPage = false;
 static HttpResponseCodes methodCode = OK;
 
-void free_http_request(HttpRequest* httpRequest)
-{
-	if (httpRequest->path)
-		string_free(httpRequest->path);
-
-	if (httpRequest->fields)
-        SHL_remove_all(httpRequest->fields);
-
-	free(httpRequest);
-}
-
 static string* get_absolut_document_root_path()
 {
 	string* htdocsDir = string_new(PATH_CAPACITY_ABSOLUTE);
@@ -48,52 +37,7 @@ static string* get_absolut_document_root_path()
 	return absoluteHtdocsDir;
 }
 
-HttpResponseCodes validate_resource(string *resource, string **path)
-{
-	string* absolutDocumentRootPath = get_absolut_document_root_path();
-
-	string* tmp = string_copy(absolutDocumentRootPath);
-	string_concat_str(tmp, resource);
-
-	// causes 'conditional jump or move depends on uninitialised value' warning
-	if (!isfile(tmp))
-	{
-		string_concat(tmp, "/index.html");
-	}
-
-	string_terminate(tmp);
-
-	string* absoluteResourcePath = string_new(PATH_CAPACITY_ABSOLUTE);
-	realpath(tmp->buf, absoluteResourcePath->buf);
-	absoluteResourcePath->len = strlen(absoluteResourcePath->buf);
-
-	string_free(tmp);
-
-	HttpResponseCodes responseCode;
-	if (absoluteResourcePath->len < absolutDocumentRootPath->len || !string_startswith(absoluteResourcePath, absolutDocumentRootPath)) // TODO: also check if file access is not allowed (htpasswd)
-	{
-		string_free(absoluteResourcePath);
-		responseCode = FORBIDDEN;
-	}
-	else
-	{
-		if (file_exists(absoluteResourcePath))
-		{
-			*path = absoluteResourcePath;
-			responseCode = OK;
-		}
-		else
-		{
-			string_free(absoluteResourcePath);
-			responseCode = NOT_FOUND;
-		}
-	}
-
-	string_free(absolutDocumentRootPath);
-	return responseCode;
-}
-
-HttpRequestParsingState parsing_method(char c, string** strMethod, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
+static HttpRequestParsingState parsing_method(char c, string** strMethod, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
 {
 	if (c != ' ')
 	{
@@ -129,7 +73,7 @@ HttpRequestParsingState parsing_method(char c, string** strMethod, HttpRequest**
 	}
 }
 
-HttpRequestParsingState parsing_resource(char c, string **strPath, HttpRequest **httpRequest, HttpResponseCodes *responseCode)
+static HttpRequestParsingState parsing_resource(char c, string **strPath, HttpRequest **httpRequest, HttpResponseCodes *responseCode)
 {
 	if (c != ' ')
 	{
@@ -174,7 +118,7 @@ HttpRequestParsingState parsing_resource(char c, string **strPath, HttpRequest *
 	}
 }
 
-HttpRequestParsingState parsing_version(char c, string** strVersion, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
+static HttpRequestParsingState parsing_version(char c, string** strVersion, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
 {
 	if (c != '\n')
 	{
@@ -209,7 +153,7 @@ HttpRequestParsingState parsing_version(char c, string** strVersion, HttpRequest
 	}
 }
 
-HttpRequestParsingState parsing_field_key(char c, string** strKey, HttpResponseCodes* responseCode)
+static HttpRequestParsingState parsing_field_key(char c, string** strKey, HttpResponseCodes* responseCode)
 {
 	if (c == '\n')
 	{
@@ -241,7 +185,7 @@ HttpRequestParsingState parsing_field_key(char c, string** strKey, HttpResponseC
 	}
 }
 
-HttpRequestParsingState parsing_field_value(char c, string** strKey, string** strValue, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
+static HttpRequestParsingState parsing_field_value(char c, string** strKey, string** strValue, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
 {
 	if (c != '\n')
 	{
@@ -367,6 +311,62 @@ static HttpResponseCodes get_resource_from_host_field(string* strResource, HashL
 		}
 	}
 
+	return responseCode;
+}
+
+void free_http_request(HttpRequest* httpRequest)
+{
+	if (httpRequest->path)
+		string_free(httpRequest->path);
+
+	if (httpRequest->fields)
+		SHL_remove_all(httpRequest->fields);
+
+	free(httpRequest);
+}
+
+HttpResponseCodes validate_resource(string *resource, string **path)
+{
+	string* absolutDocumentRootPath = get_absolut_document_root_path();
+
+	string* tmp = string_copy(absolutDocumentRootPath);
+	string_concat_str(tmp, resource);
+
+	// causes 'conditional jump or move depends on uninitialised value' warning
+	if (!isfile(tmp))
+	{
+		string_concat(tmp, "/index.html");
+	}
+
+	string_terminate(tmp);
+
+	string* absoluteResourcePath = string_new(PATH_CAPACITY_ABSOLUTE);
+	realpath(tmp->buf, absoluteResourcePath->buf);
+	absoluteResourcePath->len = strlen(absoluteResourcePath->buf);
+
+	string_free(tmp);
+
+	HttpResponseCodes responseCode;
+	if (absoluteResourcePath->len < absolutDocumentRootPath->len || !string_startswith(absoluteResourcePath, absolutDocumentRootPath)) // TODO: also check if file access is not allowed (htpasswd)
+	{
+		string_free(absoluteResourcePath);
+		responseCode = FORBIDDEN;
+	}
+	else
+	{
+		if (file_exists(absoluteResourcePath))
+		{
+			*path = absoluteResourcePath;
+			responseCode = OK;
+		}
+		else
+		{
+			string_free(absoluteResourcePath);
+			responseCode = NOT_FOUND;
+		}
+	}
+
+	string_free(absolutDocumentRootPath);
 	return responseCode;
 }
 

@@ -86,7 +86,7 @@ string *build_http_response_header(HttpResponseCodes code, HashList *fields) {
     return response;
 }
 
-bool write_buffer_to_socket(int socket, char* buffer, size_t len)
+static bool write_buffer_to_socket(int socket, char* buffer, size_t len)
 {
     if (send(socket, buffer, len, MSG_NOSIGNAL) < 0)
 	{
@@ -96,7 +96,7 @@ bool write_buffer_to_socket(int socket, char* buffer, size_t len)
 	return true;
 }
 
-bool write_string_to_socket(int socket, string* str)
+static bool write_string_to_socket(int socket, string* str)
 {
 	return write_buffer_to_socket(socket, str->buf, str->len);
 }
