@@ -51,11 +51,12 @@ void free_http_request(HttpRequest* httpRequest);
  * \brief validates the requested resource
  * Makes sure that the client is only able to access files within the DocumentRoot and returns the right response code
  * \author Marcel Weski
+ * @param hashList fields of the request
  * @param resource requested resource
  * @param path the new absolute path from the resource, if the file exists. Must be freed!
  * @return 200, if the file exists. 403, if the access is not allowed (specific files and all files outside the document root). 404, if the file doesn't exists
  */
-HttpResponseCodes validate_resource(string *resource, string **path);
+HttpResponseCodes validate_resource(HashList* hashList, string *resource, string **path);
 
 /**
  * \brief parses the received buffer, returns a response code and fills the httpRequest-Struct

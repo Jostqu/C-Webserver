@@ -226,6 +226,7 @@ static HttpRequestParsingState parsing_field_value(char c, string** strKey, stri
 	}
 }
 
+// deprecated: was used to make sure that images can be returned if page is called with /index.html (no longer needed with virtual hosting)
 static string* get_referer_path(HashList* fields)
 {
 	string* refererPath = NULL;
@@ -276,8 +277,7 @@ static string* build_debug_page(string* method, string* resource, string* versio
 	return s;
 }
 
-// deprecated: was used to make sure that images can be returned if page is called with /index.html (no longer needed with virtual hosting)
-static HttpResponseCodes get_resource_from_host_field(string* strResource, HashList* fields)
+static HttpResponseCodes get_directory_from_host_field(HashList* fields, string** dir)
 {
 	HttpResponseCodes responseCode = OK;
 	if (fields)
@@ -290,7 +290,7 @@ static HttpResponseCodes get_resource_from_host_field(string* strResource, HashL
 
 			if (string_compare_cstr(hostFieldParts[0], "extern"))
 			{
-				string_insert_cstr(strResource, "/extern", 0);
+				*dir = string_new_from_cstr("/extern");
 			}
 			else if (string_compare_cstr(hostFieldParts[0], "intern"))
 			{
@@ -298,7 +298,7 @@ static HttpResponseCodes get_resource_from_host_field(string* strResource, HashL
 			}
 			else
 			{
-				string_insert_cstr(strResource, "/default", 0);
+				*dir = string_new_from_cstr("/default");
 			}
 
 			for (int i = 0; i < splits; i++)
@@ -307,8 +307,12 @@ static HttpResponseCodes get_resource_from_host_field(string* strResource, HashL
 		}
 		else
 		{
-			string_insert_cstr(strResource, "/default", 0);
+			*dir = string_new_from_cstr("/default");
 		}
+	}
+	else
+	{
+		*dir = string_new_from_cstr("/default");
 	}
 
 	return responseCode;
@@ -325,44 +329,53 @@ void free_http_request(HttpRequest* httpRequest)
 	free(httpRequest);
 }
 
-HttpResponseCodes validate_resource(string *resource, string **path)
+HttpResponseCodes validate_resource(HashList* fields, string *resource, string **path)
 {
-	string* absolutDocumentRootPath = get_absolut_document_root_path();
-
-	string* tmp = string_copy(absolutDocumentRootPath);
-	string_concat_str(tmp, resource);
-
-	// causes 'conditional jump or move depends on uninitialised value' warning
-	if (!isfile(tmp))
-	{
-		string_concat(tmp, "/index.html");
-	}
-
-	string_terminate(tmp);
-
-	string* absoluteResourcePath = string_new(PATH_CAPACITY_ABSOLUTE);
-	realpath(tmp->buf, absoluteResourcePath->buf);
-	absoluteResourcePath->len = strlen(absoluteResourcePath->buf);
-
-	string_free(tmp);
-
 	HttpResponseCodes responseCode;
-	if (absoluteResourcePath->len < absolutDocumentRootPath->len || !string_startswith(absoluteResourcePath, absolutDocumentRootPath)) // TODO: also check if file access is not allowed (htpasswd)
+
+	string* absolutDocumentRootPath = get_absolut_document_root_path();
+	string* subdirectory = NULL;
+
+	responseCode = get_directory_from_host_field(fields, &subdirectory);
+	if (responseCode != UNAUTHORIZED)
 	{
-		string_free(absoluteResourcePath);
-		responseCode = FORBIDDEN;
-	}
-	else
-	{
-		if (file_exists(absoluteResourcePath))
+		string_insert(absolutDocumentRootPath, subdirectory, 0);
+		string_free(subdirectory);
+
+		string* tmp = string_copy(absolutDocumentRootPath);
+		string_concat_str(tmp, resource);
+
+		// causes 'conditional jump or move depends on uninitialised value' warning
+		if (!isfile(tmp))
 		{
-			*path = absoluteResourcePath;
-			responseCode = OK;
+			string_concat(tmp, "/index.html");
+		}
+
+		string_terminate(tmp);
+
+		string* absoluteResourcePath = string_new(PATH_CAPACITY_ABSOLUTE);
+		realpath(tmp->buf, absoluteResourcePath->buf);
+		absoluteResourcePath->len = strlen(absoluteResourcePath->buf);
+
+		string_free(tmp);
+
+		if (absoluteResourcePath->len < absolutDocumentRootPath->len || !string_startswith(absoluteResourcePath, absolutDocumentRootPath)) // TODO: also check if file access is not allowed (htpasswd)
+		{
+			string_free(absoluteResourcePath);
+			responseCode = FORBIDDEN;
 		}
 		else
 		{
-			string_free(absoluteResourcePath);
-			responseCode = NOT_FOUND;
+			if (file_exists(absoluteResourcePath))
+			{
+				*path = absoluteResourcePath;
+				responseCode = OK;
+			}
+			else
+			{
+				string_free(absoluteResourcePath);
+				responseCode = NOT_FOUND;
+			}
 		}
 	}
 
@@ -450,30 +463,26 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 		}
 		else
 		{
-			responseCode = get_resource_from_host_field(strResource, httpRequest->fields);
+			// deprecated: was used to make sure that images can be returned if page is called with /index.html (no longer needed with virtual hosting)
+//			string* refererPath = get_referer_path(httpRequest->fields);
+//			if (refererPath)
+//			{
+//				// if relative path to image file was delivered by referer-field, insert it at start of strResource
+//				if (!string_startswith(strResource, refererPath))
+//				{
+//					string_insert(strResource, refererPath, 0);
+//				}
+//
+//				string_free(refererPath);
+//			}
+
+			// validatedPath will only be allocated by validate_resource if path is valid (responseCode = OK), and then freed with free_http_request
+			string* validatedPath = NULL;
+			responseCode = validate_resource(httpRequest->fields, strResource, &validatedPath);
+
 			if (responseCode == OK)
 			{
-				// deprecated: was used to make sure that images can be returned if page is called with /index.html (no longer needed with virtual hosting)
-//				string* refererPath = get_referer_path(httpRequest->fields);
-//				if (refererPath)
-//				{
-//					// if relative path to image file was delivered by referer-field, insert it at start of strResource
-//					if (!string_startswith(strResource, refererPath))
-//					{
-//						string_insert(strResource, refererPath, 0);
-//					}
-//
-//					string_free(refererPath);
-//				}
-
-				// validatedPath will only be allocated by validate_resource if path is valid (responseCode = OK), and then freed with free_http_request
-				string* validatedPath = NULL;
-				responseCode = validate_resource(strResource, &validatedPath);
-
-				if (responseCode == OK)
-				{
-					httpRequest->path = validatedPath;
-				}
+				httpRequest->path = validatedPath;
 			}
 		}
 	}
