@@ -30,11 +30,6 @@ cannon = Laz0rCannon(host=host, port=port)
 
 # Laz0r Beams (Tests to fire against the server).
 cannon += Beam(
-    description='Datei "/debug"',
-    request='GET /debug HTTP/1.1\r\nHost: {host}\r\n\r\n',
-    response=['HTTP/1.1 200']
-)
-cannon += Beam(
     description='außerhalb des DocumentRoot',
     request='GET /..//..//..///..//.. HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 403']
@@ -92,7 +87,7 @@ cannon += Beam(
 cannon += Beam(
     description='Ungültiger Pfad "TEST"',
     request='GET "TEST" HTTP/1.1\r\nHost: {host}\r\n\r\n',
-    response=['HTTP/1.1 400']
+    response=['HTTP/1.1 404']
 )
 cannon += Beam(
     description='Gültige Methode "GET"',
@@ -137,7 +132,7 @@ cannon += Beam(
 cannon += Beam(
     description='Invalid folder "/sonderzeichen!"§$%&/()=?"',
     request='GET /sonderzeichen!"§$%&/()=? HTTP/1.1\r\nHost: {host}\r\n\r\n',
-    response=['HTTP/1.1 400']
+    response=['HTTP/1.1 404']
 )
 cannon += Beam(
     description='Invalid protocol "0.0"',

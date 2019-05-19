@@ -213,10 +213,6 @@ static void main_loop(int sockfd) {
 	    HttpRequest* httpRequest = NULL;
 	    HttpResponseCode responseCode = parse_http_request(strRequest, &httpRequest, &staticPage);
 
-	    string_free(staticPage);
-	    free_http_request(httpRequest);
-	    string_free(strRequest);
-
 
 
 //        string_free(strRequest);
@@ -229,11 +225,11 @@ static void main_loop(int sockfd) {
  * Schreibe die ausgehenden Daten auf den Socket.
  */
 #ifndef STDIN_ONLY
-//	    send_http_response(newsockfd, responseCode, httpRequest->path, staticPage);
-        length = write(newsockfd, buffer, (size_t)length);
-        if (length < 0) {
-            error("ERROR writing to socket");
-        }
+	    send_http_response(newsockfd, responseCode, httpRequest->resource, staticPage);
+//        length = write(newsockfd, buffer, (size_t)length);
+//        if (length < 0) {
+//            error("ERROR writing to socket");
+//        }
 #else
 	    send_http_response(STDOUT_FILENO, responseCode, httpRequest->path, staticPage);
 //        /*
@@ -244,8 +240,9 @@ static void main_loop(int sockfd) {
 //    }
 #endif
 
-//		string_free(staticPage);
-//	    free_http_request(httpRequest);
+	    string_free(staticPage);
+	    free_http_request(httpRequest);
+	    string_free(strRequest);
 
 /*
  * Schließe die Verbindung.

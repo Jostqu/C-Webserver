@@ -322,8 +322,8 @@ void free_http_request(HttpRequest* httpRequest)
 {
 	if (httpRequest)
 	{
-		if (httpRequest->path)
-			string_free(httpRequest->path);
+		if (httpRequest->resource)
+			string_free(httpRequest->resource);
 
 		if (httpRequest->fields)
 			SHL_remove_all(httpRequest->fields);
@@ -404,6 +404,8 @@ HttpResponseCode parse_http_request(string* request, HttpRequest** httpRequest, 
 
 	string* header = requestParts[0];
 
+	*httpRequest = calloc(1, sizeof(HttpRequest));
+
 	int headerLineCount;
 	string** headerLines = string_split_cstr(header, "\r\n", &headerLineCount);
 	if (headerLineCount < 2) // we need at least the first line with method, resource and version, and the host field
@@ -421,68 +423,90 @@ HttpResponseCode parse_http_request(string* request, HttpRequest** httpRequest, 
 		}
 		else
 		{
-			string* method = firstLine[0];
-			string* resource = firstLine[1];
-			string* version = firstLine[2];
-
-			string_print(method);
-			string_print(resource);
-			string_print(version);
-
-			// TODO: validate
-		}
-
-		for (int i = 0; i < firstLineSplits; i++)
-			string_free(firstLine[i]);
-		free(firstLine);
-
-		// parse fields
-		for (int i = 1; i < headerLineCount; i++)
-		{
-			int fieldSplits;
-			string** field = string_split(headerLines[i], ':', &fieldSplits);
-			if (fieldSplits != 2)
+			(*httpRequest)->method = get_method_from_string(firstLine[0]);
+			if ((*httpRequest)->method == INVALID)
 			{
-				responseCode = BAD_REQUEST;
+				responseCode = NOT_IMPLEMENTED;
+			}
+			else if ((*httpRequest)->method != GET)
+			{
+				responseCode = METHOD_NOT_ALLOWED;
 			}
 			else
 			{
-				string* key = field[0];
+				(*httpRequest)->resource = string_copy(firstLine[1]); // can only validated later because it depends on some fields
 
-				bool keyIsValid = true;
-				for (int x = 0; x < key->len && keyIsValid; x++)
+				(*httpRequest)->version = validate_version(firstLine[2]);
+				if ((*httpRequest)->version == UNSUPPORTED)
 				{
-					char c = key->buf[x];
-					if (!isalpha(c) && !isdigit(c))
-						keyIsValid = false;
+					responseCode = BAD_REQUEST;
 				}
+			}
+		}
 
-				if (!keyIsValid)
+		string_free_stringlist(firstLine, firstLineSplits);
+
+		if (responseCode == OK)
+		{
+			// parse fields
+			for (int i = 1; i < headerLineCount; i++)
+			{
+				int fieldSplits;
+				string** field = string_split(headerLines[i], ':', &fieldSplits);
+				if (fieldSplits < 2)
 				{
 					responseCode = BAD_REQUEST;
 				}
 				else
 				{
-					string* value = field[1];
+					string* key = field[0];
+					string_to_lower(key);
 
-					string_print(key);
-					string_print(value);
+					bool keyIsValid = true;
+					for (int x = 0; x < key->len && keyIsValid; x++)
+					{
+						char c = key->buf[x];
+						if (!isalpha(c) && !isdigit(c))
+							keyIsValid = false;
+					}
+
+					if (!keyIsValid)
+					{
+						responseCode = BAD_REQUEST;
+					}
+					else
+					{
+						string* value = string_strip(string_join(field + 1, fieldSplits - 1, ':'));
+
+						Hash fieldhash = SH_create(string_copy(key), string_copy(value));
+						if (!(*httpRequest)->fields)
+						{
+							(*httpRequest)->fields = SHL_create(fieldhash);
+						}
+						else
+						{
+							SHL_append((*httpRequest)->fields, fieldhash);
+						}
+					}
 				}
-			}
 
-			for (int j = 0; j < fieldSplits; j++)
-				string_free(field[j]);
-			free(field);
+				string_free_stringlist(field, fieldSplits);
+			}
 		}
 	}
 
-	for (int i = 0; i < headerLineCount; i++)
-		string_free(headerLines[i]);
-	free(headerLines);
+	string_free_stringlist(headerLines, headerLineCount);
+	string_free_stringlist(requestParts, requestPartCount);
 
-	for (int i = 0; i < requestPartCount; i++)
-		string_free(requestParts[i]);
-	free(requestParts);
+	if (responseCode == OK)
+	{
+		// validatedPath will only be allocated by validate_resource if path is valid (responseCode = OK), and then freed with free_http_request
+		string* validatedPath = NULL;
+		responseCode = validate_resource((*httpRequest)->fields, (*httpRequest)->resource, &validatedPath);
+
+		if (responseCode == OK)
+			(*httpRequest)->resource = validatedPath;
+	}
 
 	printf("responseCode: %s\n", code_to_string(responseCode));
 	return responseCode;

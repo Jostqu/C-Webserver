@@ -13,17 +13,19 @@
 /**
  * \brief contains all information from request
  * \author Marcel Weski
+ * @var method requested method
+ * @var resource requested resource
+ * @var version requested http version
  * @var fields HashList of requested fields (key: value)
- * @var data Void-Pointer to first char of received body
+ * @var data string of received data
  */
 typedef struct http_request_struct
 {
     HTTPMethod method;
-    string* path;
+    string* resource;
     HTTPVersion version;
-
     HashList* fields;
-    void* data;
+    string* data; // for future use
 } HttpRequest;
 
 /**

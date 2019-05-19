@@ -26,7 +26,14 @@ typedef enum {
 typedef enum {
     INVALID,
     GET,
-    POST
+    POST,
+    HEAD,
+    PUT,
+    PATCH,
+    DELETE,
+    TRACE,
+    OPTIONS,
+    CONNECT
 }HTTPMethod;
 
 /*!
