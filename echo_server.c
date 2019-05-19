@@ -213,6 +213,8 @@ static void main_loop(int sockfd) {
 	    HttpRequest* httpRequest = NULL;
 	    HttpResponseCode responseCode = parse_http_request(strRequest, &httpRequest, &staticPage);
 
+	    string_free(staticPage);
+	    free_http_request(httpRequest);
 	    string_free(strRequest);
 
 

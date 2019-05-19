@@ -12,7 +12,7 @@
 #define VALUE_CAPACITY 100
 
 static bool debugPage = false;
-static HttpResponseCodes methodCode = OK;
+static HttpResponseCode methodCode = OK;
 
 static string* get_absolut_document_root_path()
 {
@@ -37,7 +37,7 @@ static string* get_absolut_document_root_path()
 	return absoluteHtdocsDir;
 }
 
-static HttpRequestParsingState parsing_method(char c, string** strMethod, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
+static HttpRequestParsingState parsing_method(char c, string** strMethod, HttpRequest** httpRequest, HttpResponseCode* responseCode)
 {
 	if (c != ' ')
 	{
@@ -73,7 +73,7 @@ static HttpRequestParsingState parsing_method(char c, string** strMethod, HttpRe
 	}
 }
 
-static HttpRequestParsingState parsing_resource(char c, string **strPath, HttpRequest **httpRequest, HttpResponseCodes *responseCode)
+static HttpRequestParsingState parsing_resource(char c, string **strPath, HttpRequest **httpRequest, HttpResponseCode *responseCode)
 {
 	if (c != ' ')
 	{
@@ -118,7 +118,7 @@ static HttpRequestParsingState parsing_resource(char c, string **strPath, HttpRe
 	}
 }
 
-static HttpRequestParsingState parsing_version(char c, string** strVersion, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
+static HttpRequestParsingState parsing_version(char c, string** strVersion, HttpRequest** httpRequest, HttpResponseCode* responseCode)
 {
 	if (c != '\n')
 	{
@@ -153,7 +153,7 @@ static HttpRequestParsingState parsing_version(char c, string** strVersion, Http
 	}
 }
 
-static HttpRequestParsingState parsing_field_key(char c, string** strKey, HttpResponseCodes* responseCode)
+static HttpRequestParsingState parsing_field_key(char c, string** strKey, HttpResponseCode* responseCode)
 {
 	if (c == '\n')
 	{
@@ -185,7 +185,7 @@ static HttpRequestParsingState parsing_field_key(char c, string** strKey, HttpRe
 	}
 }
 
-static HttpRequestParsingState parsing_field_value(char c, string** strKey, string** strValue, HttpRequest** httpRequest, HttpResponseCodes* responseCode)
+static HttpRequestParsingState parsing_field_value(char c, string** strKey, string** strValue, HttpRequest** httpRequest, HttpResponseCode* responseCode)
 {
 	if (c != '\n')
 	{
@@ -277,9 +277,9 @@ static string* build_debug_page(string* method, string* resource, string* versio
 	return s;
 }
 
-static HttpResponseCodes get_directory_from_host_field(HashList* fields, string** dir)
+static HttpResponseCode get_directory_from_host_field(HashList* fields, string** dir)
 {
-	HttpResponseCodes responseCode = OK;
+	HttpResponseCode responseCode = OK;
 	if (fields)
 	{
 		Hash *hostField = SHL_find_key_cstr(fields, "host");
@@ -320,18 +320,21 @@ static HttpResponseCodes get_directory_from_host_field(HashList* fields, string*
 
 void free_http_request(HttpRequest* httpRequest)
 {
-	if (httpRequest->path)
-		string_free(httpRequest->path);
+	if (httpRequest)
+	{
+		if (httpRequest->path)
+			string_free(httpRequest->path);
 
-	if (httpRequest->fields)
-		SHL_remove_all(httpRequest->fields);
+		if (httpRequest->fields)
+			SHL_remove_all(httpRequest->fields);
 
-	free(httpRequest);
+		free(httpRequest);
+	}
 }
 
-HttpResponseCodes validate_resource(HashList* fields, string *resource, string **path)
+HttpResponseCode validate_resource(HashList* fields, string *resource, string **path)
 {
-	HttpResponseCodes responseCode;
+	HttpResponseCode responseCode;
 
 	string* absolutDocumentRootPath = get_absolut_document_root_path();
 	string* subdirectory = NULL;
@@ -392,106 +395,211 @@ HttpResponseCodes validate_resource(HashList* fields, string *resource, string *
 // \r\n
 // Data
 //
-HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpRequest* httpRequest, string** staticPage)
+HttpResponseCode parse_http_request(string* request, HttpRequest** httpRequest, string** staticPage)
 {
-	if (bufferSize == 0)
-		return BAD_REQUEST;
+	HttpResponseCode responseCode = OK;
 
-    HttpRequestParsingState parsingState = PARSING_METHOD;
-    HttpResponseCodes responseCode = OK;
+	int requestPartCount;
+	string** requestParts = string_split_cstr(request, "\r\n\r\n", &requestPartCount);
 
-    string* strMethod = NULL;
-    string* strResource = NULL;
-    string* strVersion = NULL;
-    string* strKey = NULL;
-    string* strValue = NULL;
+	string* header = requestParts[0];
 
-    httpRequest->path = NULL;
-    httpRequest->fields = NULL;
-    httpRequest->data = NULL;
-
-    debugPage = false;
-    methodCode = OK;
-
-    size_t i;
-
-    // iterate through input buffer char by char
-    for (i = 0; i < bufferSize && httpRequest->data == NULL && responseCode == OK; i++)
-    {
-        // current char
-        char c = buffer[i];
-        if (c == '\r') // skip backspaces
-            continue;
-
-        switch (parsingState)
-        {
-            case PARSING_METHOD:
-                parsingState = parsing_method(c, &strMethod, &httpRequest, &responseCode);
-                break;
-
-            case PARSING_RESOURCE:
-            	parsingState = parsing_resource(c, &strResource, &httpRequest, &responseCode);
-                break;
-
-            case PARSING_VERSION:
-            	parsingState = parsing_version(c, &strVersion, &httpRequest, &responseCode);
-                break;
-
-            case PARSING_FIELD_KEY:
-            	parsingState = parsing_field_key(c, &strKey, &responseCode);
-                break;
-
-            case PARSING_FIELD_VALUE:
-            	parsingState = parsing_field_value(c, &strKey, &strValue, &httpRequest, &responseCode);
-                break;
-
-            case PARSING_DATA:
-                httpRequest->data = buffer + i;
-                break;
-
-            default:
-                break;
-        }
-    }
-
-	if (responseCode == OK || debugPage)
+	int headerLineCount;
+	string** headerLines = string_split_cstr(header, "\r\n", &headerLineCount);
+	if (headerLineCount < 2) // we need at least the first line with method, resource and version, and the host field
 	{
-		if (debugPage)
+		responseCode = BAD_REQUEST;
+	}
+	else
+	{
+		// parse first line with method, resource and version
+		int firstLineSplits;
+		string** firstLine = string_split(headerLines[0], ' ', &firstLineSplits);
+		if (firstLineSplits != 3)
 		{
-			responseCode = OK;
-			*staticPage = build_debug_page(strMethod, strResource, strVersion);
+			responseCode = BAD_REQUEST;
 		}
 		else
 		{
-			// deprecated: was used to make sure that images can be returned if page is called with /index.html (no longer needed with virtual hosting)
-//			string* refererPath = get_referer_path(httpRequest->fields);
-//			if (refererPath)
-//			{
-//				// if relative path to image file was delivered by referer-field, insert it at start of strResource
-//				if (!string_startswith(strResource, refererPath))
-//				{
-//					string_insert(strResource, refererPath, 0);
-//				}
-//
-//				string_free(refererPath);
-//			}
+			string* method = firstLine[0];
+			string* resource = firstLine[1];
+			string* version = firstLine[2];
 
-			// validatedPath will only be allocated by validate_resource if path is valid (responseCode = OK), and then freed with free_http_request
-			string* validatedPath = NULL;
-			responseCode = validate_resource(httpRequest->fields, strResource, &validatedPath);
+			string_print(method);
+			string_print(resource);
+			string_print(version);
 
-			if (responseCode == OK)
+			// TODO: validate
+		}
+
+		for (int i = 0; i < firstLineSplits; i++)
+			string_free(firstLine[i]);
+		free(firstLine);
+
+		// parse fields
+		for (int i = 1; i < headerLineCount; i++)
+		{
+			int fieldSplits;
+			string** field = string_split(headerLines[i], ':', &fieldSplits);
+			if (fieldSplits != 2)
 			{
-				httpRequest->path = validatedPath;
+				responseCode = BAD_REQUEST;
 			}
+			else
+			{
+				string* key = field[0];
+
+				bool keyIsValid = true;
+				for (int x = 0; x < key->len && keyIsValid; x++)
+				{
+					char c = key->buf[x];
+					if (!isalpha(c) && !isdigit(c))
+						keyIsValid = false;
+				}
+
+				if (!keyIsValid)
+				{
+					responseCode = BAD_REQUEST;
+				}
+				else
+				{
+					string* value = field[1];
+
+					string_print(key);
+					string_print(value);
+				}
+			}
+
+			for (int j = 0; j < fieldSplits; j++)
+				string_free(field[j]);
+			free(field);
 		}
 	}
 
-	string_free(strValue);
-	string_free(strKey);
-	string_free(strResource);
-	string_free(strVersion);
-    string_free(strMethod);
+	for (int i = 0; i < headerLineCount; i++)
+		string_free(headerLines[i]);
+	free(headerLines);
 
-    return responseCode;
+	for (int i = 0; i < requestPartCount; i++)
+		string_free(requestParts[i]);
+	free(requestParts);
+
+	printf("responseCode: %s\n", code_to_string(responseCode));
+	return responseCode;
+//
+//    HttpRequestParsingState parsingState = PARSING_METHOD;
+//    HttpResponseCode responseCode = OK;
+//
+//    string* strMethod = NULL;
+//    string* strResource = NULL;
+//    string* strVersion = NULL;
+//    string* strKey = NULL;
+//    string* strValue = NULL;
+//
+//    httpRequest->path = NULL;
+//    httpRequest->fields = NULL;
+//    httpRequest->data = NULL;
+//
+//    debugPage = false;
+//    methodCode = OK;
+//
+//    size_t i;
+//
+//    // iterate through input buffer char by char
+//    for (i = 0; i < bufferSize && httpRequest->data == NULL && responseCode == OK; i++)
+//    {
+//        // current char
+//        char c = buffer[i];
+//        if (c == '\r') // skip backspaces
+//            continue;
+//
+//        switch (parsingState)
+//        {
+//            case PARSING_METHOD:
+//                parsingState = parsing_method(c, &strMethod, &httpRequest, &responseCode);
+//                break;
+//
+//            case PARSING_RESOURCE:
+//            	parsingState = parsing_resource(c, &strResource, &httpRequest, &responseCode);
+//                break;
+//
+//            case PARSING_VERSION:
+//            	parsingState = parsing_version(c, &strVersion, &httpRequest, &responseCode);
+//                break;
+//
+//            case PARSING_FIELD_KEY:
+//            	parsingState = parsing_field_key(c, &strKey, &responseCode);
+//                break;
+//
+//            case PARSING_FIELD_VALUE:
+//            	parsingState = parsing_field_value(c, &strKey, &strValue, &httpRequest, &responseCode);
+//                break;
+//
+//            case PARSING_DATA:
+//                httpRequest->data = buffer + i;
+//                break;
+//
+//            default:
+//                break;
+//        }
+//    }
+//
+//	if (responseCode == OK || debugPage)
+//	{
+//		if (debugPage)
+//		{
+//			responseCode = OK;
+//			*staticPage = build_debug_page(strMethod, strResource, strVersion);
+//		}
+//		else
+//		{
+//			// deprecated: was used to make sure that images can be returned if page is called with /index.html (no longer needed with virtual hosting)
+////			string* refererPath = get_referer_path(httpRequest->fields);
+////			if (refererPath)
+////			{
+////				// if relative path to image file was delivered by referer-field, insert it at start of strResource
+////				if (!string_startswith(strResource, refererPath))
+////				{
+////					string_insert(strResource, refererPath, 0);
+////				}
+////
+////				string_free(refererPath);
+////			}
+//
+//			// validatedPath will only be allocated by validate_resource if path is valid (responseCode = OK), and then freed with free_http_request
+//			string* validatedPath = NULL;
+//			responseCode = validate_resource(httpRequest->fields, strResource, &validatedPath);
+//
+//			if (responseCode == OK)
+//			{
+//				httpRequest->path = validatedPath;
+//			}
+//		}
+//	}
+//
+//	string_free(strValue);
+//	string_free(strKey);
+//	string_free(strResource);
+//	string_free(strVersion);
+//    string_free(strMethod);
+//
+//    return responseCode;
+}
+
+bool fill_request_string(string *strRequest, char *buffer, size_t bufferSize)
+{
+	// append buffer to the request string
+	string* strBuffer = string_new_from_carray(buffer, bufferSize);
+	string_concat_str(strRequest, strBuffer);
+	string_free(strBuffer);
+
+	// try to find '\r\n\r\n' (separator between header and data)
+	int splits;
+	string** strBufferParts = string_split_cstr(strRequest, "\r\n\r\n", &splits);
+
+	for (int i = 0; i < splits; i++)
+		string_free(strBufferParts[i]);
+	free(strBufferParts);
+
+	return splits < 2; // we need at least two splits (header and data)
 }

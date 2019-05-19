@@ -3,7 +3,7 @@
 #define SERVER_NAME "PSE HTTP-Server v1.0"
 #define FILE_BUFFER_SIZE 65536 // 64 kB
 
-char *code_to_string(HttpResponseCodes code) {
+char *code_to_string(HttpResponseCode code) {
 
     char* b = NULL;
 
@@ -50,7 +50,7 @@ char *code_to_string(HttpResponseCodes code) {
     return b;
 }
 
-string *build_http_response_header(HttpResponseCodes code, HashList *fields) {
+string *build_http_response_header(HttpResponseCode code, HashList *fields) {
 
     char* strCode = code_to_string(code);
     if(!strCode)
@@ -101,7 +101,7 @@ static bool write_string_to_socket(int socket, string* str)
 	return write_buffer_to_socket(socket, str->buf, str->len);
 }
 
-void send_http_response(int targetStream, HttpResponseCodes code, string *path, string* staticPage)
+void send_http_response(int targetStream, HttpResponseCode code, string *path, string* staticPage)
 {
 	string* strServerKey = string_new_from_cstr("Server");
 	string* strServerValue = string_new_from_cstr(SERVER_NAME);

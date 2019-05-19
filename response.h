@@ -26,7 +26,7 @@ typedef enum {
     METHOD_NOT_ALLOWED = 405,
     NOT_IMPLEMENTED = 501
 
-}HttpResponseCodes;
+}HttpResponseCode;
 
 /*!
  * \brief converts the responsecode to a string
@@ -35,7 +35,7 @@ typedef enum {
  *
  * @return code as string
  */
-char* code_to_string(HttpResponseCodes code);
+char* code_to_string(HttpResponseCode code);
 
 /*!
  * \brief simple wrapper to build HTTP response
@@ -53,7 +53,7 @@ char* code_to_string(HttpResponseCodes code);
  * @param fields list of header fields
  * @return Http response as string
  */
-string* build_http_response_header(HttpResponseCodes code, HashList *fields);
+string* build_http_response_header(HttpResponseCode code, HashList *fields);
 
 /**
  * \brief uses the build_http_response_header function to send a response to the client
@@ -63,6 +63,6 @@ string* build_http_response_header(HttpResponseCodes code, HashList *fields);
  * @param path requested absolute file path
  * @param staticPage contains a string if /debug was requested
  */
-void send_http_response(int targetStream, HttpResponseCodes code, string* path, string* staticPage);
+void send_http_response(int targetStream, HttpResponseCode code, string* path, string* staticPage);
 
 #endif //PSE_RESPONSE_H
