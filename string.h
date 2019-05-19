@@ -46,6 +46,17 @@ string* string_new(size_t capacity);
  */
 string* string_new_from_cstr(char* str);
 
+/*!
+ * \brief creates new string from given char* but limits at length
+ *
+ * \author Björn Marx
+ *
+ * @param str a char*
+ * @param len length of char*
+ * @return new string
+ */
+string* string_new_from_carray(char* str, int len);
+
 /**
  * \brief creates a identical copy of a given string
  * allocates memory with calloc that needs to be freed by string_free
@@ -81,7 +92,7 @@ void string_concat(string* str, char* src); //len removed by request of marcel
  * @param dst destination
  * @param src source
  */
-void string_concat_str(string* dst, string*src);
+void string_concat_str(string* dst, string* src);
 
 /**
  * \brief adds a char to a string that may be reallocated if capacity isn't big enough

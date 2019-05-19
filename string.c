@@ -373,3 +373,13 @@ string **string_split_cstr(string *str, char *splitter, int *splits) {
 
     return b;
 }
+
+string *string_new_from_carray(char *str, int len) {
+    string* b = string_new(len);
+
+    memcpy(b->buf, str, len);
+
+    b->len = len;
+
+    return b;
+}
