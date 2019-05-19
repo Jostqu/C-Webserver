@@ -8,11 +8,13 @@
 #include <string.h>     // memset, strerror
 #include <sys/socket.h> // struct sockaddr_in, socket, setsockopt, bind, listen, socklen_t, accept
 #include <unistd.h> // read, write, close
+#include <poll.h>
 #include "request.h"
 #include "response.h"
 
 #define PORT 31337
 #define BUFFER_SIZE 1024
+#define MAX_HEADER_LEN 8192 // because apache allows a max header length of. 8 KB
 
 /**
  * Globale Variablen.
@@ -100,7 +102,7 @@ static int setup_socket() {
      */
     if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const char *)&opt,
                    sizeof(int)) < 0)
-        error("ERROR on setsockopt");
+        error("ERROR on setsockopt,SO_REUSEADDR");
 
     /*
      * Melde, dass der Socket eingehende Verbindungen akzeptieren soll.
@@ -160,31 +162,76 @@ static void main_loop(int sockfd) {
         newsockfd = STDIN_FILENO;
 #endif
 
-        /*
-         * Lies die ankommenden Daten von dem Socket in das Array buffer.
-         */
-        memset(buffer, 0, BUFFER_SIZE);
-        length = read(newsockfd, buffer, BUFFER_SIZE - 1);
-        if (length < 0) {
-            if (errno == EINTR) {
-                break;
-            }
-            error("ERROR reading from socket");
-        }
+	    /*
+	    * Dafür sorgen, dass die Verbindung nach einer bestimmten Zeit geschlossen wird
+	    */
+	    struct timeval tv;
+	    tv.tv_sec = 1;
+	    tv.tv_usec = 0;
+	    if (setsockopt(newsockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof(tv)) < 0)
+		    error("ERROR on setsockopt, SO_RCVTIMEO");
 
-        string* staticPage = NULL;
-        HttpRequest* httpRequest = calloc(sizeof(HttpRequest), 1);
-        HttpResponseCodes responseCode = parse_http_request(buffer, length, httpRequest, &staticPage);
+        string* strRequest = string_new(MAX_HEADER_LEN);
+
+        bool timeouted = false;
+        length = 0;
+
+        // Fill strRequest until \r\n\r\n is found
+	    do
+	    {
+	    	if (strRequest->len > MAX_HEADER_LEN)
+		    {
+	    		timeouted = true;
+		    }
+	    	else
+	    	{
+			    /*
+                 * Lies die ankommenden Daten von dem Socket in das Array buffer.
+                 */
+			    memset(buffer, 0, BUFFER_SIZE);
+			    length = read(newsockfd, buffer, BUFFER_SIZE);
+			    if (length < 0)
+			    {
+				    timeouted = true;
+				    break;
+			    }
+	    	}
+	    }
+	    while (fill_request_string(strRequest, buffer, length));
+
+	    // If timeouted, close connection to client (apache like)
+	    if (timeouted)
+	    {
+		    if (close(newsockfd) < 0)
+			    error("ERROR on close");
+
+		    string_free(strRequest);
+		    continue;
+	    }
+
+	    string* staticPage = NULL;
+	    HttpRequest* httpRequest = NULL;
+	    HttpResponseCode responseCode = parse_http_request(strRequest, &httpRequest, &staticPage);
+
+	    string_free(strRequest);
+
+
+
+//        string_free(strRequest);
+
+//        string* staticPage = NULL;
+//        HttpRequest* httpRequest = calloc(sizeof(HttpRequest), 1);
+//        HttpResponseCode responseCode = parse_http_request(buffer, length, httpRequest, &staticPage);
 
 /*
  * Schreibe die ausgehenden Daten auf den Socket.
  */
 #ifndef STDIN_ONLY
-	    send_http_response(newsockfd, responseCode, httpRequest->path, staticPage);
-//        length = write(newsockfd, buffer, (size_t)length);
-//        if (length < 0) {
-//            error("ERROR writing to socket");
-//        }
+//	    send_http_response(newsockfd, responseCode, httpRequest->path, staticPage);
+        length = write(newsockfd, buffer, (size_t)length);
+        if (length < 0) {
+            error("ERROR writing to socket");
+        }
 #else
 	    send_http_response(STDOUT_FILENO, responseCode, httpRequest->path, staticPage);
 //        /*
@@ -195,8 +242,8 @@ static void main_loop(int sockfd) {
 //    }
 #endif
 
-		string_free(staticPage);
-	    free_http_request(httpRequest);
+//		string_free(staticPage);
+//	    free_http_request(httpRequest);
 
 /*
  * Schließe die Verbindung.
@@ -340,13 +387,13 @@ int main(int argc, char *argv[]) {
 //    test_string_split();      //works again
 //    test_get_ctype();
 //    test_string_insert();
-    test_string_split_string();
+//    test_string_split_string();
 
-    /*(void)argc;
+    (void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
-    main_loop(sockfd);*/
+    main_loop(sockfd);
 
     return 0;
 }
