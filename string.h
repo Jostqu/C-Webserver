@@ -12,6 +12,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 /**
  * \brief contains the capacity (max. length and buffer size), length of the string, pointer to buffer that contains the chars
@@ -107,7 +108,7 @@ void string_add_char(string* str, char c);
  * \author Marcel Weski
  * @param str string to be stripped
  */
-void string_strip(string* str);
+string* string_strip(string* str);
 
 /**
  * \brief compares two strings
@@ -242,7 +243,9 @@ bool string_startswith(string* str, string* needle);
 
 /*!
  * \brief checks if str starts with needle
+ *
  * \author Björn Marx
+ *
  * \see string_startswith to see how it works
  */
 bool string_startswith_cstr(string* str, char* needle);
@@ -258,7 +261,30 @@ bool string_endswith(string* str, string* part);
 
 /*!
  * \brief compars end of string with another string (char pointer)
+ *
+ * \author Björn Marx
+ *
  * \see string_endswith
  */
 bool string_endswith_cstr(string* str, char* part);
+
+/*!
+ * \brief replaces all uppercase chars with lowercase
+ * this fuction uses ctypes own tolower function
+ *
+ * \author Björn Marx
+ *
+ * @param str a string
+ */
+void string_to_lower(string* str);
+
+/*!
+ * \brief frees a list of @param numOfElements elements
+ *
+ * \author Björn Marx
+ *
+ * @param list a stringlist
+ * @param numOfElements number of elements in @param list
+ */
+void string_free_stringlist(string** list, int numOfElements);
 #endif //PSE_STRING_H
