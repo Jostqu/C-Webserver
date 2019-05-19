@@ -42,7 +42,7 @@ string* string_new(size_t capacity);
  * \author Björn Marx
  *
  * @param str a string
- * @return new string with content of str
+ * @return new string with content of str, NULL if @param str is NULL
  */
 string* string_new_from_cstr(char* str);
 
@@ -70,7 +70,7 @@ void string_free(string* str);
  * @param str string to append to
  * @param src string to append
  */
-void string_concat(string* str, char* src); //len removed by request of marsel
+void string_concat(string* str, char* src); //len removed by request of marcel
 
 /*!
  * \brief concat string typed string src to dst
@@ -139,7 +139,8 @@ long string_to_long(string *str, int base);
 
 /*!
  * \brief splits a string by c
- * its a basic method with a rather bad runtime of O(n²)
+ * its a basic method with a rather bad runtime of O(2n)
+ * if there is a splitter, the list will contain an empty string at the end
  *
  * \author Björn Marx
  *
@@ -149,6 +150,26 @@ long string_to_long(string *str, int base);
  * @return list of strings
  */
 string** string_split(string* str, char splitter, int* splits);
+
+/*!
+ * \brief splits a string, but uses a string as splitter argument
+ * uses the same "algorithm" as string_split but adapted to use string as splitter
+ *
+ * \author Björn Marx
+ *
+ * @param str string to split
+ * @param splitter string that splits
+ * @param splits number of splits
+ * @return array of splitted string
+ */
+string** string_split_string(string* str, string* splitter, int* splits);
+
+/*!
+ * \brief \see string_split_string
+ *
+ * \author Björn Marx
+ */
+string** string_split_cstr(string* str, char* splitter, int* splits);
 
 /*!
  * \brief recombines list from string_split
@@ -229,5 +250,4 @@ bool string_endswith(string* str, string* part);
  * \see string_endswith
  */
 bool string_endswith_cstr(string* str, char* part);
-
 #endif //PSE_STRING_H

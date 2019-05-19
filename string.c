@@ -158,7 +158,7 @@ string* int_to_string(int i) {
 }
 
 string **string_split(string *str, char splitter, int* splits) {
-    if(!str)
+    if(!str || !splits)
         return NULL;
 
     *splits = 1;
@@ -175,7 +175,7 @@ string **string_split(string *str, char splitter, int* splits) {
     if(!list)
         return NULL;
 
-    list[0] = string_new(10);
+    list[0] = string_new(str->len / *splits);
 
     int i = 0;
     for (int j = 0; j < str->len; j++) {
@@ -219,8 +219,13 @@ bool string_compare_cstr(string *string1, char *string2) {
 }
 
 string *string_new_from_cstr(char *str) {
-    string* b = string_new(strlen(str)*2);
-    string_concat(b, str);
+
+    string* b = NULL;
+
+    if(str) {
+        b = string_new(strlen(str) * 2);
+        string_concat(b, str);
+    }
 
     return b;
 }
@@ -309,4 +314,62 @@ bool string_endswith_cstr(string *str, char *part)
 		return false;
 
 	return memcmp(str->buf + (str->len - partLen), part, partLen) == 0;
+}
+
+// non doc!
+// moves the conttens of the string 1 to the left and deletes first item
+void move_string_x_left(string* str, int x){
+    memmove(str->buf, str->buf+x, --str->len);
+}
+
+//im sorry for the treatment your ram gets.
+string **string_split_string(string *str, string *splitter, int *splits) {
+    if(!str || !splitter || !splits)
+        return NULL;
+
+    *splits = 1;
+    string* strCpy = string_copy(str);
+
+    for (int i = 0; i < strCpy->len; ++i) {
+        if (string_startswith(strCpy, splitter))
+            (*splits)++;
+
+        move_string_x_left(strCpy, splitter->len);
+    }
+    string_free(strCpy);
+
+
+    strCpy = string_copy(str);
+    string** splitted = calloc(*splits, sizeof(string*));
+    if(splitted) {
+
+        splitted[0] = string_new(str->len / *splits);
+
+        int i = 0;
+        for (int j = 0; j < str->len;) {
+            if(string_startswith(strCpy, splitter)){
+                i++;
+                j += splitter->len;
+                move_string_x_left(strCpy, splitter->len);
+                splitted[i] = string_new(str->len / *splits);
+            } else {
+                string_add_char(splitted[i], str->buf[j++]);
+                move_string_x_left(strCpy, 1);
+            }
+        }
+    }
+    string_free(strCpy);
+
+    return splitted;
+}
+
+string **string_split_cstr(string *str, char *splitter, int *splits) {
+
+    string* splitterStr = string_new_from_cstr(splitter);
+
+    string** b = string_split_string(str, splitterStr, splits);
+
+    string_free(splitterStr);
+
+    return b;
 }

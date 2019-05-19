@@ -275,21 +275,18 @@ void test_response_build(){
 
 void test_string_split(){
     string* str = string_new(10);
-    string_concat(str, "hallo erik du herd");
+    string_concat(str, "SPLITBY:");
 
     int splits;
-    string** splitted = string_split(str, ' ', &splits);
+    string** splitted = string_split(str, ':', &splits);
 
-    string* recombined = string_join(splitted, splits, '_');
+    printf("%d", splits);
 
     for (int i = 0; i < splits; ++i) {
+        printf("String %d:", i);
         string_print(splitted[i]);
-        string_free(splitted[i]);
     }
 
-    string_print(recombined);
-
-    string_free(recombined);
     string_free(str);
     free(splitted);
 }
@@ -318,18 +315,38 @@ void test_string_insert(){
     string_free(src);
 }
 
+void test_string_split_string(){
+    string* str = string_new_from_cstr("einsLLzweiLLdreiLL");
+
+
+    int splits;
+
+    string** arr = string_split_cstr(str, "LL", &splits);
+
+    printf("%d\n", splits);
+
+    for (int i = 0; i < splits; ++i) {
+        string_print(arr[i]);
+        string_free(arr[i]);
+    }
+
+    string_free(str);
+    free(arr);
+}
+
 int main(int argc, char *argv[]) {
 //    test_response_build();    //works
 //    test_hashlist();          //works
 //    test_string_split();      //works again
 //    test_get_ctype();
 //    test_string_insert();
+    test_string_split_string();
 
-    (void)argc;
+    /*(void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
-    main_loop(sockfd);
+    main_loop(sockfd);*/
 
     return 0;
 }
