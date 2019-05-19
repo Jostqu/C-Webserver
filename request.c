@@ -339,7 +339,7 @@ HttpResponseCodes validate_resource(HashList* fields, string *resource, string *
 	responseCode = get_directory_from_host_field(fields, &subdirectory);
 	if (responseCode != UNAUTHORIZED)
 	{
-		string_insert(absolutDocumentRootPath, subdirectory, 0);
+		string_concat_str(absolutDocumentRootPath, subdirectory);
 		string_free(subdirectory);
 
 		string* tmp = string_copy(absolutDocumentRootPath);
