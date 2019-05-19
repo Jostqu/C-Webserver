@@ -330,11 +330,11 @@ string **string_split_string(string *str, string *splitter, int *splits) {
     *splits = 1;
     string* strCpy = string_copy(str);
 
-    for (int i = 0; i < strCpy->len; ++i) {
+    for (int i = 0; i < str->len; ++i) {
         if (string_startswith(strCpy, splitter))
             (*splits)++;
 
-        move_string_x_left(strCpy, splitter->len);
+        move_string_x_left(strCpy, 1);
     }
     string_free(strCpy);
 
