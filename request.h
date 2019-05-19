@@ -56,17 +56,18 @@ void free_http_request(HttpRequest* httpRequest);
  * @param path the new absolute path from the resource, if the file exists. Must be freed!
  * @return 200, if the file exists. 403, if the access is not allowed (specific files and all files outside the document root). 404, if the file doesn't exists
  */
-HttpResponseCodes validate_resource(HashList* hashList, string *resource, string **path);
+HttpResponseCode validate_resource(HashList* hashList, string *resource, string **path);
 
 /**
  * \brief parses the received buffer, returns a response code and fills the httpRequest-Struct
  * \author Marcel Weski
- * @param buffer Void-Pointer of the request buffer
- * @param bufferSize size of buffer
+ * @param request string of buffers
  * @param httpRequest the filled httpRequest. Must be freed!
  * @param staticPage returns the debug-Page if /debug is requested. Must be freed!
  * @return int the response code
  */
-HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpRequest* httpRequest, string** staticPage);
+HttpResponseCode parse_http_request(string* request, HttpRequest** httpRequest, string** staticPage);
+
+bool fill_request_string(string *strRequest, char *buffer, size_t bufferSize);
 
 #endif //PSE_HTTP_REQUEST_H
