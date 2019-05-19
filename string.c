@@ -77,7 +77,7 @@ void string_add_char(string* str, char c)
     str->buf[str->len++] = c;
 }
 
-void string_strip(string* str)
+string* string_strip(string* str)
 {
     // remove empty chars at begin
     for (size_t i = 0; i < str->len; i++)
@@ -117,6 +117,8 @@ void string_strip(string* str)
             break;
         }
     }
+
+    return str;
 }
 
 bool string_compare(string* string1, string* string2){
@@ -382,4 +384,16 @@ string *string_new_from_carray(char *str, int len) {
     b->len = len;
 
     return b;
+}
+
+void string_to_lower(string *str) {
+    for (int i = 0; i < str->len; ++i)
+        str->buf[i] = tolower(str->buf[i]);
+}
+
+void string_free_stringlist(string **list, int numOfElements) {
+    for (int i = 0; i < numOfElements; ++i) {
+        string_free(list[i]);
+    }
+    free(list);
 }

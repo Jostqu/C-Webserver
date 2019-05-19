@@ -365,12 +365,11 @@ void test_string_insert(){
 }
 
 void test_string_split_string(){
-    string* str = string_new_from_cstr("GET / HTTP/1.1\r\n\r\n");
-
+    string* str = string_new_from_cstr("GET / HTTP/1.1\r\nHost: localhost\r\nConnection: close");
 
     int splits;
 
-    string** arr = string_split_cstr(str, "\r\n\r\n", &splits);
+    string** arr = string_split_cstr(str, "\r\n", &splits);
 
     printf("%d\n", splits);
 
