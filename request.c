@@ -332,6 +332,7 @@ static string* build_debug_page(string* method, string* resource, string* versio
 	return s;
 }
 
+// deprecated: was used to make sure that images can be returned if page is called with /index.html (no longer needed with virtual hosting)
 static HttpResponseCodes get_resource_from_host_field(string* strResource, HashList* fields)
 {
 	HttpResponseCodes responseCode = OK;
@@ -452,18 +453,18 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 			responseCode = get_resource_from_host_field(strResource, httpRequest->fields);
 			if (responseCode == OK)
 			{
-				//			string* refererPath = get_referer_path(httpRequest->fields);
-
-//			if (refererPath)
-//            {
-//		    	// if relative path to image file was delivered by referer-field, insert it at start of strResource
-//		        if (!string_startswith(strResource, refererPath))
-//                {
-//                    string_insert(strResource, refererPath, 0);
-//                }
+				// deprecated: was used to make sure that images can be returned if page is called with /index.html (no longer needed with virtual hosting)
+//				string* refererPath = get_referer_path(httpRequest->fields);
+//				if (refererPath)
+//				{
+//					// if relative path to image file was delivered by referer-field, insert it at start of strResource
+//					if (!string_startswith(strResource, refererPath))
+//					{
+//						string_insert(strResource, refererPath, 0);
+//					}
 //
-//	            string_free(refererPath);
-//            }
+//					string_free(refererPath);
+//				}
 
 				// validatedPath will only be allocated by validate_resource if path is valid (responseCode = OK), and then freed with free_http_request
 				string* validatedPath = NULL;
@@ -477,6 +478,8 @@ HttpResponseCodes parse_http_request(char* buffer, size_t bufferSize, HttpReques
 		}
 	}
 
+	string_free(strValue);
+	string_free(strKey);
 	string_free(strResource);
 	string_free(strVersion);
     string_free(strMethod);

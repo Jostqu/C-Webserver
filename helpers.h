@@ -74,23 +74,26 @@ string* get_content_type(char* path);
 void url_decode(string *str);
 
 /**
- * Überprüft ob ein Pfad eine Datei ist
- * @param path Pfad
- * @return Wahr, wenn Pfad ist Datei
+ * \brief checks if a given path is a file
+ * \author Marcel Weski
+ * @param path path of file or directory
+ * @return true if path is a existing file
  */
 bool isfile(string* path);
 
 /**
- * Überprüft ob eine Datei existiert
- * @param path Dateipfad
- * @return Wahr, wenn Datei existiert
+ * \brief checks if a file exists
+ * \author Marcel Weski
+ * @param path filepath
+ * @return true if file exists
  */
 bool file_exists(string* path);
 
 /**
- * \brief Gibt die Dateigröße einer offenen Datei zurück
- * @param fp Pointer auf die offene Datei
- * @return Dateigröße
+ * \brief returns the file size of a opened file (with fopen)
+ * \author Marcel Weski
+ * @param fp pointer of opened file
+ * @return file size
  */
 long get_file_size(FILE* fp);
 

@@ -56,12 +56,12 @@ char* code_to_string(HttpResponseCodes code);
 string* build_http_response_header(HttpResponseCodes code, HashList *fields);
 
 /**
- * \brief Nutzt die build_http_response-Funktion um eine Antwort an den Client zusenden
+ * \brief uses the build_http_response_header function to send a response to the client
  * \author Marcel Weski
- * @param targetStream socket-Instanz oder STDOUT-Stream
- * @param code responseCode von der parse_http_request-Funktion
- * @param path vom Client angeforderter Pfad
- * @param staticPage ggf. eine statische Seite. z.B. /debug
+ * @param targetStream socket or stdout stream
+ * @param code responseCode returned by the parse_http_request function
+ * @param path requested absolute file path
+ * @param staticPage contains a string if /debug was requested
  */
 void send_http_response(int targetStream, HttpResponseCodes code, string* path, string* staticPage);
 
