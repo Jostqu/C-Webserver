@@ -6,7 +6,7 @@ port = 31337
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, port))
 
-s.send("GET /images/ein%20leerzeichen.png HTTP/1.1\r\nHost: localhost\r\n\r\n".encode("utf-8"))
+s.send("GET / HTTP/1.1\r\nhost: extern\r\npeter: ahsn\r\n\r\n".encode("utf-8"))
 
 received = ""
 while 1:

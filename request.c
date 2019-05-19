@@ -76,12 +76,12 @@ static HttpResponseCode get_directory_from_host_field(HashList* fields, string**
 		}
 		else
 		{
-			*dir = string_new_from_cstr("/default");
+			responseCode = BAD_REQUEST;
 		}
 	}
 	else
 	{
-		*dir = string_new_from_cstr("/default");
+		responseCode = BAD_REQUEST;
 	}
 
 	return responseCode;
@@ -205,7 +205,7 @@ HttpResponseCode validate_resource(HashList* fields, string *resource, string **
 	string* subdirectory = NULL;
 
 	responseCode = get_directory_from_host_field(fields, &subdirectory);
-	if (responseCode != UNAUTHORIZED)
+	if (responseCode == OK)
 	{
 		string_concat_str(absolutDocumentRootPath, subdirectory);
 		string_free(subdirectory);

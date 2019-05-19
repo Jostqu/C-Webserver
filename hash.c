@@ -61,7 +61,7 @@ Hash* SHL_find_key(HashList* first, string* key)
 		else
 			b = b->next;
 	}
-	while (b->next);
+	while (b);
 
 	return NULL;
 }
