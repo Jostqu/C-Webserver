@@ -185,8 +185,11 @@ string** string_split_cstr(string* str, char* splitter, int* splits);
 
 /*!
  * \brief recombines list from string_split
- * function returns null on failure or if splitted is null or if splits is 0
+ * function returns null on failure or if splitted is null or if splits is 0.
+ * the separator is added between the splits (who would have expected), if non is wanted set separator to 0
+ *
  * \author Björn Marx
+ *
  * @param splitted list of splitted strings
  * @param splits number of strings in splitted
  * @param separator char to put between individual strings
