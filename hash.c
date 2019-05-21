@@ -54,13 +54,14 @@ Hash* SHL_find_key(HashList* first, string* key)
 {
 	HashList* b = first;
 
-	while (b->next)
+	do
 	{
 		if (string_compare(b->data.key, key))
 			return &b->data;
-        else
-            b = b->next;
+		else
+			b = b->next;
 	}
+	while (b);
 
 	return NULL;
 }

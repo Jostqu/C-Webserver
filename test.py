@@ -56,7 +56,7 @@ cannon += Beam(
 )
 cannon += Beam(
     description='Ungültige Methode "GETS"',
-    request='GETS /debug HTTP/1.1\r\nHost: {host}\r\n\r\n',
+    request='GETS / HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 501']
 )
 cannon += Beam(
@@ -66,7 +66,7 @@ cannon += Beam(
 )
 cannon += Beam(
     description='Host test "intern"',
-    request='GET /debug HTTP/1.1\r\nHost: intern\r\n\r\n',
+    request='GET / HTTP/1.1\r\nHost: intern\r\n\r\n',
     response=['HTTP/1.1 401']
 )
 cannon += Beam(
@@ -92,7 +92,7 @@ cannon += Beam(
 cannon += Beam(
     description='Ungültiger Pfad "TEST"',
     request='GET "TEST" HTTP/1.1\r\nHost: {host}\r\n\r\n',
-    response=['HTTP/1.1 400']
+    response=['HTTP/1.1 404']
 )
 cannon += Beam(
     description='Gültige Methode "GET"',
@@ -137,7 +137,7 @@ cannon += Beam(
 cannon += Beam(
     description='Invalid folder "/sonderzeichen!"§$%&/()=?"',
     request='GET /sonderzeichen!"§$%&/()=? HTTP/1.1\r\nHost: {host}\r\n\r\n',
-    response=['HTTP/1.1 400']
+    response=['HTTP/1.1 404']
 )
 cannon += Beam(
     description='Invalid protocol "0.0"',

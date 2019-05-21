@@ -14,32 +14,20 @@
 /**
  * \brief contains all information from request
  * \author Marcel Weski
+ * @var method requested method
+ * @var resource requested resource
+ * @var version requested http version
  * @var fields HashList of requested fields (key: value)
- * @var data Void-Pointer to first char of received body
+ * @var data string of received data
  */
 typedef struct http_request_struct
 {
     HTTPMethod method;
-    string* path;
+    string* resource;
     HTTPVersion version;
-
     HashList* fields;
-    void* data;
+    string* data; // for future use
 } HttpRequest;
-
-/**
- * \brief the current parsing state of the current char (we go through the received buffer char by char)
- * \author Marcel Weski
- */
-typedef enum http_request_parsing_state
-{
-    PARSING_METHOD,
-    PARSING_RESOURCE,
-    PARSING_VERSION,
-    PARSING_FIELD_KEY,
-    PARSING_FIELD_VALUE,
-    PARSING_DATA
-} HttpRequestParsingState;
 
 /**
  * \brief frees the HttpRequest-Struct
@@ -69,6 +57,13 @@ HttpResponseCode validate_resource(HashList* hashList, string *resource, string 
  */
 HttpResponseCode parse_http_request(string* request, HttpRequest** httpRequest, string** staticPage);
 
+/**
+ * \brief checks if the request string contains a valid header end ('\r\n\r\n')
+ * @param strRequest the whole request as string
+ * @param buffer the current buffer data
+ * @param bufferSize the current buffer data size
+ * @return true if end of header was found, otherwise false
+ */
 bool fill_request_string(string *strRequest, char *buffer, size_t bufferSize);
 
 #endif //PSE_HTTP_REQUEST_H

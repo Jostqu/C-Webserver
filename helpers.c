@@ -82,6 +82,20 @@ HTTPMethod get_method_from_string(string *method) {
         return GET;
     else if(string_compare_cstr(method, "POST"))
         return POST;
+    else if (string_startswith_cstr(method, "HEAD"))
+    	return HEAD;
+    else if (string_startswith_cstr(method, "PUT"))
+    	return PUT;
+    else if (string_startswith_cstr(method, "PATCH"))
+	    return PATCH;
+    else if (string_startswith_cstr(method, "DELETE"))
+	    return DELETE;
+    else if (string_startswith_cstr(method, "TRACE"))
+	    return TRACE;
+    else if (string_startswith_cstr(method, "OPTIONS"))
+	    return OPTIONS;
+    else if (string_startswith_cstr(method, "CONNECT"))
+	    return CONNECT;
     else
         return INVALID;
 }
