@@ -1,5 +1,6 @@
 ///
 /// \author Björn Marx
+/// \author Marcel Weski
 /// \date 26/04/19
 /// \file response.h
 ///

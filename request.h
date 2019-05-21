@@ -1,6 +1,7 @@
-//
-// Created by Marcel on 26.04.2019.
-//
+///
+/// \file request.h
+/// \author Marcel Weski
+///
 
 #ifndef PSE_HTTP_REQUEST_H
 #define PSE_HTTP_REQUEST_H
