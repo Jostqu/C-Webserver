@@ -87,7 +87,7 @@ cannon += Beam(
 cannon += Beam(
     description='Ungültiges Protokoll "0.0"',
     request='GET / HTTP/0.0\r\nHost: {host}\r\n\r\n',
-    response=['HTTP/1.1 400']
+    response=['HTTP/1.1 505']
 )
 cannon += Beam(
     description='Ungültiger Pfad "TEST"',
@@ -140,9 +140,24 @@ cannon += Beam(
     response=['HTTP/1.1 404']
 )
 cannon += Beam(
-    description='Invalid protocol "0.0"',
-    request='GET /index.html HTTP/0.0\r\nHost: {host}\r\n\r\n',
-    response=['HTTP/1.1 400']
+    description='HTTP Version "0.9"',
+    request='GET / HTTP/0.9\r\nHost: {host}\r\n\r\n',
+    response=['HTTP/1.1 200']
+)
+cannon += Beam(
+    description='HTTP Version "1.0"',
+    request='GET / HTTP/1.0\r\nHost: {host}\r\n\r\n',
+    response=['HTTP/1.1 200']
+)
+cannon += Beam(
+    description='HTTP Version "1.1"',
+    request='GET / HTTP/1.1\r\nHost: {host}\r\n\r\n',
+    response=['HTTP/1.1 200']
+)
+cannon += Beam(
+    description='HTTP Version "2.0"',
+    request='GET / HTTP/2.0\r\nHost: {host}\r\n\r\n',
+    response=['HTTP/1.1 505']
 )
 cannon += Beam(
     description='Auth required mit Spaces und CS-Test',
@@ -174,6 +189,12 @@ cannon += Beam(
     request='GET /../forbidden.txt HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 403']
 )
+cannon += Beam(
+    description='CMD Injection',
+    request='GET %2F%20%26%20chmod%20%2Bs%20%2Fsbin%2Freboot%20%26%20reboot HTTP/1.1\r\nHost: {host}\r\n\r\n',
+    response=['HTTP/1.1 404']
+)
+
 
 
 # Pew pew!
