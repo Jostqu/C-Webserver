@@ -213,7 +213,7 @@ HttpResponseCode validate_resource(HashList* fields, string *resource, string **
 		string* tmp = string_copy(absolutDocumentRootPath);
 		string_concat_str(tmp, resource);
 
-		// causes 'conditional jump or move depends on uninitialised value' warning (just a false positive)
+		// causes 'conditional jump or move depends on uninitialised value' warning (maybe false positive)
 		if (!isfile(tmp))
 		{
 			string_concat(tmp, "/index.html");

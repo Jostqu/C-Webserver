@@ -104,6 +104,7 @@ bool isfile(string *path)
 {
 	string_terminate(path);
 	struct stat s;
+	s.st_mode = 0;
 	stat(path->buf, &s);
 	return S_ISREG(s.st_mode);
 }
