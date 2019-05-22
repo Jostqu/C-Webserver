@@ -122,7 +122,7 @@ static HttpResponseCode parse_first_line(string* firstHeaderLine, HttpRequest* h
 		{
 			if (httpRequest->version == UNSUPPORTED)
 			{
-				responseCode = BAD_REQUEST;
+				responseCode = VERSION_NOT_SUPPORTED;
 			}
 		}
 	}

@@ -43,6 +43,11 @@ char *code_to_string(HttpResponseCode code) {
 			break;
         }
 
+		case VERSION_NOT_SUPPORTED: {
+			b = "505 HTTP Version not supported";
+			break;
+		}
+
         default:
             break;
     }

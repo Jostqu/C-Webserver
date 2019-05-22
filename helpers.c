@@ -71,7 +71,7 @@ void url_decode(string *str) {
 }
 
 HTTPVersion validate_version(string *ver) {
-    if(string_compare_cstr(ver, "HTTP/1.1"))
+    if(string_compare_cstr(ver, "HTTP/0.9") || string_compare_cstr(ver, "HTTP/1.0") || string_compare_cstr(ver, "HTTP/1.1"))
         return VERSION_1_1;
     else
         return UNSUPPORTED;
