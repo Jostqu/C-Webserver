@@ -201,7 +201,7 @@ cannon += Beam(
 )
 cannon += Beam(
     description='CMD Injection1',
-    request='GET "%2F%22%20shutdown%20-h%20now%22" HTTP/1.1\r\nHost: {host}\r\n\r\n',
+    request='GET %2F%22%20shutdown%20-h%20now%22 HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 404']
 )
 
