@@ -3,6 +3,9 @@
 //
 
 #include "authorization.h"
+#include "hash.h"
+#include "base64.h"
+#include <unistd.h>
 int abfrage_authorizaition (HashList * hashlist ){
     Hash * hash= SHL_find_key_cstr(hashlist,"authorization");
     if (hash){
@@ -16,7 +19,16 @@ int passwort_abfrage_authorizaition(HashList* hashlist) {
 
     // DOTO Passwort überprüfen
 
-    if (/*DOTO  Passwort ok*/ 1){
+    Hash * passwort = SHL_find_key_cstr(hashlist,"authorization");
+    string * pw = string_copy(passwort->value);
+    int splits = 2;
+    string ** split = string_split_cstr(pw," ",&splits);
+    string_free(pw);
+    pw = split[1];
+    char * pwencode= base64_decode(pw->buf,pw->len,&pw->len);
+    string_free_stringlist(split,2);
+    char * p = calloc(sizeof(char),50);
+    if ( 1){
         return 1;
     }
     else{
@@ -24,6 +36,8 @@ int passwort_abfrage_authorizaition(HashList* hashlist) {
     }
 
 }
+
+
 
 int authorizaition (HashList * hashlist){
     int temp = abfrage_authorizaition(hashlist);
