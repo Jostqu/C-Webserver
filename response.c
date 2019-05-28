@@ -1,4 +1,5 @@
 #include "response.h"
+#include "authorization.h"
 
 #define SERVER_NAME "PSE HTTP-Server v1.0"
 #define FILE_BUFFER_SIZE 65536 // 64 kB
@@ -124,10 +125,13 @@ void send_http_response(int targetStream, HttpResponseCode code, string *path, s
 		SHL_append(fields, SH_create(strContentTypeKey, strContentTypeValue));
 
 		if (code == UNAUTHORIZED)
-		{
-			string* strWWWAuthenticateKey = string_new_from_cstr("WWW-Authenticate");
-			string* strWWWAuthenticateValue = string_new_from_cstr("Basic realm=\"Authentication Required\"");
-			SHL_append(fields, SH_create(strWWWAuthenticateKey, strWWWAuthenticateValue));
+		{   if(authorizaition(fields)) {
+
+            }else {
+                string *strWWWAuthenticateKey = string_new_from_cstr("WWW-Authenticate");
+                string *strWWWAuthenticateValue = string_new_from_cstr("Basic realm=\"Authentication Required\"");
+                SHL_append(fields, SH_create(strWWWAuthenticateKey, strWWWAuthenticateValue));
+            }
 		}
 
 		strResponse = build_http_response_header(code, fields);
