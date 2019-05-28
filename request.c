@@ -3,6 +3,7 @@
 //
 
 #include "request.h"
+#include "authorization.h"
 
 #define PATH_CAPACITY 2083
 #define PATH_CAPACITY_ABSOLUTE (PATH_CAPACITY + 200)
@@ -63,7 +64,12 @@ static HttpResponseCode get_directory_from_host_field(HashList* fields, string**
 			}
 			else if (string_compare_cstr(hostFieldParts[0], "intern"))
 			{
-				responseCode = UNAUTHORIZED;
+                if (authorizaition(fields)==1){
+                    *dir = string_new_from_cstr("/intern");
+                }
+                else {
+                    responseCode = UNAUTHORIZED;
+                }
 			}
 			else
 			{
