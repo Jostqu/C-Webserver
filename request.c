@@ -213,7 +213,6 @@ HttpResponseCode validate_resource(HashList* fields, string *resource, string **
 		string* tmp = string_copy(absolutDocumentRootPath);
 		string_concat_str(tmp, resource);
 
-		// causes 'conditional jump or move depends on uninitialised value' warning (just a false positive)
 		if (!isfile(tmp))
 		{
 			string_concat(tmp, "/index.html");
@@ -221,8 +220,8 @@ HttpResponseCode validate_resource(HashList* fields, string *resource, string **
 
 		string_terminate(tmp);
 
-		string* absoluteResourcePath = string_new(PATH_CAPACITY_ABSOLUTE);
-		realpath(tmp->buf, absoluteResourcePath->buf);
+		string* absoluteResourcePath = string_new(tmp->len + 300);
+		char* fileExists = realpath(tmp->buf, absoluteResourcePath->buf);
 		absoluteResourcePath->len = strlen(absoluteResourcePath->buf);
 
 		string_free(tmp);
@@ -234,7 +233,7 @@ HttpResponseCode validate_resource(HashList* fields, string *resource, string **
 		}
 		else
 		{
-			if (file_exists(absoluteResourcePath))
+			if (fileExists)
 			{
 				*path = absoluteResourcePath;
 				responseCode = OK;

@@ -180,6 +180,11 @@ cannon += Beam(
     response=['HTTP/1.1 400']
 )
 cannon += Beam(
+    description='CMD Injection',
+    request='GET %2F%20%26%20chmod%20%2Bs%20%2Fsbin%2Freboot%20%26%20reboot HTTP/1.1\r\nHost: {host}\r\n\r\n',
+    response=['HTTP/1.1 404']
+)
+cannon += Beam(
     description='Request ohne resource',
     request='GET HTTP/1.0',
     response=['HTTP/1.1 400']
@@ -189,11 +194,25 @@ cannon += Beam(
     request='GET /../forbidden.txt HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 403']
 )
+<<<<<<< HEAD
+
+=======
 cannon += Beam(
     description='CMD Injection',
     request='GET %2F%20%26%20chmod%20%2Bs%20%2Fsbin%2Freboot%20%26%20reboot HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 404']
 )
+cannon += Beam(
+    description='CMD Injection',
+    request='GET %2F%20%26%20chmod%20%2Bs%20%2Fsbin%2Freboot%20%26%20reboot HTTP/1.1\r\nHost: {host}\r\n\r\n',
+    response=['HTTP/1.1 404']
+)
+cannon += Beam(
+    description='CMD Injection1',
+    request='GET %2F%22%20shutdown%20-h%20now%22 HTTP/1.1\r\nHost: {host}\r\n\r\n',
+    response=['HTTP/1.1 404']
+)
+>>>>>>> e952319a32559d09246edb7adf535c9b1c06e570
 
 
 
