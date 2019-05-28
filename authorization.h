@@ -6,12 +6,30 @@
 
 #include "hash.h"
 
+/**
+ * Checks whether an authorization header exists
+ * @author Luise
+ * @param hashlist Anfrage
+ * @return bool true / false
+ */
+bool abfrage_authorizaition (HashList * hashlist );
 
-int abfrage_authorizaition (HashList * hashlist );
+/**
+ * Checks if username and password are correct.
+ * @authors Jost, Mark & Luise
+ * @param hashlist Anfrage
+ * @return bool true / false
+ */
+bool passwort_abfrage_authorizaition(HashList* hashlist) ;
 
-int passwort_abfrage_authorizaition(HashList* hashlist) ;
-
-int authorizaition (HashList * hashlist);
+/**
+ *  Checks whether an authorization header exists and if
+ *  username and password are correct.
+ * @author Luise
+ * @param hashlist
+ * @return true / false
+ */
+bool authorizaition (HashList * hashlist);
 
 bool read_pw_list(Hash *hash);
 
