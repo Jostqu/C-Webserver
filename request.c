@@ -64,7 +64,7 @@ static HttpResponseCode get_directory_from_host_field(HashList* fields, string**
 			}
 			else if (string_compare_cstr(hostFieldParts[0], "intern"))
 			{
-                if (authorizaition(fields)==1){
+                if (authorizaition(fields)==true){
                     *dir = string_new_from_cstr("/intern");
                 }
                 else {

@@ -6,19 +6,20 @@
 #include "hash.h"
 #include "base64.h"
 #include <unistd.h>
-int abfrage_authorizaition (HashList * hashlist ){
+
+
+bool abfrage_authorizaition (HashList * hashlist ){
     Hash * hash= SHL_find_key_cstr(hashlist,"authorization");
     if (hash){
-        return 1;
+        return true;
     }
     else
-        return 0;
+        return false;
 }
 
-int passwort_abfrage_authorizaition(HashList* hashlist) {
+bool passwort_abfrage_authorizaition(HashList* hashlist) {
 
-    // DOTO Passwort überprüfen
-
+   /*
     Hash * passwort = SHL_find_key_cstr(hashlist,"authorization");
     string * pw = string_copy(passwort->value);
     int splits = 2;
@@ -28,31 +29,65 @@ int passwort_abfrage_authorizaition(HashList* hashlist) {
     char * pwencode= base64_decode(pw->buf,pw->len,&pw->len);
     string_free_stringlist(split,2);
     char * p = calloc(sizeof(char),50);
-    if ( 1){
-        return 1;
+*/
+    int temp = false; //read_pw_list(hashlist);
+
+    if ( temp == true){
+        return true;
     }
-    else{
-        return 0;
-    }
+     return false;
+
 
 }
 
 
 
-int authorizaition (HashList * hashlist){
+bool authorizaition (HashList * hashlist){
     int temp = abfrage_authorizaition(hashlist);
-    if (temp == 1){
+    if (temp == true){
         temp  = passwort_abfrage_authorizaition (hashlist);
-        if (temp == 1 ) {
-            return 1;
-        }
+       if (temp == true ) {
+            return true;
+        }else {
+           return false;
+       }
     }
-    return 0;
+    return false;
 }
 
+#define PATH_CAPACITY 2083
+#define PATH_CAPACITY_ABSOLUTE (PATH_CAPACITY + 200)
+
+
+#define PATH_CAPACITY 2083
+#define PATH_CAPACITY_ABSOLUTE (PATH_CAPACITY + 200)
+
+string * pw_pfad(){
+    string* ht_passwd_Dir = string_new(PATH_CAPACITY_ABSOLUTE);
+    getcwd(ht_passwd_Dir->buf, PATH_CAPACITY_ABSOLUTE);
+    ht_passwd_Dir->len = strlen(ht_passwd_Dir->buf);
+
+    string_concat(ht_passwd_Dir, "/htpasswd");
+    string_terminate(ht_passwd_Dir);
+
+    string* absolute_Ht_passwd_Dir = string_new(PATH_CAPACITY_ABSOLUTE);
+    realpath(ht_passwd_Dir->buf, absolute_Ht_passwd_Dir->buf);
+    absolute_Ht_passwd_Dir->len = strlen(absolute_Ht_passwd_Dir->buf);
+
+    string_free(ht_passwd_Dir);
+
+    return absolute_Ht_passwd_Dir;
+}
 
 void read_pw_list(Hash *hash){
-    FILE *pw = fopen("","r");
+
+    string * pw_list_pfad_st = pw_pfad();
+    string * pw_list_pfad = string_terminate(pw_list_pfad_st);
+    string_free(pw_list_pfad_st);
+
+    FILE *pw = fopen(pw_list_pfad->buf,"r");
+    string_free(pw_list_pfad);
+
     int tmp;
     int exit = 0;
     if (pw == NULL) {
