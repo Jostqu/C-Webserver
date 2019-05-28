@@ -35,3 +35,44 @@ int authorizaition (HashList * hashlist){
     }
     return 0;
 }
+
+
+void read_pw_list(Hash *hash){
+    FILE *pw = fopen("","r");
+    int tmp;
+    int exit = 0;
+    if (pw == NULL) {
+        printf("Datei konnte nicht geoeffnet werden.\n");
+    } else {
+        string *name_str = string_new(255);
+
+        while((tmp = fgetc(pw))!=EOF && exit == 0){
+            string *tmp_str = int_to_string(tmp);
+
+            switch(tmp){
+                case 10: // New Line
+                    break;
+
+                case 58: // :
+                    if (string_compare(hash->key,name_str)){
+                        int pw_tmp;
+                        string *pw_str = string_new(255);
+
+                        while ((pw_tmp = fgetc(pw)) != EOF && pw_tmp != 10){
+
+                        }
+                    } else{
+
+                    }
+                    break;
+
+                default:
+                    string_concat_str(name_str,tmp_str);
+                    break;
+            }
+
+            string_free(tmp_str);
+        }
+    }
+    fclose(pw);
+}

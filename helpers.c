@@ -1,4 +1,5 @@
 #include "helpers.h"
+#include "hash.h"
 
 //thanks to "man popen" and marcel for the idea of using it
 string *get_content_type(char *path) {
@@ -127,3 +128,4 @@ long get_file_size(FILE *fp)
 
 	return fileSize;
 }
+
