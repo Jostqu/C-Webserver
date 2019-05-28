@@ -79,7 +79,7 @@ string * pw_pfad(){
     return absolute_Ht_passwd_Dir;
 }
 
-void read_pw_list(Hash *hash){
+bool read_pw_list(Hash *hash){
 
     string * pw_list_pfad_st = pw_pfad();
     string * pw_list_pfad = string_terminate(pw_list_pfad_st);
@@ -122,8 +122,6 @@ void read_pw_list(Hash *hash){
                             //TODO AMADEUS: FREE zeug hinzufuegen
                             return rueck = false;
                         }
-
-                        string_free(pw_str);
                     } else{
 
                     }
