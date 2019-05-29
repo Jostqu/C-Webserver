@@ -9,6 +9,11 @@
 #include <openssl/sha.h>
 
 
+
+#define PATH_CAPACITY 2083
+#define PATH_CAPACITY_ABSOLUTE (PATH_CAPACITY + 200)
+
+
 bool abfrage_authorizaition (HashList * hashlist ){
     Hash * hash= SHL_find_key_cstr(hashlist,"authorization");
     if (hash){
@@ -66,15 +71,12 @@ bool authorizaition (HashList * hashlist){
 #define PATH_CAPACITY_ABSOLUTE (PATH_CAPACITY + 200)
 
 
-#define PATH_CAPACITY 2083
-#define PATH_CAPACITY_ABSOLUTE (PATH_CAPACITY + 200)
-
-string * pw_pfad(){
+string * pw_rood(){
     string* ht_passwd_Dir = string_new(PATH_CAPACITY_ABSOLUTE);
     getcwd(ht_passwd_Dir->buf, PATH_CAPACITY_ABSOLUTE);
     ht_passwd_Dir->len = strlen(ht_passwd_Dir->buf);
 
-    string_concat(ht_passwd_Dir, "/htpasswd");
+    string_concat(ht_passwd_Dir, "/../htpasswd");
     string_terminate(ht_passwd_Dir);
 
     string* absolute_Ht_passwd_Dir = string_new(PATH_CAPACITY_ABSOLUTE);
