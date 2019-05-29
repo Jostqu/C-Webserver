@@ -9,6 +9,7 @@
 #include <sys/socket.h> // struct sockaddr_in, socket, setsockopt, bind, listen, socklen_t, accept
 #include <unistd.h> // read, write, close
 #include <poll.h>
+#include <openssl/sha.h>
 #include "request.h"
 #include "response.h"
 #include "tests.h"

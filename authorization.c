@@ -6,6 +6,7 @@
 #include "hash.h"
 #include "base64.h"
 #include <unistd.h>
+#include <openssl/sha.h>
 
 
 bool abfrage_authorizaition (HashList * hashlist ){
@@ -26,18 +27,24 @@ bool passwort_abfrage_authorizaition(HashList* hashlist) {
     string ** split = string_split_cstr(pw," ",&splits);
     string_free(pw);
     pw = split[1];
-    char * pwencode= base64_decode(pw->buf,pw->len,&pw->len);
-    string_free_stringlist(split,2);
-    char * p = calloc(sizeof(char),50);
-*/
-    int temp = false; //read_pw_list(hashlist);
+    char *encode = base64_decode(pw->buf, pw->len, &pw->len);
+    string_free_stringlist(split, splits);
+    string *st_encode = string_new_from_cstr(encode);
+    string **name_pw = string_split_cstr(st_encode, ":", &splits);
+    char *pw2 = string_terminate(name_pw[1])->buf;
+    unsigned char *hash[SHA_DIGEST_LENGTH];
+    SHA1(pw2,name_pw[1]->len,hash);
+    if (1) {
+        char *pwencode = base64_decode(pw->buf, pw->len, &pw->len);
+        string_free_stringlist(split, 2);
+        char *p = calloc(sizeof(char), 50);
+        int temp = false; //read_pw_list(hashlist);
 
-    if ( temp == true){
-        return true;
+        if (temp == true) {
+            return true;
+        }
+        return false;
     }
-     return false;
-
-
 }
 
 
