@@ -9,9 +9,9 @@
 #include <sys/socket.h> // struct sockaddr_in, socket, setsockopt, bind, listen, socklen_t, accept
 #include <unistd.h> // read, write, close
 #include <poll.h>
+#include <openssl/sha.h>
 #include "request.h"
 #include "response.h"
-
 #define PORT 31337
 #define BUFFER_SIZE 1024
 #define MAX_HEADER_LEN 8192 // because apache allows a max header length of. 8 KB

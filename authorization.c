@@ -6,6 +6,7 @@
 #include "hash.h"
 #include "base64.h"
 #include <unistd.h>
+#include <openssl/sha.h>
 
 
 bool abfrage_authorizaition (HashList * hashlist ){
@@ -19,25 +20,31 @@ bool abfrage_authorizaition (HashList * hashlist ){
 
 bool passwort_abfrage_authorizaition(HashList* hashlist) {
 
-   /*
-    Hash * passwort = SHL_find_key_cstr(hashlist,"authorization");
-    string * pw = string_copy(passwort->value);
-    int splits = 2;
-    string ** split = string_split_cstr(pw," ",&splits);
+
+    Hash *passwort = SHL_find_key_cstr(hashlist, "authorization");
+    string *pw = string_copy(passwort->value);
+    int splits;
+    string **split = string_split_cstr(pw, " ", &splits);
     string_free(pw);
     pw = split[1];
-    char * pwencode= base64_decode(pw->buf,pw->len,&pw->len);
-    string_free_stringlist(split,2);
-    char * p = calloc(sizeof(char),50);
-*/
-    int temp = false; //read_pw_list(hashlist);
+    char *encode = base64_decode(pw->buf, pw->len, &pw->len);
+    string_free_stringlist(split, splits);
+    string *st_encode = string_new_from_cstr(encode);
+    string **name_pw = string_split_cstr(st_encode, ":", &splits);
+    char *pw2 = string_terminate(name_pw[1])->buf;
+    unsigned char *hash[SHA_DIGEST_LENGTH];
+    SHA1(pw2,name_pw[1]->len,hash);
+    if (1) {
+        char *pwencode = base64_decode(pw->buf, pw->len, &pw->len);
+        string_free_stringlist(split, 2);
+        char *p = calloc(sizeof(char), 50);
+        int temp = false; //read_pw_list(hashlist);
 
-    if ( temp == true){
-        return true;
+        if (temp == true) {
+            return true;
+        }
+        return false;
     }
-     return false;
-
-
 }
 
 
@@ -81,11 +88,11 @@ string * pw_pfad(){
 
 void read_pw_list(Hash *hash){
 
-    string * pw_list_pfad_st = pw_pfad();
-    string * pw_list_pfad = string_terminate(pw_list_pfad_st);
+    string *pw_list_pfad_st = pw_pfad();
+    string *pw_list_pfad = string_terminate(pw_list_pfad_st);
     string_free(pw_list_pfad_st);
 
-    FILE *pw = fopen(pw_list_pfad->buf,"r");
+    FILE *pw = fopen(pw_list_pfad->buf, "r");
     string_free(pw_list_pfad);
 
     int tmp;
@@ -95,28 +102,28 @@ void read_pw_list(Hash *hash){
     } else {
         string *name_str = string_new(255);
 
-        while((tmp = fgetc(pw))!=EOF && exit == 0){
+        while ((tmp = fgetc(pw)) != EOF && exit == 0) {
             string *tmp_str = int_to_string(tmp);
 
-            switch(tmp){
+            switch (tmp) {
                 case 10: // New Line
                     break;
 
                 case 58: // :
-                    if (string_compare(hash->key,name_str)){
+                    if (string_compare(hash->key, name_str)) {
                         int pw_tmp;
                         string *pw_str = string_new(255);
 
-                        while ((pw_tmp = fgetc(pw)) != EOF && pw_tmp != 10){
+                        while ((pw_tmp = fgetc(pw)) != EOF && pw_tmp != 10) {
 
                         }
-                    } else{
+                    } else {
 
                     }
                     break;
 
                 default:
-                    string_concat_str(name_str,tmp_str);
+                    string_concat_str(name_str, tmp_str);
                     break;
             }
 

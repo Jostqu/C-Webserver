@@ -5,6 +5,7 @@
 #ifndef PSE20_AUTHORIZATION_H
 
 #include "hash.h"
+#include <openssl/sha.h>
 
 /**
  * Checks whether an authorization header exists
