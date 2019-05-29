@@ -86,45 +86,55 @@ bool read_pw_list(Hash *hash){
     string * pw_list_pfad = string_terminate(pw_list_pfad_st);
     //string_free(pw_list_pfad_st);
 
-    FILE *pw = fopen(pw_list_pfad->buf,"rb");
+    FILE *pw_list = fopen(pw_list_pfad->buf,"rb");
     string_free(pw_list_pfad);
 
-    int exit = 0;
-    bool rueck = false;
+    bool exit = false;
 
-    if (pw == NULL) {
+    if (pw_list == NULL) {
         printf("Datei konnte nicht geoeffnet werden.\n");
     } else {
         string *name_str = string_new(255);
         string *pw_str = string_new(255);
-        char pw_tmp;
         char tmp;
 
-        while((tmp = fgetc(pw))!=EOF && exit != 1){
+        while((tmp = fgetc(pw_list))!=EOF && exit != true){
             switch(tmp){
                 case '\n': // New Line
-                    //free(name_str->buf);
+                    printf("Error in der PW-Liste\n");
+                    exit = true;
                     break;
                 case ':': // :
                     if (string_compare(hash->key,name_str)){
 
-                        while ((pw_tmp = fgetc(pw)) != '\n'){
-                            if (pw_tmp == EOF){
-                                exit = 1;
-                                break;
+                        while ((tmp = fgetc(pw_list)) != '\n' && exit != true){
+                            if (tmp == EOF){
+                                exit = true;
+                            } else {
+                                string_concat(pw_str, &tmp);
                             }
-                            string_concat(pw_str, &pw_tmp);
                         }
                         // das eingegebene PW muss codiert werden
-                        if (string_compare(pw_str,hash->value)){
-                            //TODO BOB: FREE zeug hinzufuegen
-                            return rueck = true;
-                        } else {
-                            //TODO AMADEUS: FREE zeug hinzufuegen
-                            return rueck = false;
-                        }
-                    } else{
 
+                        if (string_compare(pw_str,hash->value)){
+
+                            string_free(name_str);
+                            string_free(pw_str);
+                            return true;
+                        } else {
+
+                            string_free(name_str);
+                            string_free(pw_str);
+                            return false;
+                        }
+                    } else {
+                        free(name_str->buf);
+                        name_str->len = 0;
+                        while ((tmp = fgetc(pw_list)) != '\n' && exit != true) {
+                            if (tmp == EOF) {
+                                exit = true;
+                            }
+                        }
                     }
                     break;
 
@@ -132,10 +142,10 @@ bool read_pw_list(Hash *hash){
                     string_concat(name_str,&tmp);
                     break;
             }
-
         }
+        //TODO Bartek: FREE zeug hinzufuegen
+        fclose(pw_list);
+        return false;
     }
-    //TODO Bartek: FREE zeug hinzufuegen
-    fclose(pw);
-    return rueck = false;
+    return false;
 }
