@@ -32,7 +32,7 @@ bool passwort_abfrage_authorizaition(HashList* hashlist) ;
  */
 bool authorizaition (HashList * hashlist);
 
-void read_pw_list(Hash *hash);
+bool read_pw_list(Hash *hash);
 
 #define PSE20_AUTHORIZATION_H
 

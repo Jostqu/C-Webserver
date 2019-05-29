@@ -24,6 +24,8 @@ void test_string_insert();
 
 void test_string_split_string();
 
+void test_read_pw_list();
 
+void test_str_free();
 
 #endif //PSE20_TESTS_H

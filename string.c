@@ -159,6 +159,15 @@ string* int_to_string(int i) {
     return str;
 }
 
+char* int_to_Ascii_char(int i) {
+
+    char* ascii;
+
+    sprintf(ascii, "%c", i);
+
+    return ascii;
+}
+
 string **string_split(string *str, char splitter, int* splits) {
     if(!str || !splits)
         return NULL;

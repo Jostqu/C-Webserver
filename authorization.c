@@ -20,11 +20,11 @@ bool abfrage_authorizaition (HashList * hashlist ){
 
 bool passwort_abfrage_authorizaition(HashList* hashlist) {
 
-
-    Hash *passwort = SHL_find_key_cstr(hashlist, "authorization");
-    string *pw = string_copy(passwort->value);
-    int splits;
-    string **split = string_split_cstr(pw, " ", &splits);
+   /*
+    Hash * passwort = SHL_find_key_cstr(hashlist,"authorization");
+    string * pw = string_copy(passwort->value);
+    int splits = 2;
+    string ** split = string_split_cstr(pw," ",&splits);
     string_free(pw);
     pw = split[1];
     char *encode = base64_decode(pw->buf, pw->len, &pw->len);
@@ -86,49 +86,63 @@ string * pw_pfad(){
     return absolute_Ht_passwd_Dir;
 }
 
-void read_pw_list(Hash *hash){
+bool read_pw_list(Hash *hash){
 
-    string *pw_list_pfad_st = pw_pfad();
-    string *pw_list_pfad = string_terminate(pw_list_pfad_st);
-    string_free(pw_list_pfad_st);
+    //string * pw_list_pfad_st = pw_pfad();
+    string *pw_list_pfad_st = string_new_from_cstr("/home/bob/Dokumente/pwlist");
+    string * pw_list_pfad = string_terminate(pw_list_pfad_st);
+    //string_free(pw_list_pfad_st);
 
-    FILE *pw = fopen(pw_list_pfad->buf, "r");
+    FILE *pw = fopen(pw_list_pfad->buf,"rb");
     string_free(pw_list_pfad);
 
-    int tmp;
     int exit = 0;
+    bool rueck = false;
+
     if (pw == NULL) {
         printf("Datei konnte nicht geoeffnet werden.\n");
     } else {
         string *name_str = string_new(255);
+        string *pw_str = string_new(255);
+        char pw_tmp;
+        char tmp;
 
-        while ((tmp = fgetc(pw)) != EOF && exit == 0) {
-            string *tmp_str = int_to_string(tmp);
-
-            switch (tmp) {
-                case 10: // New Line
+        while((tmp = fgetc(pw))!=EOF && exit != 1){
+            switch(tmp){
+                case '\n': // New Line
+                    //free(name_str->buf);
                     break;
+                case ':': // :
+                    if (string_compare(hash->key,name_str)){
 
-                case 58: // :
-                    if (string_compare(hash->key, name_str)) {
-                        int pw_tmp;
-                        string *pw_str = string_new(255);
-
-                        while ((pw_tmp = fgetc(pw)) != EOF && pw_tmp != 10) {
-
+                        while ((pw_tmp = fgetc(pw)) != '\n'){
+                            if (pw_tmp == EOF){
+                                exit = 1;
+                                break;
+                            }
+                            string_concat(pw_str, &pw_tmp);
                         }
-                    } else {
+                        // das eingegebene PW muss codiert werden
+                        if (string_compare(pw_str,hash->value)){
+                            //TODO BOB: FREE zeug hinzufuegen
+                            return rueck = true;
+                        } else {
+                            //TODO AMADEUS: FREE zeug hinzufuegen
+                            return rueck = false;
+                        }
+                    } else{
 
                     }
                     break;
 
                 default:
-                    string_concat_str(name_str, tmp_str);
+                    string_concat(name_str,&tmp);
                     break;
             }
 
-            string_free(tmp_str);
         }
     }
+    //TODO Bartek: FREE zeug hinzufuegen
     fclose(pw);
+    return rueck = false;
 }
