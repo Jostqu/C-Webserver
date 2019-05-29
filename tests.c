@@ -79,6 +79,7 @@ void test_string_split(){
 }
 
 #include "helpers.h"
+#include "authorization.h"
 
 void test_get_ctype() {
     string* type = get_content_type("/home/bjoern/Desktop/LMAO");
@@ -118,4 +119,25 @@ void test_string_split_string(){
 
     string_free(str);
     free(arr);
+}
+
+void test_read_pw_list(){
+    Hash hash = SH_create(string_new_from_cstr("test"),string_new_from_cstr("pwpwpwpw"));
+        if (read_pw_list(&hash)){
+            printf("geschafft\n");
+        } else {
+            printf(("Jo diggi, da musst du aber nochmal draufschauen\n"));
+        }
+}
+
+void test_str_free(){
+    int tmp = 1;
+    string *test_str = string_new(255);
+        while(tmp != 150){
+            string_free(test_str);
+            test_str = int_to_string(tmp);
+            printf("%s\n",test_str->buf);
+            tmp++;
+        }
+    string_free(test_str);
 }
