@@ -19,6 +19,13 @@
 bool abfrage_authorizaition (HashList * hashlist );
 
 /**
+ * verschlüsselung das Passworts
+ * @param hashlist
+ * @return
+ */
+bool passwort_abfrage_authorizaition(HashList* hashlist);
+
+/**
  * Checks if username and password are correct.
  * @authors Jost, Mark
  * @param hash request :authorizaition head
