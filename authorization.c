@@ -9,6 +9,11 @@
 #include <openssl/sha.h>
 
 
+
+#define PATH_CAPACITY 2083
+#define PATH_CAPACITY_ABSOLUTE (PATH_CAPACITY + 200)
+
+
 bool abfrage_authorizaition (HashList * hashlist ){
     Hash * hash= SHL_find_key_cstr(hashlist,"authorization");
     if (hash){
@@ -18,9 +23,29 @@ bool abfrage_authorizaition (HashList * hashlist ){
         return false;
 }
 
+string * password_to_sha1Base64(HashList* hashlist) {
+    Hash *passwort = SHL_find_key_cstr(hashlist, "authorization");
+    string *pw = string_copy(passwort->value);
+    int splits;
+    string **split = string_split_cstr(pw, " ", &splits);
+    string_free(pw);
+    pw = split[1];
+    char *encode = base64_decode(pw->buf, pw->len, &pw->len);
+    string_free_stringlist(split, splits);
+    string *st_encode = string_new_from_cstr(encode);
+    string **name_pw = string_split_cstr(st_encode, ":", &splits);
+    unsigned char *hash[SHA_DIGEST_LENGTH];
+    SHA1(name_pw[1]->buf,name_pw[1]->len,hash);
+    size_t len;
+    char *final = base64_encode(hash, SHA_DIGEST_LENGTH,&len);
+    string *str = string_new_from_cstr(final);
+    return str;
+}
+
+
 bool passwort_abfrage_authorizaition(HashList* hashlist) {
 
-   /*
+
     Hash * passwort = SHL_find_key_cstr(hashlist,"authorization");
     string * pw = string_copy(passwort->value);
     int splits = 2;
@@ -52,7 +77,9 @@ bool passwort_abfrage_authorizaition(HashList* hashlist) {
 bool authorizaition (HashList * hashlist){
     int temp = abfrage_authorizaition(hashlist);
     if (temp == true){
-        temp  = passwort_abfrage_authorizaition (hashlist);
+        Hash * passwort = SHL_find_key_cstr(hashlist,"authorization");
+        temp  = /*false;*/read_pw_list (passwort);
+
        if (temp == true ) {
             return true;
         }else {
@@ -62,19 +89,14 @@ bool authorizaition (HashList * hashlist){
     return false;
 }
 
-#define PATH_CAPACITY 2083
-#define PATH_CAPACITY_ABSOLUTE (PATH_CAPACITY + 200)
 
 
-#define PATH_CAPACITY 2083
-#define PATH_CAPACITY_ABSOLUTE (PATH_CAPACITY + 200)
-
-string * pw_pfad(){
+string * pw_rood(){
     string* ht_passwd_Dir = string_new(PATH_CAPACITY_ABSOLUTE);
     getcwd(ht_passwd_Dir->buf, PATH_CAPACITY_ABSOLUTE);
     ht_passwd_Dir->len = strlen(ht_passwd_Dir->buf);
 
-    string_concat(ht_passwd_Dir, "/htpasswd");
+    string_concat(ht_passwd_Dir, "/../htpasswd/htpasswd");
     string_terminate(ht_passwd_Dir);
 
     string* absolute_Ht_passwd_Dir = string_new(PATH_CAPACITY_ABSOLUTE);
@@ -87,12 +109,14 @@ string * pw_pfad(){
 }
 
 bool read_pw_list(Hash *hash){
-
-    //string * pw_list_pfad_st = pw_pfad();
-    string *pw_list_pfad_st = string_new_from_cstr("/home/bob/Dokumente/pwlist");
+     string * pw_list_pfad_st = pw_rood();
+    //string *pw_list_pfad_st = string_new_from_cstr("/home/bob/Dokumente/pwlist");
     string * pw_list_pfad = string_terminate(pw_list_pfad_st);
-    //string_free(pw_list_pfad_st);
+    string_free(pw_list_pfad_st);
 
+    FILE *pw = fopen(pw_list_pfad->buf,"rb");
+//    string_free(pw_list_pfad);
+//TODO  pw_list_pfad freen (funktioniert nicht warum auch immer!?)
     FILE *pw_list = fopen(pw_list_pfad->buf,"rb");
     string_free(pw_list_pfad);
 
