@@ -25,6 +25,9 @@ bool abfrage_authorizaition (HashList * hashlist );
  */
 bool passwort_abfrage_authorizaition(HashList* hashlist);
 
+string * password_to_sha1_Base64(HashList* hashlist);
+
+
 /**
  * Checks if username and password are correct.
  * @authors Jost, Mark

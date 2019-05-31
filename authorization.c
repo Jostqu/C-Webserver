@@ -23,6 +23,25 @@ bool abfrage_authorizaition (HashList * hashlist ){
         return false;
 }
 
+string * password_to_sha1Base64(HashList* hashlist) {
+    Hash *passwort = SHL_find_key_cstr(hashlist, "authorization");
+    string *pw = string_copy(passwort->value);
+    int splits;
+    string **split = string_split_cstr(pw, " ", &splits);
+    string_free(pw);
+    pw = split[1];
+    char *encode = base64_decode(pw->buf, pw->len, &pw->len);
+    string_free_stringlist(split, splits);
+    string *st_encode = string_new_from_cstr(encode);
+    string **name_pw = string_split_cstr(st_encode, ":", &splits);
+    unsigned char *hash[SHA_DIGEST_LENGTH];
+    SHA1(name_pw[1], name_pw[1]->len, hash);
+    char *final = base64_encode(hash, strlen(hash), strlen(hash));
+    string *str = string_new_from_cstr(final);
+    return str;
+}
+
+
 bool passwort_abfrage_authorizaition(HashList* hashlist) {
 
 
