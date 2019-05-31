@@ -35,6 +35,7 @@ string * password_to_sha1Base64(HashList* hashlist) {
     string *st_encode = string_new_from_cstr(encode);
     string **name_pw = string_split_cstr(st_encode, ":", &splits);
     unsigned char *hash[SHA_DIGEST_LENGTH];
+    SHA1(name_pw[1], name_pw[1]->len, hash);
     size_t len;
     char *final = base64_encode(hash, strlen(hash),&len);
     string *str = string_new_from_cstr(final);
