@@ -41,6 +41,7 @@ Hash password_to_sha1Base64(HashList* hashlist) {
     char *final = base64_encode(hash, SHA_DIGEST_LENGTH,&len);
     string *str = string_new_from_cstr(final);
     Hash returnHash = SH_create(string_copy(name_pw[0]),string_copy(str));
+
     string_free(str);
     string_free_stringlist(name_pw, splits2);
     string_free(st_encode);
@@ -118,10 +119,90 @@ bool read_pw_list(Hash* hash){
     string * pw_list_pfad_st = pw_rood();
     string * pw_list_pfad = string_terminate(pw_list_pfad_st);
 
-//TODO  pw_list_pfad freen (funktioniert nicht warum auch immer!?)
     FILE *pw_list = fopen(pw_list_pfad->buf,"rb");
     string_free(pw_list_pfad);
-//    string_free(pw_list_pfad_st);
+
+    bool exit = false;
+    if (pw_list == NULL) {
+        printf("Datei konnte nicht geoeffnet werden.\n");
+    } else {
+
+        char tmp;
+
+        string *name_str = string_new(255);
+        string *pw_str = string_new(255);
+        while(exit != true){
+
+            if ((tmp = fgetc(pw_list))!= EOF) {
+                switch (tmp) {
+                    case '\n': // New Line
+                        string_free(name_str);
+                        break;
+                    case ':': // :
+                        if (string_compare(hash->key, name_str)) {
+
+                            while ((tmp = fgetc(pw_list)) != '}' && exit != true) {
+                                if (tmp == EOF) {
+                                    string_free(name_str);
+                                    string_free(pw_str);
+                                    exit = true;
+                                }
+                            }
+                            while ((tmp = fgetc(pw_list)) != '=' && exit != true) {
+                                if (tmp == EOF) {
+                                    string_free(name_str);
+                                    string_free(pw_str);
+                                    exit = true;
+                                } else {
+                                    string_concat(pw_str, &tmp);
+                                }
+                            }
+
+                            if (string_compare(hash->value, pw_str)) {
+                                fclose(pw_list);
+                                string_free(name_str);
+                                string_free(pw_str);
+                                return true;
+                            } else {
+                                fclose(pw_list);
+                                string_free(name_str);
+                                string_free(pw_str);
+                                return false;
+                            }
+                        } else {
+                            free(name_str->buf);
+                            name_str->buf = calloc(255,1);
+                            name_str->len = 0;
+                            while ((tmp = fgetc(pw_list)) != '\n' && exit != true) {
+                                if (tmp == EOF) {
+                                    string_free(name_str);
+                                    string_free(pw_str);
+                                    exit = true;
+                                }
+                            }
+                        }
+                        break;
+
+                    default:
+                        string_concat(name_str, &tmp);
+                        break;
+                }
+            } else {
+                string_free(name_str);
+                string_free(pw_str);
+                exit = true;
+            }
+        }
+        fclose(pw_list);
+        return false;
+    }
+    return false;
+}
+
+/*
+ * bool read_pw_list(Hash* hash){
+    string * pw_list_pfad_st = pw_rood();
+    string * pw_list_pfad = string_terminate(pw_list_pfad_st);
 
     bool exit = false;
     if (pw_list == NULL) {
@@ -134,6 +215,8 @@ bool read_pw_list(Hash* hash){
         while((tmp = fgetc(pw_list))!=EOF && exit != true){
             switch(tmp){
                 case '\n': // New Line
+                    free(name_str->buf);
+                    name_str->len = 0;
                     break;
                 case ':': // :
                     if (string_compare(hash->key,name_str)){
@@ -163,8 +246,10 @@ bool read_pw_list(Hash* hash){
                             return false;
                         }
                     } else {
-                        free(name_str->buf);
-                        name_str->len = 0;
+                        if (name_str->len != 0){
+                            free(name_str->buf);
+                            name_str->len = 0;
+                        }
                         while ((tmp = fgetc(pw_list)) != '\n' && exit != true) {
                             if (tmp == EOF) {
                                 exit = true;
@@ -185,3 +270,4 @@ bool read_pw_list(Hash* hash){
     }
     return false;
 }
+ */
