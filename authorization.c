@@ -23,25 +23,33 @@ bool abfrage_authorizaition (HashList * hashlist ){
         return false;
 }
 
-string * password_to_sha1Base64(HashList* hashlist) {
+Hash password_to_sha1Base64(HashList* hashlist) {
     Hash *passwort = SHL_find_key_cstr(hashlist, "authorization");
+
     string *pw = string_copy(passwort->value);
-    int splits;
-    string **split = string_split_cstr(pw, " ", &splits);
+    int splits1;
+    int splits2;
+    string **split = string_split_cstr(pw, " ", &splits1);
     string_free(pw);
     pw = split[1];
-    char *encode = base64_decode(pw->buf, pw->len, &pw->len);
-    string_free_stringlist(split, splits);
+    unsigned char *encode = base64_decode(pw->buf, pw->len, &pw->len);
     string *st_encode = string_new_from_cstr(encode);
-    string **name_pw = string_split_cstr(st_encode, ":", &splits);
+    string **name_pw = string_split_cstr(st_encode, ":", &splits2);
     unsigned char *hash[SHA_DIGEST_LENGTH];
     SHA1(name_pw[1]->buf,name_pw[1]->len,hash);
     size_t len;
     char *final = base64_encode(hash, SHA_DIGEST_LENGTH,&len);
     string *str = string_new_from_cstr(final);
-    return str;
+    Hash returnHash = SH_create(string_copy(name_pw[0]),string_copy(str));
+    string_free(str);
+    string_free_stringlist(name_pw, splits2);
+    string_free(st_encode);
+    string_free_stringlist(split, splits1);
+    //string_free(pw);
+    free(final);
+    free(encode);
+    return returnHash;
 }
-
 
 bool passwort_abfrage_authorizaition(HashList* hashlist) {
 
@@ -72,14 +80,14 @@ bool passwort_abfrage_authorizaition(HashList* hashlist) {
     }
 }
 
-
-
 bool authorizaition (HashList * hashlist){
     int temp = abfrage_authorizaition(hashlist);
     if (temp == true){
-        Hash * passwort = SHL_find_key_cstr(hashlist,"authorization");
-        temp  = /*false;*/read_pw_list (passwort);
-
+        Hash  passwort = password_to_sha1Base64(hashlist);
+        temp  = read_pw_list (&passwort);
+            string_free(passwort.key);
+            string_free(passwort.value);
+//            free(&passwort);
        if (temp == true ) {
             return true;
         }else {
@@ -88,8 +96,6 @@ bool authorizaition (HashList * hashlist){
     }
     return false;
 }
-
-
 
 string * pw_rood(){
     string* ht_passwd_Dir = string_new(PATH_CAPACITY_ABSOLUTE);
@@ -108,20 +114,16 @@ string * pw_rood(){
     return absolute_Ht_passwd_Dir;
 }
 
-bool read_pw_list(Hash *hash){
-     string * pw_list_pfad_st = pw_rood();
-    //string *pw_list_pfad_st = string_new_from_cstr("/home/bob/Dokumente/pwlist");
+bool read_pw_list(Hash* hash){
+    string * pw_list_pfad_st = pw_rood();
     string * pw_list_pfad = string_terminate(pw_list_pfad_st);
-    string_free(pw_list_pfad_st);
 
-    FILE *pw = fopen(pw_list_pfad->buf,"rb");
-//    string_free(pw_list_pfad);
 //TODO  pw_list_pfad freen (funktioniert nicht warum auch immer!?)
     FILE *pw_list = fopen(pw_list_pfad->buf,"rb");
     string_free(pw_list_pfad);
+//    string_free(pw_list_pfad_st);
 
     bool exit = false;
-
     if (pw_list == NULL) {
         printf("Datei konnte nicht geoeffnet werden.\n");
     } else {
@@ -132,28 +134,30 @@ bool read_pw_list(Hash *hash){
         while((tmp = fgetc(pw_list))!=EOF && exit != true){
             switch(tmp){
                 case '\n': // New Line
-                    printf("Error in der PW-Liste\n");
-                    exit = true;
                     break;
                 case ':': // :
                     if (string_compare(hash->key,name_str)){
 
-                        while ((tmp = fgetc(pw_list)) != '\n' && exit != true){
+                        while ((tmp = fgetc(pw_list)) != '}' && exit != true){
+                            if (tmp == EOF){
+                                exit = true;
+                            }
+                        }
+                        while ((tmp = fgetc(pw_list)) != '=' && exit != true){
                             if (tmp == EOF){
                                 exit = true;
                             } else {
                                 string_concat(pw_str, &tmp);
                             }
                         }
-                        // das eingegebene PW muss codiert werden
 
-                        if (string_compare(pw_str,hash->value)){
-
+                        if (string_compare(hash->value,pw_str)){
+                            fclose(pw_list);
                             string_free(name_str);
                             string_free(pw_str);
                             return true;
                         } else {
-
+                            fclose(pw_list);
                             string_free(name_str);
                             string_free(pw_str);
                             return false;
@@ -174,7 +178,8 @@ bool read_pw_list(Hash *hash){
                     break;
             }
         }
-        //TODO Bartek: FREE zeug hinzufuegen
+        string_free(name_str);
+        string_free(pw_str);
         fclose(pw_list);
         return false;
     }

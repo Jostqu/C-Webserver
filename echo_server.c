@@ -270,13 +270,13 @@ int main(int argc, char *argv[]) {
 //    test_string_insert();
 //    test_string_split_string();
 //    test_str_free();
-    test_read_pw_list();
+//    test_read_pw_list();
 
     (void)argc;
     (void)argv;
     register_signal();
     const int sockfd = setup_socket();
-    //main_loop(sockfd);
+    main_loop(sockfd);
 
     return 0;
 }

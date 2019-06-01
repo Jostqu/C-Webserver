@@ -25,14 +25,13 @@ bool abfrage_authorizaition (HashList * hashlist );
  */
 bool passwort_abfrage_authorizaition(HashList* hashlist);
 
-string * password_to_sha1_Base64(HashList* hashlist);
+Hash password_to_sha1_Base64(HashList* hashlist);
 
 
 /**
  * Checks if username and password are correct.
  * @authors Jost, Mark
- * @param hash request :authorizaition head
- * @return bool : true / false
+
  */
 bool read_pw_list(Hash *hash);
 
@@ -43,6 +42,7 @@ bool read_pw_list(Hash *hash);
  */
 string * pw_rood();
 
+bool check_char_by_sh1_base64_char(string *pwcheck,string *pwtrue);
 /**
  *  Checks whether an authorization header exists and if
  *  username and password are correct.
