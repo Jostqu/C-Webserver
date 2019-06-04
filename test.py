@@ -131,7 +131,7 @@ cannon += Beam(
 )
 cannon += Beam(
     description='Statt Host nur : CR',
-    request='GET /HTTP/1.1\r\n: \r',
+    request='GET / HTTP/1.1\r\n: \r',
     response=['HTTP/1.1 400']
 )
 cannon += Beam(
@@ -171,7 +171,7 @@ cannon += Beam(
 )
 cannon += Beam(
     description='Request that contains \'GET GET GET\'',
-    request='GET GET GET',
+    request='GET GET GET\r\n\r\n',
     response=['HTTP/1.1 400']
 )
 cannon += Beam(

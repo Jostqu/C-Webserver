@@ -24,14 +24,20 @@ bool abfrage_authorizaition (HashList * hashlist );
  * @return
  */
 bool passwort_abfrage_authorizaition(HashList* hashlist);
-
-Hash password_to_sha1_Base64(HashList* hashlist);
+/**
+ *
+ * @param hashlist
+ * @return hash that contains the name(clear text) as the key, and the password (SHA1 encoded) as the value
+ */
+Hash password_to_sha1Base64(HashList* hashlist);
 
 
 /**
- * Checks if username and password are correct.
- * @authors Jost, Mark
-
+ * Checks if username and password are a correct pair.
+ * @authors Jost, Marc
+ * @param hash that contains the name(clear text) as the key, and the password (SHA1 encoded) as the value
+ * @return bool is true if the password and name match the htpasswd file
+ *
  */
 bool read_pw_list(Hash *hash);
 
@@ -42,7 +48,6 @@ bool read_pw_list(Hash *hash);
  */
 string * pw_rood();
 
-bool check_char_by_sh1_base64_char(string *pwcheck,string *pwtrue);
 /**
  *  Checks whether an authorization header exists and if
  *  username and password are correct.
