@@ -25,9 +25,12 @@ bool abfrage_authorizaition (HashList * hashlist );
  */
 bool passwort_abfrage_authorizaition(HashList* hashlist);
 /**
- *
- * @param hashlist
- * @return hash that contains the name(clear text) as the key, and the password (SHA1 encoded) as the value
+ *  Reads the password and the name from the hashlist and returns a Hash with the Name and the sha1 and Base 64
+ *  encoded Password.
+ * @author Jost
+ * @warning The returned Hash must be freed
+ * @param hashlist  HaschList with the Name and Password.
+ * @return hash that contains the name(clear text) as the key, and the password (SHA1 and Base64 encoded) as the value
  */
 Hash password_to_sha1Base64(HashList* hashlist);
 

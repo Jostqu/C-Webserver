@@ -25,7 +25,6 @@ bool abfrage_authorizaition (HashList * hashlist ){
 
 Hash password_to_sha1Base64(HashList* hashlist) {
     Hash *passwort = SHL_find_key_cstr(hashlist, "authorization");
-
     string *pw = string_copy(passwort->value);
     int splits1;
     int splits2;
@@ -52,34 +51,6 @@ Hash password_to_sha1Base64(HashList* hashlist) {
     return returnHash;
 }
 
-bool passwort_abfrage_authorizaition(HashList* hashlist) {
-
-
-    Hash * passwort = SHL_find_key_cstr(hashlist,"authorization");
-    string * pw = string_copy(passwort->value);
-    int splits = 2;
-    string ** split = string_split_cstr(pw," ",&splits);
-    string_free(pw);
-    pw = split[1];
-    char *encode = base64_decode(pw->buf, pw->len, &pw->len);
-    string_free_stringlist(split, splits);
-    string *st_encode = string_new_from_cstr(encode);
-    string **name_pw = string_split_cstr(st_encode, ":", &splits);
-    char *pw2 = string_terminate(name_pw[1])->buf;
-    unsigned char *hash[SHA_DIGEST_LENGTH];
-    SHA1(pw2,name_pw[1]->len,hash);
-    if (1) {
-        char *pwencode = base64_decode(pw->buf, pw->len, &pw->len);
-        string_free_stringlist(split, 2);
-        char *p = calloc(sizeof(char), 50);
-        int temp = false; //read_pw_list(hashlist);
-
-        if (temp == true) {
-            return true;
-        }
-        return false;
-    }
-}
 
 bool authorizaition (HashList * hashlist){
     int temp = abfrage_authorizaition(hashlist);
