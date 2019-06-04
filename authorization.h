@@ -44,6 +44,7 @@ bool read_pw_list(Hash *hash);
 /**
  * Created the Password-rood-string
  * @author Luise
+ * @warning the return string must been freed
  * @return string : password_rood
  */
 string * pw_rood();
