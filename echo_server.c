@@ -204,10 +204,17 @@ static void main_loop(int sockfd) {
 	    // If timeouted, close connection to client (apache like)
 	    if (timeouted)
 	    {
-		    if (close(newsockfd) < 0)
-			    error("ERROR on close");
 
-		    string_free(strRequest);
+            string* staticPage = NULL;
+
+            HttpRequest* httpRequest = NULL;
+
+            send_http_response(newsockfd, BAD_REQUEST, httpRequest, staticPage);
+
+            if (close(newsockfd) < 0)
+		       error("ERROR on close");
+
+
 		    continue;
 	    }
 
