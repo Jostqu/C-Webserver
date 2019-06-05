@@ -1,0 +1,222 @@
+\hypertarget{classpewpewlaz0rt4nk_1_1_beam}{}\section{Beam Class Reference}
+\label{classpewpewlaz0rt4nk_1_1_beam}\index{Beam@{Beam}}
+
+
+Inheritance diagram for Beam\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=123pt]{classpewpewlaz0rt4nk_1_1_beam__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Beam\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=123pt]{classpewpewlaz0rt4nk_1_1_beam__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classpewpewlaz0rt4nk_1_1_beam_ab990f1d831d1f24fff891d8726d10300}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a51e6a0d2bcb8531a5e5adcd66a77aa3b}{request}, \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a8ab7bcb35ce5bba05608c72da6b4a0d3}{response}, \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a2661f439a4a94ffdcd5e47ae1da0bb1d}{description}=None, \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a832ddc04754e8a43d4f3c6165b1294a7}{host}=None, \hyperlink{classpewpewlaz0rt4nk_1_1_beam_af8fb0f45ee0195c7422a49e6a8d72369}{port}=None, \hyperlink{classpewpewlaz0rt4nk_1_1_beam_aee145bfca8e9b2eaf3cd3c47157be9a3}{timeout}=None, buffer\+\_\+=4096, \hyperlink{classpewpewlaz0rt4nk_1_1_beam_aa4a2d3facfe7f685ce8fdb8fdf68ac44}{shutdown}=False)
+\item 
+def \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a51829b63adb24ac48d350dee60181002}{reset} (self)
+\item 
+def \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a5505259a51131fe89dbde6fbeab32b52}{connect} (self)
+\item 
+def \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a0fbdc6c4c08e0f205d671ea3cb6fffdd}{send} (self)
+\item 
+def \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a06b2ff79fbf32e40f6f846b887ec7245}{receive} (self)
+\item 
+def \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a00fe8c4d6cb42ed708b01611e4bc70dd}{shutdown\+\_\+socket} (self)
+\item 
+def \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a7e676bc8e672824cf0719bff524d4067}{validate} (self)
+\item 
+def \hyperlink{classpewpewlaz0rt4nk_1_1_beam_a2561ec6ff5ec151676f3e0206e635bb8}{terminate} (self)
+\end{DoxyCompactItemize}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classpewpewlaz0rt4nk_1_1_beam_a51e6a0d2bcb8531a5e5adcd66a77aa3b}{request}
+\item 
+\hyperlink{classpewpewlaz0rt4nk_1_1_beam_a8ab7bcb35ce5bba05608c72da6b4a0d3}{response}
+\item 
+\hyperlink{classpewpewlaz0rt4nk_1_1_beam_a2661f439a4a94ffdcd5e47ae1da0bb1d}{description}
+\item 
+\hyperlink{classpewpewlaz0rt4nk_1_1_beam_a832ddc04754e8a43d4f3c6165b1294a7}{host}
+\item 
+\hyperlink{classpewpewlaz0rt4nk_1_1_beam_af8fb0f45ee0195c7422a49e6a8d72369}{port}
+\item 
+\hyperlink{classpewpewlaz0rt4nk_1_1_beam_aee145bfca8e9b2eaf3cd3c47157be9a3}{timeout}
+\item 
+\hyperlink{classpewpewlaz0rt4nk_1_1_beam_a38acb51b2a63fccbafac9c0afca0c1b9}{buffer}
+\item 
+\hyperlink{classpewpewlaz0rt4nk_1_1_beam_aa4a2d3facfe7f685ce8fdb8fdf68ac44}{shutdown}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}A beam to be shot by the :class:`Laz0rCannon` (e.g. an HTTP test case).
+
+Arguments:
+    - `request`: The request string that will be sent.
+    - `response`: An iterable of strings containing the expected
+      response.
+    - `description`: The description of the test case.
+    - `host`: The hostname of the HTTP server.
+    - `port`: The port number where the HTTP server is reachable.
+    - `timeout`: The amount of seconds until a timeout occurs while
+       reading from/writing to the socket.
+    - `buffer_`: The amount of bytes that will be sent at once. See
+      :ref:`this section <buffer_>`.
+    - `shutdown`: `False` or one of the constants of module
+      :mod:`socket`. See :ref:`this section <shutdown>`.
+\end{DoxyVerb}
+ 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_ab990f1d831d1f24fff891d8726d10300}\label{classpewpewlaz0rt4nk_1_1_beam_ab990f1d831d1f24fff891d8726d10300}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{request,  }\item[{}]{response,  }\item[{}]{description = {\ttfamily None},  }\item[{}]{host = {\ttfamily None},  }\item[{}]{port = {\ttfamily None},  }\item[{}]{timeout = {\ttfamily None},  }\item[{}]{buffer\+\_\+ = {\ttfamily 4096},  }\item[{}]{shutdown = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize the beam and store the arguments\end{DoxyVerb}
+ 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a5505259a51131fe89dbde6fbeab32b52}\label{classpewpewlaz0rt4nk_1_1_beam_a5505259a51131fe89dbde6fbeab32b52}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!connect@{connect}}
+\index{connect@{connect}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{connect()}{connect()}}
+{\footnotesize\ttfamily def connect (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Create a :mod:`socket` and establish a connection to the host.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a06b2ff79fbf32e40f6f846b887ec7245}\label{classpewpewlaz0rt4nk_1_1_beam_a06b2ff79fbf32e40f6f846b887ec7245}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!receive@{receive}}
+\index{receive@{receive}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{receive()}{receive()}}
+{\footnotesize\ttfamily def receive (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Receive the HTTP response via an established connection.
+
+Return the amount of calls to :meth:`~socket.socket.recv`.
+
+Raises:
+    - :class:`BeamRequestError`: The HTTP request has not been
+      sent, yet.
+    - :class:`BeamResponseError`: The HTTP response has already
+      been received.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a51829b63adb24ac48d350dee60181002}\label{classpewpewlaz0rt4nk_1_1_beam_a51829b63adb24ac48d350dee60181002}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!reset@{reset}}
+\index{reset@{reset}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily def reset (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Reset attributes needed to reuse this beam.\end{DoxyVerb}
+ \mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a0fbdc6c4c08e0f205d671ea3cb6fffdd}\label{classpewpewlaz0rt4nk_1_1_beam_a0fbdc6c4c08e0f205d671ea3cb6fffdd}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!send@{send}}
+\index{send@{send}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{send()}{send()}}
+{\footnotesize\ttfamily def send (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Send the HTTP request via an established connection.
+
+Return the amount of calls to :meth:`~socket.socket.send`.
+
+Raises a :class:`BeamRequestError` if the request has already
+been sent.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a00fe8c4d6cb42ed708b01611e4bc70dd}\label{classpewpewlaz0rt4nk_1_1_beam_a00fe8c4d6cb42ed708b01611e4bc70dd}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!shutdown\+\_\+socket@{shutdown\+\_\+socket}}
+\index{shutdown\+\_\+socket@{shutdown\+\_\+socket}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{shutdown\+\_\+socket()}{shutdown\_socket()}}
+{\footnotesize\ttfamily def shutdown\+\_\+socket (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Shutdown the :mod:`socket` of an established connection.\end{DoxyVerb}
+ \mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a2561ec6ff5ec151676f3e0206e635bb8}\label{classpewpewlaz0rt4nk_1_1_beam_a2561ec6ff5ec151676f3e0206e635bb8}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!terminate@{terminate}}
+\index{terminate@{terminate}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{terminate()}{terminate()}}
+{\footnotesize\ttfamily def terminate (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Terminate an established connection to the :mod:`socket`.\end{DoxyVerb}
+ \mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a7e676bc8e672824cf0719bff524d4067}\label{classpewpewlaz0rt4nk_1_1_beam_a7e676bc8e672824cf0719bff524d4067}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!validate@{validate}}
+\index{validate@{validate}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily def validate (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Validate an HTTP response.
+
+Return a list of :class:`Response` instances.
+
+Raises:
+    - :class:`BeamRequestError`: The HTTP request has not been
+      sent, yet.
+    - :class:`BeamResponseError`: The HTTP response not been
+      received, yet.
+\end{DoxyVerb}
+ 
+
+\subsection{Field Documentation}
+\mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a38acb51b2a63fccbafac9c0afca0c1b9}\label{classpewpewlaz0rt4nk_1_1_beam_a38acb51b2a63fccbafac9c0afca0c1b9}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!buffer@{buffer}}
+\index{buffer@{buffer}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{buffer}{buffer}}
+{\footnotesize\ttfamily buffer}
+
+\mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a2661f439a4a94ffdcd5e47ae1da0bb1d}\label{classpewpewlaz0rt4nk_1_1_beam_a2661f439a4a94ffdcd5e47ae1da0bb1d}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!description@{description}}
+\index{description@{description}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{description}{description}}
+{\footnotesize\ttfamily description}
+
+\mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a832ddc04754e8a43d4f3c6165b1294a7}\label{classpewpewlaz0rt4nk_1_1_beam_a832ddc04754e8a43d4f3c6165b1294a7}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!host@{host}}
+\index{host@{host}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{host}{host}}
+{\footnotesize\ttfamily host}
+
+\mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_af8fb0f45ee0195c7422a49e6a8d72369}\label{classpewpewlaz0rt4nk_1_1_beam_af8fb0f45ee0195c7422a49e6a8d72369}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!port@{port}}
+\index{port@{port}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily port}
+
+\mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a51e6a0d2bcb8531a5e5adcd66a77aa3b}\label{classpewpewlaz0rt4nk_1_1_beam_a51e6a0d2bcb8531a5e5adcd66a77aa3b}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!request@{request}}
+\index{request@{request}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{request}{request}}
+{\footnotesize\ttfamily request}
+
+\mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_a8ab7bcb35ce5bba05608c72da6b4a0d3}\label{classpewpewlaz0rt4nk_1_1_beam_a8ab7bcb35ce5bba05608c72da6b4a0d3}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!response@{response}}
+\index{response@{response}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{response}{response}}
+{\footnotesize\ttfamily response}
+
+\mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_aa4a2d3facfe7f685ce8fdb8fdf68ac44}\label{classpewpewlaz0rt4nk_1_1_beam_aa4a2d3facfe7f685ce8fdb8fdf68ac44}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{shutdown}{shutdown}}
+{\footnotesize\ttfamily shutdown}
+
+\mbox{\Hypertarget{classpewpewlaz0rt4nk_1_1_beam_aee145bfca8e9b2eaf3cd3c47157be9a3}\label{classpewpewlaz0rt4nk_1_1_beam_aee145bfca8e9b2eaf3cd3c47157be9a3}} 
+\index{pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}!timeout@{timeout}}
+\index{timeout@{timeout}!pewpewlaz0rt4nk\+::\+Beam@{pewpewlaz0rt4nk\+::\+Beam}}
+\subsubsection{\texorpdfstring{timeout}{timeout}}
+{\footnotesize\ttfamily timeout}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pewpewlaz0rt4nk_8py}{pewpewlaz0rt4nk.\+py}\end{DoxyCompactItemize}

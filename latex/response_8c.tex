@@ -1,0 +1,113 @@
+\hypertarget{response_8c}{}\section{response.\+c File Reference}
+\label{response_8c}\index{response.\+c@{response.\+c}}
+{\ttfamily \#include \char`\"{}response.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}authorization.\+h\char`\"{}}\newline
+Include dependency graph for response.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{response_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{response_8c_af00aa3c79fe31d435739c34e4c989835}{S\+E\+R\+V\+E\+R\+\_\+\+N\+A\+ME}~\char`\"{}P\+SE H\+T\+TP-\/Server v1.\+0\char`\"{}
+\item 
+\#define \hyperlink{response_8c_a09dbbd73a84cf772b421c6024b65b1fd}{F\+I\+L\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}~65536
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{response_8c_a3a784abd945fb5260d50fc0f6f46b595}{code\+\_\+to\+\_\+string} (\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} code)
+\begin{DoxyCompactList}\small\item\em converts the responsecode to a string \end{DoxyCompactList}\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{response_8c_a7066937e68de3b306d0fc62ca661ef10}{build\+\_\+http\+\_\+response\+\_\+header} (\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} code, \hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$fields)
+\begin{DoxyCompactList}\small\item\em simple wrapper to build H\+T\+TP response \end{DoxyCompactList}\item 
+void \hyperlink{response_8c_a1acb37e021e566b839a0f74fc57961a9}{send\+\_\+http\+\_\+response} (int target\+Stream, \hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} code, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$path, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$static\+Page)
+\begin{DoxyCompactList}\small\item\em uses the build\+\_\+http\+\_\+response\+\_\+header function to send a response to the client \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{response_8c_a09dbbd73a84cf772b421c6024b65b1fd}\label{response_8c_a09dbbd73a84cf772b421c6024b65b1fd}} 
+\index{response.\+c@{response.\+c}!F\+I\+L\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE@{F\+I\+L\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}}
+\index{F\+I\+L\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE@{F\+I\+L\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}!response.\+c@{response.\+c}}
+\subsubsection{\texorpdfstring{F\+I\+L\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}{FILE\_BUFFER\_SIZE}}
+{\footnotesize\ttfamily \#define F\+I\+L\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE~65536}
+
+\mbox{\Hypertarget{response_8c_af00aa3c79fe31d435739c34e4c989835}\label{response_8c_af00aa3c79fe31d435739c34e4c989835}} 
+\index{response.\+c@{response.\+c}!S\+E\+R\+V\+E\+R\+\_\+\+N\+A\+ME@{S\+E\+R\+V\+E\+R\+\_\+\+N\+A\+ME}}
+\index{S\+E\+R\+V\+E\+R\+\_\+\+N\+A\+ME@{S\+E\+R\+V\+E\+R\+\_\+\+N\+A\+ME}!response.\+c@{response.\+c}}
+\subsubsection{\texorpdfstring{S\+E\+R\+V\+E\+R\+\_\+\+N\+A\+ME}{SERVER\_NAME}}
+{\footnotesize\ttfamily \#define S\+E\+R\+V\+E\+R\+\_\+\+N\+A\+ME~\char`\"{}P\+SE H\+T\+TP-\/Server v1.\+0\char`\"{}}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{response_8c_a7066937e68de3b306d0fc62ca661ef10}\label{response_8c_a7066937e68de3b306d0fc62ca661ef10}} 
+\index{response.\+c@{response.\+c}!build\+\_\+http\+\_\+response\+\_\+header@{build\+\_\+http\+\_\+response\+\_\+header}}
+\index{build\+\_\+http\+\_\+response\+\_\+header@{build\+\_\+http\+\_\+response\+\_\+header}!response.\+c@{response.\+c}}
+\subsubsection{\texorpdfstring{build\+\_\+http\+\_\+response\+\_\+header()}{build\_http\_response\_header()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ build\+\_\+http\+\_\+response\+\_\+header (\begin{DoxyParamCaption}\item[{\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code}}]{code,  }\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{fields }\end{DoxyParamCaption})}
+
+
+
+simple wrapper to build H\+T\+TP response 
+
+Please ensure your Hashes are used the following way\+: key -\/$>$ field name value -\/$>$ field value the function will add the \textquotesingle{}\+:\textquotesingle{} separator after the name itself.
+
+the fuction will return N\+U\+LL on failure
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em code} & desired H\+T\+TP response code, chosen from Http\+Response\+Codes enum \\
+\hline
+{\em fields} & list of header fields \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Http response as string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{response_8c_a3a784abd945fb5260d50fc0f6f46b595}\label{response_8c_a3a784abd945fb5260d50fc0f6f46b595}} 
+\index{response.\+c@{response.\+c}!code\+\_\+to\+\_\+string@{code\+\_\+to\+\_\+string}}
+\index{code\+\_\+to\+\_\+string@{code\+\_\+to\+\_\+string}!response.\+c@{response.\+c}}
+\subsubsection{\texorpdfstring{code\+\_\+to\+\_\+string()}{code\_to\_string()}}
+{\footnotesize\ttfamily char$\ast$ code\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code}}]{code }\end{DoxyParamCaption})}
+
+
+
+converts the responsecode to a string 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+\begin{DoxyReturn}{Returns}
+code as string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{response_8c_a1acb37e021e566b839a0f74fc57961a9}\label{response_8c_a1acb37e021e566b839a0f74fc57961a9}} 
+\index{response.\+c@{response.\+c}!send\+\_\+http\+\_\+response@{send\+\_\+http\+\_\+response}}
+\index{send\+\_\+http\+\_\+response@{send\+\_\+http\+\_\+response}!response.\+c@{response.\+c}}
+\subsubsection{\texorpdfstring{send\+\_\+http\+\_\+response()}{send\_http\_response()}}
+{\footnotesize\ttfamily void send\+\_\+http\+\_\+response (\begin{DoxyParamCaption}\item[{int}]{target\+Stream,  }\item[{\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code}}]{code,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{path,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{static\+Page }\end{DoxyParamCaption})}
+
+
+
+uses the build\+\_\+http\+\_\+response\+\_\+header function to send a response to the client 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em target\+Stream} & socket or stdout stream \\
+\hline
+{\em code} & response\+Code returned by the parse\+\_\+http\+\_\+request function \\
+\hline
+{\em path} & requested absolute file path \\
+\hline
+{\em static\+Page} & contains a string if /debug was requested \\
+\hline
+\end{DoxyParams}

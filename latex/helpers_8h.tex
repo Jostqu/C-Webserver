@@ -1,0 +1,298 @@
+\hypertarget{helpers_8h}{}\section{helpers.\+h File Reference}
+\label{helpers_8h}\index{helpers.\+h@{helpers.\+h}}
+{\ttfamily \#include $<$sys/stat.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}string.\+h\char`\"{}}\newline
+Include dependency graph for helpers.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{helpers_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{helpers_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6}{H\+T\+T\+P\+Version} \{ \hyperlink{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6adb29f51e8818eebf58eaf92ba47467c9}{U\+N\+S\+U\+P\+P\+O\+R\+T\+ED}, 
+\hyperlink{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6ac121049d53f4061ca94d91084f73892a}{V\+E\+R\+S\+I\+O\+N\+\_\+1\+\_\+1}
+ \}\begin{DoxyCompactList}\small\item\em enum containing supported version(s) \end{DoxyCompactList}
+\item 
+enum \hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47d}{H\+T\+T\+P\+Method} \{ \newline
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47daef2863a469df3ea6871d640e3669a2f2}{I\+N\+V\+A\+L\+ID}, 
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47da12a8dcf59c16b5aadfda3a08ba67d529}{G\+ET}, 
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47da368c5bc07109370b819193871352b926}{P\+O\+ST}, 
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47da0b0955668575b21eb0ab2272aef49f76}{H\+E\+AD}, 
+\newline
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47dafec39d40e8bc9e12afa614df5ddb9fa9}{P\+UT}, 
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47da8968cec66e1a913f0ef4d1205a7bf098}{P\+A\+T\+CH}, 
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47da9d61e82a9a12752f10aece1b22183913}{D\+E\+L\+E\+TE}, 
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47da7fa27e82c6c4f69434225ed81e5d151e}{T\+R\+A\+CE}, 
+\newline
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47da1b20f1b4adb6ff9778b284fb46f6f99d}{O\+P\+T\+I\+O\+NS}, 
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47da20391dd2915a0e64343d24c2f2e40b95}{C\+O\+N\+N\+E\+CT}
+ \}\begin{DoxyCompactList}\small\item\em enum containing supported methods \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6}{H\+T\+T\+P\+Version} \hyperlink{helpers_8h_a224628953b1df47560e39e7d8056023b}{validate\+\_\+version} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ver)
+\begin{DoxyCompactList}\small\item\em checks whether the H\+T\+TP version is supported or not note that the string must be valid by H\+T\+TP header standard (\char`\"{}\+H\+T\+T\+P/1.\+1\char`\"{}, others not supported) \end{DoxyCompactList}\item 
+\hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47d}{H\+T\+T\+P\+Method} \hyperlink{helpers_8h_abb0d6160f45c0b3f86392f93d3e84a8a}{get\+\_\+method\+\_\+from\+\_\+string} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$method)
+\begin{DoxyCompactList}\small\item\em gets the H\+T\+TP method from a string \end{DoxyCompactList}\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{helpers_8h_a90c8a390258292e7ee1c47d262de3c45}{get\+\_\+content\+\_\+type} (char $\ast$path)
+\begin{DoxyCompactList}\small\item\em gets content type of file with help of the file command \end{DoxyCompactList}\item 
+void \hyperlink{helpers_8h_ac2c0d16dc3ce1f1ff1d1bf0b674a55fb}{url\+\_\+decode} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str)
+\begin{DoxyCompactList}\small\item\em decodes url, obviously \end{DoxyCompactList}\item 
+bool \hyperlink{helpers_8h_a3ada2da8156daa4803e778aa6d5e8953}{isfile} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$path)
+\begin{DoxyCompactList}\small\item\em checks if a given path is a file \end{DoxyCompactList}\item 
+bool \hyperlink{helpers_8h_ab7a73667739cc6fa285e8d4c6205eb9b}{file\+\_\+exists} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$path)
+\begin{DoxyCompactList}\small\item\em checks if a file exists \end{DoxyCompactList}\item 
+long \hyperlink{helpers_8h_a503cd4ef941c2395f50e1cb089626882}{get\+\_\+file\+\_\+size} (F\+I\+LE $\ast$fp)
+\begin{DoxyCompactList}\small\item\em returns the file size of a opened file (with fopen) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+\end{DoxyAuthor}
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47d}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47d}} 
+\index{helpers.\+h@{helpers.\+h}!H\+T\+T\+P\+Method@{H\+T\+T\+P\+Method}}
+\index{H\+T\+T\+P\+Method@{H\+T\+T\+P\+Method}!helpers.\+h@{helpers.\+h}}
+\subsubsection{\texorpdfstring{H\+T\+T\+P\+Method}{HTTPMethod}}
+{\footnotesize\ttfamily enum \hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47d}{H\+T\+T\+P\+Method}}
+
+
+
+enum containing supported methods 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+\end{DoxyAuthor}
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{I\+N\+V\+A\+L\+ID@{I\+N\+V\+A\+L\+ID}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!I\+N\+V\+A\+L\+ID@{I\+N\+V\+A\+L\+ID}}}\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47daef2863a469df3ea6871d640e3669a2f2}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47daef2863a469df3ea6871d640e3669a2f2}} 
+I\+N\+V\+A\+L\+ID&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+ET@{G\+ET}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!G\+ET@{G\+ET}}}\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47da12a8dcf59c16b5aadfda3a08ba67d529}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47da12a8dcf59c16b5aadfda3a08ba67d529}} 
+G\+ET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{P\+O\+ST@{P\+O\+ST}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!P\+O\+ST@{P\+O\+ST}}}\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47da368c5bc07109370b819193871352b926}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47da368c5bc07109370b819193871352b926}} 
+P\+O\+ST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{H\+E\+AD@{H\+E\+AD}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!H\+E\+AD@{H\+E\+AD}}}\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47da0b0955668575b21eb0ab2272aef49f76}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47da0b0955668575b21eb0ab2272aef49f76}} 
+H\+E\+AD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{P\+UT@{P\+UT}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!P\+UT@{P\+UT}}}\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47dafec39d40e8bc9e12afa614df5ddb9fa9}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47dafec39d40e8bc9e12afa614df5ddb9fa9}} 
+P\+UT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{P\+A\+T\+CH@{P\+A\+T\+CH}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!P\+A\+T\+CH@{P\+A\+T\+CH}}}\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47da8968cec66e1a913f0ef4d1205a7bf098}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47da8968cec66e1a913f0ef4d1205a7bf098}} 
+P\+A\+T\+CH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{D\+E\+L\+E\+TE@{D\+E\+L\+E\+TE}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!D\+E\+L\+E\+TE@{D\+E\+L\+E\+TE}}}\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47da9d61e82a9a12752f10aece1b22183913}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47da9d61e82a9a12752f10aece1b22183913}} 
+D\+E\+L\+E\+TE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{T\+R\+A\+CE@{T\+R\+A\+CE}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!T\+R\+A\+CE@{T\+R\+A\+CE}}}\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47da7fa27e82c6c4f69434225ed81e5d151e}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47da7fa27e82c6c4f69434225ed81e5d151e}} 
+T\+R\+A\+CE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{O\+P\+T\+I\+O\+NS@{O\+P\+T\+I\+O\+NS}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!O\+P\+T\+I\+O\+NS@{O\+P\+T\+I\+O\+NS}}}\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47da1b20f1b4adb6ff9778b284fb46f6f99d}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47da1b20f1b4adb6ff9778b284fb46f6f99d}} 
+O\+P\+T\+I\+O\+NS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{C\+O\+N\+N\+E\+CT@{C\+O\+N\+N\+E\+CT}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!C\+O\+N\+N\+E\+CT@{C\+O\+N\+N\+E\+CT}}}\mbox{\Hypertarget{helpers_8h_a837a089a977b319a11edfb8022d9e47da20391dd2915a0e64343d24c2f2e40b95}\label{helpers_8h_a837a089a977b319a11edfb8022d9e47da20391dd2915a0e64343d24c2f2e40b95}} 
+C\+O\+N\+N\+E\+CT&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6}\label{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6}} 
+\index{helpers.\+h@{helpers.\+h}!H\+T\+T\+P\+Version@{H\+T\+T\+P\+Version}}
+\index{H\+T\+T\+P\+Version@{H\+T\+T\+P\+Version}!helpers.\+h@{helpers.\+h}}
+\subsubsection{\texorpdfstring{H\+T\+T\+P\+Version}{HTTPVersion}}
+{\footnotesize\ttfamily enum \hyperlink{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6}{H\+T\+T\+P\+Version}}
+
+
+
+enum containing supported version(s) 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+\end{DoxyAuthor}
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{U\+N\+S\+U\+P\+P\+O\+R\+T\+ED@{U\+N\+S\+U\+P\+P\+O\+R\+T\+ED}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!U\+N\+S\+U\+P\+P\+O\+R\+T\+ED@{U\+N\+S\+U\+P\+P\+O\+R\+T\+ED}}}\mbox{\Hypertarget{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6adb29f51e8818eebf58eaf92ba47467c9}\label{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6adb29f51e8818eebf58eaf92ba47467c9}} 
+U\+N\+S\+U\+P\+P\+O\+R\+T\+ED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+E\+R\+S\+I\+O\+N\+\_\+1\+\_\+1@{V\+E\+R\+S\+I\+O\+N\+\_\+1\+\_\+1}!helpers.\+h@{helpers.\+h}}\index{helpers.\+h@{helpers.\+h}!V\+E\+R\+S\+I\+O\+N\+\_\+1\+\_\+1@{V\+E\+R\+S\+I\+O\+N\+\_\+1\+\_\+1}}}\mbox{\Hypertarget{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6ac121049d53f4061ca94d91084f73892a}\label{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6ac121049d53f4061ca94d91084f73892a}} 
+V\+E\+R\+S\+I\+O\+N\+\_\+1\+\_\+1&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{helpers_8h_ab7a73667739cc6fa285e8d4c6205eb9b}\label{helpers_8h_ab7a73667739cc6fa285e8d4c6205eb9b}} 
+\index{helpers.\+h@{helpers.\+h}!file\+\_\+exists@{file\+\_\+exists}}
+\index{file\+\_\+exists@{file\+\_\+exists}!helpers.\+h@{helpers.\+h}}
+\subsubsection{\texorpdfstring{file\+\_\+exists()}{file\_exists()}}
+{\footnotesize\ttfamily bool file\+\_\+exists (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{path }\end{DoxyParamCaption})}
+
+
+
+checks if a file exists 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em path} & filepath \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if file exists 
+\end{DoxyReturn}
+\mbox{\Hypertarget{helpers_8h_a90c8a390258292e7ee1c47d262de3c45}\label{helpers_8h_a90c8a390258292e7ee1c47d262de3c45}} 
+\index{helpers.\+h@{helpers.\+h}!get\+\_\+content\+\_\+type@{get\+\_\+content\+\_\+type}}
+\index{get\+\_\+content\+\_\+type@{get\+\_\+content\+\_\+type}!helpers.\+h@{helpers.\+h}}
+\subsubsection{\texorpdfstring{get\+\_\+content\+\_\+type()}{get\_content\_type()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ get\+\_\+content\+\_\+type (\begin{DoxyParamCaption}\item[{char $\ast$}]{path }\end{DoxyParamCaption})}
+
+
+
+gets content type of file with help of the file command 
+
+\begin{DoxyWarning}{Warning}
+as it seems to be forgotten otherwise\+: Y\+OU H\+A\+VE TO F\+R\+EE T\+HE R\+E\+T\+U\+R\+N\+ED S\+T\+R\+I\+NG Y\+O\+U\+R\+S\+E\+L\+F!
+\end{DoxyWarning}
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em path} & path to file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+content type and charset as string, separated by \textquotesingle{};\textquotesingle{} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{helpers_8h_a503cd4ef941c2395f50e1cb089626882}\label{helpers_8h_a503cd4ef941c2395f50e1cb089626882}} 
+\index{helpers.\+h@{helpers.\+h}!get\+\_\+file\+\_\+size@{get\+\_\+file\+\_\+size}}
+\index{get\+\_\+file\+\_\+size@{get\+\_\+file\+\_\+size}!helpers.\+h@{helpers.\+h}}
+\subsubsection{\texorpdfstring{get\+\_\+file\+\_\+size()}{get\_file\_size()}}
+{\footnotesize\ttfamily long get\+\_\+file\+\_\+size (\begin{DoxyParamCaption}\item[{F\+I\+LE $\ast$}]{fp }\end{DoxyParamCaption})}
+
+
+
+returns the file size of a opened file (with fopen) 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em fp} & pointer of opened file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+file size 
+\end{DoxyReturn}
+\mbox{\Hypertarget{helpers_8h_abb0d6160f45c0b3f86392f93d3e84a8a}\label{helpers_8h_abb0d6160f45c0b3f86392f93d3e84a8a}} 
+\index{helpers.\+h@{helpers.\+h}!get\+\_\+method\+\_\+from\+\_\+string@{get\+\_\+method\+\_\+from\+\_\+string}}
+\index{get\+\_\+method\+\_\+from\+\_\+string@{get\+\_\+method\+\_\+from\+\_\+string}!helpers.\+h@{helpers.\+h}}
+\subsubsection{\texorpdfstring{get\+\_\+method\+\_\+from\+\_\+string()}{get\_method\_from\_string()}}
+{\footnotesize\ttfamily \hyperlink{helpers_8h_a837a089a977b319a11edfb8022d9e47d}{H\+T\+T\+P\+Method} get\+\_\+method\+\_\+from\+\_\+string (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{method }\end{DoxyParamCaption})}
+
+
+
+gets the H\+T\+TP method from a string 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em method} & string containing the method \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Method or Invalid 
+\end{DoxyReturn}
+\mbox{\Hypertarget{helpers_8h_a3ada2da8156daa4803e778aa6d5e8953}\label{helpers_8h_a3ada2da8156daa4803e778aa6d5e8953}} 
+\index{helpers.\+h@{helpers.\+h}!isfile@{isfile}}
+\index{isfile@{isfile}!helpers.\+h@{helpers.\+h}}
+\subsubsection{\texorpdfstring{isfile()}{isfile()}}
+{\footnotesize\ttfamily bool isfile (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{path }\end{DoxyParamCaption})}
+
+
+
+checks if a given path is a file 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em path} & path of file or directory \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if path is a existing file 
+\end{DoxyReturn}
+\mbox{\Hypertarget{helpers_8h_ac2c0d16dc3ce1f1ff1d1bf0b674a55fb}\label{helpers_8h_ac2c0d16dc3ce1f1ff1d1bf0b674a55fb}} 
+\index{helpers.\+h@{helpers.\+h}!url\+\_\+decode@{url\+\_\+decode}}
+\index{url\+\_\+decode@{url\+\_\+decode}!helpers.\+h@{helpers.\+h}}
+\subsubsection{\texorpdfstring{url\+\_\+decode()}{url\_decode()}}
+{\footnotesize\ttfamily void url\+\_\+decode (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str }\end{DoxyParamCaption})}
+
+
+
+decodes url, obviously 
+
+replaces the xx placeholder from H\+T\+ML with their corresponding ascii chars
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & a string with html\textquotesingle{}s weird XX placeholders \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{helpers_8h_a224628953b1df47560e39e7d8056023b}\label{helpers_8h_a224628953b1df47560e39e7d8056023b}} 
+\index{helpers.\+h@{helpers.\+h}!validate\+\_\+version@{validate\+\_\+version}}
+\index{validate\+\_\+version@{validate\+\_\+version}!helpers.\+h@{helpers.\+h}}
+\subsubsection{\texorpdfstring{validate\+\_\+version()}{validate\_version()}}
+{\footnotesize\ttfamily \hyperlink{helpers_8h_abe818f5ff14e9c60c052a3e96877cec6}{H\+T\+T\+P\+Version} validate\+\_\+version (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{ver }\end{DoxyParamCaption})}
+
+
+
+checks whether the H\+T\+TP version is supported or not note that the string must be valid by H\+T\+TP header standard (\char`\"{}\+H\+T\+T\+P/1.\+1\char`\"{}, others not supported) 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em ver} & a string containing the H\+T\+TP version \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Version or unsupported 
+\end{DoxyReturn}

@@ -1,0 +1,195 @@
+\hypertarget{hash_8c}{}\section{hash.\+c File Reference}
+\label{hash_8c}\index{hash.\+c@{hash.\+c}}
+{\ttfamily \#include \char`\"{}hash.\+h\char`\"{}}\newline
+Include dependency graph for hash.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{hash_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$ \hyperlink{hash_8c_a73d7429aa205aee8b6e38808a8e2f53d}{S\+H\+L\+\_\+create} (\hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} first\+Element)
+\begin{DoxyCompactList}\small\item\em creates new list Creates new list, but requires \end{DoxyCompactList}\item 
+void \hyperlink{hash_8c_a5bf8ba8e50fdaedb05f2112695ec273c}{S\+H\+L\+\_\+append} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$first, \hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} next)
+\begin{DoxyCompactList}\small\item\em appends a new element at the end \end{DoxyCompactList}\item 
+void \hyperlink{hash_8c_a7d3fe6343ca665e7014267c8f4905a9a}{S\+H\+L\+\_\+free\+\_\+element} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$item)
+\begin{DoxyCompactList}\small\item\em frees an element in the the list including it\textquotesingle{}s data\textquotesingle{}s Strings bear in mind that this will N\+OT touch the $\ast$next element \end{DoxyCompactList}\item 
+void \hyperlink{hash_8c_a18f61bc4858ec37fc8f1198011c6b4e1}{S\+H\+L\+\_\+remove\+\_\+all} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$first)
+\begin{DoxyCompactList}\small\item\em removes element at position \end{DoxyCompactList}\item 
+\hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} $\ast$ \hyperlink{hash_8c_a64a6c39375656b38732e8c3c20d2d9a0}{S\+H\+L\+\_\+find\+\_\+key} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$first, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$key)
+\begin{DoxyCompactList}\small\item\em returns pointer to the {\itshape F\+I\+R\+ST} element containing key Returns pointer to the {\itshape F\+I\+R\+ST} element containing key, will return N\+U\+LL if key is not found \end{DoxyCompactList}\item 
+\hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} \hyperlink{hash_8c_ad0e07fdde374ab0435606a45dcdd58bc}{S\+H\+L\+\_\+at} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$first, unsigned int index)
+\begin{DoxyCompactList}\small\item\em return index\textquotesingle{}th element of Hash\+List function returning the index\textquotesingle{}th element of Hash\+List first, it will return the last element if index is out of bound \end{DoxyCompactList}\item 
+\hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} \hyperlink{hash_8c_af3a6014f24a682c18b619d581dd23db4}{S\+H\+\_\+create} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$key, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$value)
+\begin{DoxyCompactList}\small\item\em creates Hash with given key and value \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{hash_8c_a1323eede38beba6ef99cda6b2538162b}{S\+H\+L\+\_\+get\+\_\+size} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$first)
+\begin{DoxyCompactList}\small\item\em function that counts the number of elements in the list beginning at first \end{DoxyCompactList}\item 
+\hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} $\ast$ \hyperlink{hash_8c_ac084cf5afe24534957a0dc9ae964d054}{S\+H\+L\+\_\+find\+\_\+key\+\_\+cstr} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$first, char $\ast$key)
+\begin{DoxyCompactList}\small\item\em but with a char$\ast$ \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{hash_8c_af3a6014f24a682c18b619d581dd23db4}\label{hash_8c_af3a6014f24a682c18b619d581dd23db4}} 
+\index{hash.\+c@{hash.\+c}!S\+H\+\_\+create@{S\+H\+\_\+create}}
+\index{S\+H\+\_\+create@{S\+H\+\_\+create}!hash.\+c@{hash.\+c}}
+\subsubsection{\texorpdfstring{S\+H\+\_\+create()}{SH\_create()}}
+{\footnotesize\ttfamily \hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} S\+H\+\_\+create (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{key,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{value }\end{DoxyParamCaption})}
+
+
+
+creates Hash with given key and value 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+\begin{DoxyReturn}{Returns}
+copy of Hash with desired key and value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{hash_8c_a5bf8ba8e50fdaedb05f2112695ec273c}\label{hash_8c_a5bf8ba8e50fdaedb05f2112695ec273c}} 
+\index{hash.\+c@{hash.\+c}!S\+H\+L\+\_\+append@{S\+H\+L\+\_\+append}}
+\index{S\+H\+L\+\_\+append@{S\+H\+L\+\_\+append}!hash.\+c@{hash.\+c}}
+\subsubsection{\texorpdfstring{S\+H\+L\+\_\+append()}{SHL\_append()}}
+{\footnotesize\ttfamily void S\+H\+L\+\_\+append (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{first,  }\item[{\hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash}}]{next }\end{DoxyParamCaption})}
+
+
+
+appends a new element at the end 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+\end{DoxyAuthor}
+\mbox{\Hypertarget{hash_8c_ad0e07fdde374ab0435606a45dcdd58bc}\label{hash_8c_ad0e07fdde374ab0435606a45dcdd58bc}} 
+\index{hash.\+c@{hash.\+c}!S\+H\+L\+\_\+at@{S\+H\+L\+\_\+at}}
+\index{S\+H\+L\+\_\+at@{S\+H\+L\+\_\+at}!hash.\+c@{hash.\+c}}
+\subsubsection{\texorpdfstring{S\+H\+L\+\_\+at()}{SHL\_at()}}
+{\footnotesize\ttfamily \hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} S\+H\+L\+\_\+at (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{first,  }\item[{unsigned int}]{index }\end{DoxyParamCaption})}
+
+
+
+return index\textquotesingle{}th element of Hash\+List function returning the index\textquotesingle{}th element of Hash\+List first, it will return the last element if index is out of bound 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em first} & first element of list \\
+\hline
+{\em index} & index of desired element \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to Hash object, will return last element if index ist out of range 
+\end{DoxyReturn}
+\mbox{\Hypertarget{hash_8c_a73d7429aa205aee8b6e38808a8e2f53d}\label{hash_8c_a73d7429aa205aee8b6e38808a8e2f53d}} 
+\index{hash.\+c@{hash.\+c}!S\+H\+L\+\_\+create@{S\+H\+L\+\_\+create}}
+\index{S\+H\+L\+\_\+create@{S\+H\+L\+\_\+create}!hash.\+c@{hash.\+c}}
+\subsubsection{\texorpdfstring{S\+H\+L\+\_\+create()}{SHL\_create()}}
+{\footnotesize\ttfamily \hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List}$\ast$ S\+H\+L\+\_\+create (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash}}]{first\+Element }\end{DoxyParamCaption})}
+
+
+
+creates new list Creates new list, but requires 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+\end{DoxyAuthor}
+\mbox{\Hypertarget{hash_8c_a64a6c39375656b38732e8c3c20d2d9a0}\label{hash_8c_a64a6c39375656b38732e8c3c20d2d9a0}} 
+\index{hash.\+c@{hash.\+c}!S\+H\+L\+\_\+find\+\_\+key@{S\+H\+L\+\_\+find\+\_\+key}}
+\index{S\+H\+L\+\_\+find\+\_\+key@{S\+H\+L\+\_\+find\+\_\+key}!hash.\+c@{hash.\+c}}
+\subsubsection{\texorpdfstring{S\+H\+L\+\_\+find\+\_\+key()}{SHL\_find\_key()}}
+{\footnotesize\ttfamily \hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash}$\ast$ S\+H\+L\+\_\+find\+\_\+key (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{first,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{key }\end{DoxyParamCaption})}
+
+
+
+returns pointer to the {\itshape F\+I\+R\+ST} element containing key Returns pointer to the {\itshape F\+I\+R\+ST} element containing key, will return N\+U\+LL if key is not found 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em first} & pointer to list \\
+\hline
+{\em key} & desired key to be found \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to {\itshape first} element with key 
+\end{DoxyReturn}
+\mbox{\Hypertarget{hash_8c_ac084cf5afe24534957a0dc9ae964d054}\label{hash_8c_ac084cf5afe24534957a0dc9ae964d054}} 
+\index{hash.\+c@{hash.\+c}!S\+H\+L\+\_\+find\+\_\+key\+\_\+cstr@{S\+H\+L\+\_\+find\+\_\+key\+\_\+cstr}}
+\index{S\+H\+L\+\_\+find\+\_\+key\+\_\+cstr@{S\+H\+L\+\_\+find\+\_\+key\+\_\+cstr}!hash.\+c@{hash.\+c}}
+\subsubsection{\texorpdfstring{S\+H\+L\+\_\+find\+\_\+key\+\_\+cstr()}{SHL\_find\_key\_cstr()}}
+{\footnotesize\ttfamily \hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash}$\ast$ S\+H\+L\+\_\+find\+\_\+key\+\_\+cstr (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{first,  }\item[{char $\ast$}]{key }\end{DoxyParamCaption})}
+
+
+
+but with a char$\ast$ 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{hash_8h_a64a6c39375656b38732e8c3c20d2d9a0}{S\+H\+L\+\_\+find\+\_\+key} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{hash_8c_a7d3fe6343ca665e7014267c8f4905a9a}\label{hash_8c_a7d3fe6343ca665e7014267c8f4905a9a}} 
+\index{hash.\+c@{hash.\+c}!S\+H\+L\+\_\+free\+\_\+element@{S\+H\+L\+\_\+free\+\_\+element}}
+\index{S\+H\+L\+\_\+free\+\_\+element@{S\+H\+L\+\_\+free\+\_\+element}!hash.\+c@{hash.\+c}}
+\subsubsection{\texorpdfstring{S\+H\+L\+\_\+free\+\_\+element()}{SHL\_free\_element()}}
+{\footnotesize\ttfamily void S\+H\+L\+\_\+free\+\_\+element (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{item }\end{DoxyParamCaption})}
+
+
+
+frees an element in the the list including it\textquotesingle{}s data\textquotesingle{}s Strings bear in mind that this will N\+OT touch the $\ast$next element 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em item} & the list element that shall be freed \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{hash_8c_a1323eede38beba6ef99cda6b2538162b}\label{hash_8c_a1323eede38beba6ef99cda6b2538162b}} 
+\index{hash.\+c@{hash.\+c}!S\+H\+L\+\_\+get\+\_\+size@{S\+H\+L\+\_\+get\+\_\+size}}
+\index{S\+H\+L\+\_\+get\+\_\+size@{S\+H\+L\+\_\+get\+\_\+size}!hash.\+c@{hash.\+c}}
+\subsubsection{\texorpdfstring{S\+H\+L\+\_\+get\+\_\+size()}{SHL\_get\_size()}}
+{\footnotesize\ttfamily size\+\_\+t S\+H\+L\+\_\+get\+\_\+size (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{first }\end{DoxyParamCaption})}
+
+
+
+function that counts the number of elements in the list beginning at first 
+
+
+\begin{DoxyParams}{Parameters}
+{\em first} & first list element \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size of Hashlist 
+\end{DoxyReturn}
+\mbox{\Hypertarget{hash_8c_a18f61bc4858ec37fc8f1198011c6b4e1}\label{hash_8c_a18f61bc4858ec37fc8f1198011c6b4e1}} 
+\index{hash.\+c@{hash.\+c}!S\+H\+L\+\_\+remove\+\_\+all@{S\+H\+L\+\_\+remove\+\_\+all}}
+\index{S\+H\+L\+\_\+remove\+\_\+all@{S\+H\+L\+\_\+remove\+\_\+all}!hash.\+c@{hash.\+c}}
+\subsubsection{\texorpdfstring{S\+H\+L\+\_\+remove\+\_\+all()}{SHL\_remove\_all()}}
+{\footnotesize\ttfamily void S\+H\+L\+\_\+remove\+\_\+all (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{first }\end{DoxyParamCaption})}
+
+
+
+removes element at position 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em first} & pointer to fist list element\\
+\hline
+\end{DoxyParams}
+deletes all elements starting at first
+
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+\end{DoxyAuthor}

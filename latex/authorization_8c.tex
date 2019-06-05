@@ -1,0 +1,139 @@
+\hypertarget{authorization_8c}{}\section{authorization.\+c File Reference}
+\label{authorization_8c}\index{authorization.\+c@{authorization.\+c}}
+{\ttfamily \#include \char`\"{}authorization.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}hash.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}base64.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$openssl/sha.\+h$>$}\newline
+Include dependency graph for authorization.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{authorization_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{authorization_8c_a625c76f362da15a712974d925f99229b}{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY}~2083
+\item 
+\#define \hyperlink{authorization_8c_a3e6fc1fdb6d81b13f26c16eb5efddf19}{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE}~(\hyperlink{request_8c_a625c76f362da15a712974d925f99229b}{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY} + 200)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{authorization_8c_a854b113e46df11a095cd1291450029a5}{abfrage\+\_\+authorizaition} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$hashlist)
+\item 
+\hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} \hyperlink{authorization_8c_a4185038e2e2df6b669ab6250bb891eb8}{password\+\_\+to\+\_\+sha1\+Base64} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$hashlist)
+\item 
+bool \hyperlink{authorization_8c_a2d16c0f0b9bd4ad97f067b47455472bf}{authorizaition} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$hashlist)
+\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{authorization_8c_acc2e18e46f4d51886041fc7065adb348}{pw\+\_\+rood} ()
+\item 
+bool \hyperlink{authorization_8c_aa09030fd3c5bd394c8edc5509330bf23}{read\+\_\+pw\+\_\+list} (\hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} $\ast$hash)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{authorization_8c_a625c76f362da15a712974d925f99229b}\label{authorization_8c_a625c76f362da15a712974d925f99229b}} 
+\index{authorization.\+c@{authorization.\+c}!P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY@{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY}}
+\index{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY@{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY}!authorization.\+c@{authorization.\+c}}
+\subsubsection{\texorpdfstring{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY}{PATH\_CAPACITY}}
+{\footnotesize\ttfamily \#define P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY~2083}
+
+\mbox{\Hypertarget{authorization_8c_a3e6fc1fdb6d81b13f26c16eb5efddf19}\label{authorization_8c_a3e6fc1fdb6d81b13f26c16eb5efddf19}} 
+\index{authorization.\+c@{authorization.\+c}!P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE@{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE}}
+\index{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE@{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE}!authorization.\+c@{authorization.\+c}}
+\subsubsection{\texorpdfstring{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE}{PATH\_CAPACITY\_ABSOLUTE}}
+{\footnotesize\ttfamily \#define P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE~(\hyperlink{request_8c_a625c76f362da15a712974d925f99229b}{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY} + 200)}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{authorization_8c_a854b113e46df11a095cd1291450029a5}\label{authorization_8c_a854b113e46df11a095cd1291450029a5}} 
+\index{authorization.\+c@{authorization.\+c}!abfrage\+\_\+authorizaition@{abfrage\+\_\+authorizaition}}
+\index{abfrage\+\_\+authorizaition@{abfrage\+\_\+authorizaition}!authorization.\+c@{authorization.\+c}}
+\subsubsection{\texorpdfstring{abfrage\+\_\+authorizaition()}{abfrage\_authorizaition()}}
+{\footnotesize\ttfamily bool abfrage\+\_\+authorizaition (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{hashlist }\end{DoxyParamCaption})}
+
+Checks whether an authorization header exists \begin{DoxyAuthor}{Author}
+Luise 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em hashlist} & Anfrage \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool \+: true / false 
+\end{DoxyReturn}
+\mbox{\Hypertarget{authorization_8c_a2d16c0f0b9bd4ad97f067b47455472bf}\label{authorization_8c_a2d16c0f0b9bd4ad97f067b47455472bf}} 
+\index{authorization.\+c@{authorization.\+c}!authorizaition@{authorizaition}}
+\index{authorizaition@{authorizaition}!authorization.\+c@{authorization.\+c}}
+\subsubsection{\texorpdfstring{authorizaition()}{authorizaition()}}
+{\footnotesize\ttfamily bool authorizaition (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{hashlist }\end{DoxyParamCaption})}
+
+Checks whether an authorization header exists and if username and password are correct. \begin{DoxyAuthor}{Author}
+Luise 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em hashlist} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool \+: true / false 
+\end{DoxyReturn}
+\mbox{\Hypertarget{authorization_8c_a4185038e2e2df6b669ab6250bb891eb8}\label{authorization_8c_a4185038e2e2df6b669ab6250bb891eb8}} 
+\index{authorization.\+c@{authorization.\+c}!password\+\_\+to\+\_\+sha1\+Base64@{password\+\_\+to\+\_\+sha1\+Base64}}
+\index{password\+\_\+to\+\_\+sha1\+Base64@{password\+\_\+to\+\_\+sha1\+Base64}!authorization.\+c@{authorization.\+c}}
+\subsubsection{\texorpdfstring{password\+\_\+to\+\_\+sha1\+Base64()}{password\_to\_sha1Base64()}}
+{\footnotesize\ttfamily \hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} password\+\_\+to\+\_\+sha1\+Base64 (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{hashlist }\end{DoxyParamCaption})}
+
+Reads the password and the name from the hashlist and returns a Hash with the Name and the sha1 and Base 64 encoded Password. \begin{DoxyAuthor}{Author}
+Jost 
+\end{DoxyAuthor}
+\begin{DoxyWarning}{Warning}
+The returned Hash must be freed 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em hashlist} & Hasch\+List with the Name and Password. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+hash that contains the name(clear text) as the key, and the password (S\+H\+A1 and Base64 encoded) as the value 
+\end{DoxyReturn}
+\mbox{\Hypertarget{authorization_8c_acc2e18e46f4d51886041fc7065adb348}\label{authorization_8c_acc2e18e46f4d51886041fc7065adb348}} 
+\index{authorization.\+c@{authorization.\+c}!pw\+\_\+rood@{pw\+\_\+rood}}
+\index{pw\+\_\+rood@{pw\+\_\+rood}!authorization.\+c@{authorization.\+c}}
+\subsubsection{\texorpdfstring{pw\+\_\+rood()}{pw\_rood()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ pw\+\_\+rood (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Created the Password-\/rood-\/string \begin{DoxyAuthor}{Author}
+Luise 
+\end{DoxyAuthor}
+\begin{DoxyWarning}{Warning}
+the return string must been freed 
+\end{DoxyWarning}
+\begin{DoxyReturn}{Returns}
+string \+: password\+\_\+rood 
+\end{DoxyReturn}
+\mbox{\Hypertarget{authorization_8c_aa09030fd3c5bd394c8edc5509330bf23}\label{authorization_8c_aa09030fd3c5bd394c8edc5509330bf23}} 
+\index{authorization.\+c@{authorization.\+c}!read\+\_\+pw\+\_\+list@{read\+\_\+pw\+\_\+list}}
+\index{read\+\_\+pw\+\_\+list@{read\+\_\+pw\+\_\+list}!authorization.\+c@{authorization.\+c}}
+\subsubsection{\texorpdfstring{read\+\_\+pw\+\_\+list()}{read\_pw\_list()}}
+{\footnotesize\ttfamily bool read\+\_\+pw\+\_\+list (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_aaae8e320515f4ba6ab5e8bc4ecd7f58a}{Hash} $\ast$}]{hash }\end{DoxyParamCaption})}
+
+Checks if username and password are a correct pair. \begin{DoxyAuthor}{Authors}
+Jost, Marc 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em hash} & that contains the name(clear text) as the key, and the password (S\+H\+A1 encoded) as the value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool is true if the password and name match the htpasswd file 
+\end{DoxyReturn}

@@ -1,0 +1,177 @@
+\hypertarget{response_8h}{}\section{response.\+h File Reference}
+\label{response_8h}\index{response.\+h@{response.\+h}}
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}hash.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}helpers.\+h\char`\"{}}\newline
+Include dependency graph for response.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{response_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{response_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} \{ \newline
+\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21a2bc49ec37d6a5715dd23e85f1ff5bb59}{OK} = 200, 
+\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21aef4e18cf5dacaf9d0cb90c72663a1b60}{B\+A\+D\+\_\+\+R\+E\+Q\+U\+E\+ST} = 400, 
+\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21aca808e0004f9d8808506cf69bd4a224c}{U\+N\+A\+U\+T\+H\+O\+R\+I\+Z\+ED} = 401, 
+\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21a4b4068e636cd02a6e87e8d3920383d67}{F\+O\+R\+B\+I\+D\+D\+EN} = 403, 
+\newline
+\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21acdaa2919bac56fe1090eb3dbb9526472}{N\+O\+T\+\_\+\+F\+O\+U\+ND} = 404, 
+\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21a5bc385218b6fd9392f95cfc35e20effe}{M\+E\+T\+H\+O\+D\+\_\+\+N\+O\+T\+\_\+\+A\+L\+L\+O\+W\+ED} = 405, 
+\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21a12bcc9d9958a22b983e65f77f3faf90b}{N\+O\+T\+\_\+\+I\+M\+P\+L\+E\+M\+E\+N\+T\+ED} = 501, 
+\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21a803023bc4cc6926389c140ec20c77dd0}{V\+E\+R\+S\+I\+O\+N\+\_\+\+N\+O\+T\+\_\+\+S\+U\+P\+P\+O\+R\+T\+ED} = 505
+ \}\begin{DoxyCompactList}\small\item\em struct defining supported H\+T\+TP response codes \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{response_8h_a3a784abd945fb5260d50fc0f6f46b595}{code\+\_\+to\+\_\+string} (\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} code)
+\begin{DoxyCompactList}\small\item\em converts the responsecode to a string \end{DoxyCompactList}\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{response_8h_a7066937e68de3b306d0fc62ca661ef10}{build\+\_\+http\+\_\+response\+\_\+header} (\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} code, \hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$fields)
+\begin{DoxyCompactList}\small\item\em simple wrapper to build H\+T\+TP response \end{DoxyCompactList}\item 
+void \hyperlink{response_8h_a1acb37e021e566b839a0f74fc57961a9}{send\+\_\+http\+\_\+response} (int target\+Stream, \hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} code, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$path, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$static\+Page)
+\begin{DoxyCompactList}\small\item\em uses the build\+\_\+http\+\_\+response\+\_\+header function to send a response to the client \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+
+Marcel Weski 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+26/04/19 
+\end{DoxyDate}
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{response_8h_ab894955de8b1913b4944567ee865ba21}\label{response_8h_ab894955de8b1913b4944567ee865ba21}} 
+\index{response.\+h@{response.\+h}!Http\+Response\+Code@{Http\+Response\+Code}}
+\index{Http\+Response\+Code@{Http\+Response\+Code}!response.\+h@{response.\+h}}
+\subsubsection{\texorpdfstring{Http\+Response\+Code}{HttpResponseCode}}
+{\footnotesize\ttfamily enum \hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code}}
+
+
+
+struct defining supported H\+T\+TP response codes 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+\end{DoxyAuthor}
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OK@{OK}!response.\+h@{response.\+h}}\index{response.\+h@{response.\+h}!OK@{OK}}}\mbox{\Hypertarget{response_8h_ab894955de8b1913b4944567ee865ba21a2bc49ec37d6a5715dd23e85f1ff5bb59}\label{response_8h_ab894955de8b1913b4944567ee865ba21a2bc49ec37d6a5715dd23e85f1ff5bb59}} 
+OK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{B\+A\+D\+\_\+\+R\+E\+Q\+U\+E\+ST@{B\+A\+D\+\_\+\+R\+E\+Q\+U\+E\+ST}!response.\+h@{response.\+h}}\index{response.\+h@{response.\+h}!B\+A\+D\+\_\+\+R\+E\+Q\+U\+E\+ST@{B\+A\+D\+\_\+\+R\+E\+Q\+U\+E\+ST}}}\mbox{\Hypertarget{response_8h_ab894955de8b1913b4944567ee865ba21aef4e18cf5dacaf9d0cb90c72663a1b60}\label{response_8h_ab894955de8b1913b4944567ee865ba21aef4e18cf5dacaf9d0cb90c72663a1b60}} 
+B\+A\+D\+\_\+\+R\+E\+Q\+U\+E\+ST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{U\+N\+A\+U\+T\+H\+O\+R\+I\+Z\+ED@{U\+N\+A\+U\+T\+H\+O\+R\+I\+Z\+ED}!response.\+h@{response.\+h}}\index{response.\+h@{response.\+h}!U\+N\+A\+U\+T\+H\+O\+R\+I\+Z\+ED@{U\+N\+A\+U\+T\+H\+O\+R\+I\+Z\+ED}}}\mbox{\Hypertarget{response_8h_ab894955de8b1913b4944567ee865ba21aca808e0004f9d8808506cf69bd4a224c}\label{response_8h_ab894955de8b1913b4944567ee865ba21aca808e0004f9d8808506cf69bd4a224c}} 
+U\+N\+A\+U\+T\+H\+O\+R\+I\+Z\+ED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{F\+O\+R\+B\+I\+D\+D\+EN@{F\+O\+R\+B\+I\+D\+D\+EN}!response.\+h@{response.\+h}}\index{response.\+h@{response.\+h}!F\+O\+R\+B\+I\+D\+D\+EN@{F\+O\+R\+B\+I\+D\+D\+EN}}}\mbox{\Hypertarget{response_8h_ab894955de8b1913b4944567ee865ba21a4b4068e636cd02a6e87e8d3920383d67}\label{response_8h_ab894955de8b1913b4944567ee865ba21a4b4068e636cd02a6e87e8d3920383d67}} 
+F\+O\+R\+B\+I\+D\+D\+EN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{N\+O\+T\+\_\+\+F\+O\+U\+ND@{N\+O\+T\+\_\+\+F\+O\+U\+ND}!response.\+h@{response.\+h}}\index{response.\+h@{response.\+h}!N\+O\+T\+\_\+\+F\+O\+U\+ND@{N\+O\+T\+\_\+\+F\+O\+U\+ND}}}\mbox{\Hypertarget{response_8h_ab894955de8b1913b4944567ee865ba21acdaa2919bac56fe1090eb3dbb9526472}\label{response_8h_ab894955de8b1913b4944567ee865ba21acdaa2919bac56fe1090eb3dbb9526472}} 
+N\+O\+T\+\_\+\+F\+O\+U\+ND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{M\+E\+T\+H\+O\+D\+\_\+\+N\+O\+T\+\_\+\+A\+L\+L\+O\+W\+ED@{M\+E\+T\+H\+O\+D\+\_\+\+N\+O\+T\+\_\+\+A\+L\+L\+O\+W\+ED}!response.\+h@{response.\+h}}\index{response.\+h@{response.\+h}!M\+E\+T\+H\+O\+D\+\_\+\+N\+O\+T\+\_\+\+A\+L\+L\+O\+W\+ED@{M\+E\+T\+H\+O\+D\+\_\+\+N\+O\+T\+\_\+\+A\+L\+L\+O\+W\+ED}}}\mbox{\Hypertarget{response_8h_ab894955de8b1913b4944567ee865ba21a5bc385218b6fd9392f95cfc35e20effe}\label{response_8h_ab894955de8b1913b4944567ee865ba21a5bc385218b6fd9392f95cfc35e20effe}} 
+M\+E\+T\+H\+O\+D\+\_\+\+N\+O\+T\+\_\+\+A\+L\+L\+O\+W\+ED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{N\+O\+T\+\_\+\+I\+M\+P\+L\+E\+M\+E\+N\+T\+ED@{N\+O\+T\+\_\+\+I\+M\+P\+L\+E\+M\+E\+N\+T\+ED}!response.\+h@{response.\+h}}\index{response.\+h@{response.\+h}!N\+O\+T\+\_\+\+I\+M\+P\+L\+E\+M\+E\+N\+T\+ED@{N\+O\+T\+\_\+\+I\+M\+P\+L\+E\+M\+E\+N\+T\+ED}}}\mbox{\Hypertarget{response_8h_ab894955de8b1913b4944567ee865ba21a12bcc9d9958a22b983e65f77f3faf90b}\label{response_8h_ab894955de8b1913b4944567ee865ba21a12bcc9d9958a22b983e65f77f3faf90b}} 
+N\+O\+T\+\_\+\+I\+M\+P\+L\+E\+M\+E\+N\+T\+ED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{V\+E\+R\+S\+I\+O\+N\+\_\+\+N\+O\+T\+\_\+\+S\+U\+P\+P\+O\+R\+T\+ED@{V\+E\+R\+S\+I\+O\+N\+\_\+\+N\+O\+T\+\_\+\+S\+U\+P\+P\+O\+R\+T\+ED}!response.\+h@{response.\+h}}\index{response.\+h@{response.\+h}!V\+E\+R\+S\+I\+O\+N\+\_\+\+N\+O\+T\+\_\+\+S\+U\+P\+P\+O\+R\+T\+ED@{V\+E\+R\+S\+I\+O\+N\+\_\+\+N\+O\+T\+\_\+\+S\+U\+P\+P\+O\+R\+T\+ED}}}\mbox{\Hypertarget{response_8h_ab894955de8b1913b4944567ee865ba21a803023bc4cc6926389c140ec20c77dd0}\label{response_8h_ab894955de8b1913b4944567ee865ba21a803023bc4cc6926389c140ec20c77dd0}} 
+V\+E\+R\+S\+I\+O\+N\+\_\+\+N\+O\+T\+\_\+\+S\+U\+P\+P\+O\+R\+T\+ED&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{response_8h_a7066937e68de3b306d0fc62ca661ef10}\label{response_8h_a7066937e68de3b306d0fc62ca661ef10}} 
+\index{response.\+h@{response.\+h}!build\+\_\+http\+\_\+response\+\_\+header@{build\+\_\+http\+\_\+response\+\_\+header}}
+\index{build\+\_\+http\+\_\+response\+\_\+header@{build\+\_\+http\+\_\+response\+\_\+header}!response.\+h@{response.\+h}}
+\subsubsection{\texorpdfstring{build\+\_\+http\+\_\+response\+\_\+header()}{build\_http\_response\_header()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ build\+\_\+http\+\_\+response\+\_\+header (\begin{DoxyParamCaption}\item[{\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code}}]{code,  }\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{fields }\end{DoxyParamCaption})}
+
+
+
+simple wrapper to build H\+T\+TP response 
+
+Please ensure your Hashes are used the following way\+: key -\/$>$ field name value -\/$>$ field value the function will add the \textquotesingle{}\+:\textquotesingle{} separator after the name itself.
+
+the fuction will return N\+U\+LL on failure
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em code} & desired H\+T\+TP response code, chosen from Http\+Response\+Codes enum \\
+\hline
+{\em fields} & list of header fields \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Http response as string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{response_8h_a3a784abd945fb5260d50fc0f6f46b595}\label{response_8h_a3a784abd945fb5260d50fc0f6f46b595}} 
+\index{response.\+h@{response.\+h}!code\+\_\+to\+\_\+string@{code\+\_\+to\+\_\+string}}
+\index{code\+\_\+to\+\_\+string@{code\+\_\+to\+\_\+string}!response.\+h@{response.\+h}}
+\subsubsection{\texorpdfstring{code\+\_\+to\+\_\+string()}{code\_to\_string()}}
+{\footnotesize\ttfamily char$\ast$ code\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code}}]{code }\end{DoxyParamCaption})}
+
+
+
+converts the responsecode to a string 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+\begin{DoxyReturn}{Returns}
+code as string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{response_8h_a1acb37e021e566b839a0f74fc57961a9}\label{response_8h_a1acb37e021e566b839a0f74fc57961a9}} 
+\index{response.\+h@{response.\+h}!send\+\_\+http\+\_\+response@{send\+\_\+http\+\_\+response}}
+\index{send\+\_\+http\+\_\+response@{send\+\_\+http\+\_\+response}!response.\+h@{response.\+h}}
+\subsubsection{\texorpdfstring{send\+\_\+http\+\_\+response()}{send\_http\_response()}}
+{\footnotesize\ttfamily void send\+\_\+http\+\_\+response (\begin{DoxyParamCaption}\item[{int}]{target\+Stream,  }\item[{\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code}}]{code,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{path,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{static\+Page }\end{DoxyParamCaption})}
+
+
+
+uses the build\+\_\+http\+\_\+response\+\_\+header function to send a response to the client 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em target\+Stream} & socket or stdout stream \\
+\hline
+{\em code} & response\+Code returned by the parse\+\_\+http\+\_\+request function \\
+\hline
+{\em path} & requested absolute file path \\
+\hline
+{\em static\+Page} & contains a string if /debug was requested \\
+\hline
+\end{DoxyParams}

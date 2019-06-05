@@ -1,0 +1,5 @@
+<map id="http_request_struct" name="http_request_struct">
+<area shape="rect" id="node2" href="$structstring__struct.html" title="string_struct" alt="" coords="25,5,120,32"/>
+<area shape="rect" id="node4" href="$struct_string_hash_struct.html" title="Hash element. " alt="" coords="89,109,211,136"/>
+<area shape="rect" id="node3" href="$struct_string_hash_list.html" title="Structure defining a listElement. " alt="" coords="92,213,200,240"/>
+</map>

@@ -1,0 +1,142 @@
+\hypertarget{request_8c}{}\section{request.\+c File Reference}
+\label{request_8c}\index{request.\+c@{request.\+c}}
+{\ttfamily \#include \char`\"{}request.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}authorization.\+h\char`\"{}}\newline
+Include dependency graph for request.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{request_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{request_8c_a625c76f362da15a712974d925f99229b}{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY}~2083
+\item 
+\#define \hyperlink{request_8c_a3e6fc1fdb6d81b13f26c16eb5efddf19}{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE}~(\hyperlink{request_8c_a625c76f362da15a712974d925f99229b}{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY} + 200)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{request_8c_a6ad9fb0bca4937f21fcc0035d185ee79}{free\+\_\+http\+\_\+request} (\hyperlink{request_8h_a756b7ee6cbac4fbbd1af5dff0bcdec31}{Http\+Request} $\ast$http\+Request)
+\begin{DoxyCompactList}\small\item\em frees the Http\+Request-\/\+Struct \end{DoxyCompactList}\item 
+\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} \hyperlink{request_8c_ae72f3dc28e74d58dfed16ca668615a35}{validate\+\_\+resource} (\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$fields, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$resource, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$path)
+\begin{DoxyCompactList}\small\item\em validates the requested resource Makes sure that the client is only able to access files within the Document\+Root and returns the right response code \end{DoxyCompactList}\item 
+\hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} \hyperlink{request_8c_a7c0804b52ef0eca32dab11a0daa6acf4}{parse\+\_\+http\+\_\+request} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$request, \hyperlink{request_8h_a756b7ee6cbac4fbbd1af5dff0bcdec31}{Http\+Request} $\ast$$\ast$http\+Request, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$static\+Page)
+\begin{DoxyCompactList}\small\item\em parses the received buffer, returns a response code and fills the http\+Request-\/\+Struct \end{DoxyCompactList}\item 
+bool \hyperlink{request_8c_a30612b73b293afcce8c322bb7bd9672d}{fill\+\_\+request\+\_\+string} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str\+Request, char $\ast$buffer, size\+\_\+t buffer\+Size)
+\begin{DoxyCompactList}\small\item\em checks if the request string contains a valid header end (\textquotesingle{}~\newline
+~\newline
+\textquotesingle{}) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{request_8c_a625c76f362da15a712974d925f99229b}\label{request_8c_a625c76f362da15a712974d925f99229b}} 
+\index{request.\+c@{request.\+c}!P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY@{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY}}
+\index{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY@{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY}!request.\+c@{request.\+c}}
+\subsubsection{\texorpdfstring{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY}{PATH\_CAPACITY}}
+{\footnotesize\ttfamily \#define P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY~2083}
+
+\mbox{\Hypertarget{request_8c_a3e6fc1fdb6d81b13f26c16eb5efddf19}\label{request_8c_a3e6fc1fdb6d81b13f26c16eb5efddf19}} 
+\index{request.\+c@{request.\+c}!P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE@{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE}}
+\index{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE@{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE}!request.\+c@{request.\+c}}
+\subsubsection{\texorpdfstring{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE}{PATH\_CAPACITY\_ABSOLUTE}}
+{\footnotesize\ttfamily \#define P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+T\+Y\+\_\+\+A\+B\+S\+O\+L\+U\+TE~(\hyperlink{request_8c_a625c76f362da15a712974d925f99229b}{P\+A\+T\+H\+\_\+\+C\+A\+P\+A\+C\+I\+TY} + 200)}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{request_8c_a30612b73b293afcce8c322bb7bd9672d}\label{request_8c_a30612b73b293afcce8c322bb7bd9672d}} 
+\index{request.\+c@{request.\+c}!fill\+\_\+request\+\_\+string@{fill\+\_\+request\+\_\+string}}
+\index{fill\+\_\+request\+\_\+string@{fill\+\_\+request\+\_\+string}!request.\+c@{request.\+c}}
+\subsubsection{\texorpdfstring{fill\+\_\+request\+\_\+string()}{fill\_request\_string()}}
+{\footnotesize\ttfamily bool fill\+\_\+request\+\_\+string (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str\+Request,  }\item[{char $\ast$}]{buffer,  }\item[{size\+\_\+t}]{buffer\+Size }\end{DoxyParamCaption})}
+
+
+
+checks if the request string contains a valid header end (\textquotesingle{}~\newline
+~\newline
+\textquotesingle{}) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str\+Request} & the whole request as string \\
+\hline
+{\em buffer} & the current buffer data \\
+\hline
+{\em buffer\+Size} & the current buffer data size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if end of header was found, otherwise false 
+\end{DoxyReturn}
+\mbox{\Hypertarget{request_8c_a6ad9fb0bca4937f21fcc0035d185ee79}\label{request_8c_a6ad9fb0bca4937f21fcc0035d185ee79}} 
+\index{request.\+c@{request.\+c}!free\+\_\+http\+\_\+request@{free\+\_\+http\+\_\+request}}
+\index{free\+\_\+http\+\_\+request@{free\+\_\+http\+\_\+request}!request.\+c@{request.\+c}}
+\subsubsection{\texorpdfstring{free\+\_\+http\+\_\+request()}{free\_http\_request()}}
+{\footnotesize\ttfamily void free\+\_\+http\+\_\+request (\begin{DoxyParamCaption}\item[{\hyperlink{request_8h_a756b7ee6cbac4fbbd1af5dff0bcdec31}{Http\+Request} $\ast$}]{http\+Request }\end{DoxyParamCaption})}
+
+
+
+frees the Http\+Request-\/\+Struct 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em http\+Request} & struct to free \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{request_8c_a7c0804b52ef0eca32dab11a0daa6acf4}\label{request_8c_a7c0804b52ef0eca32dab11a0daa6acf4}} 
+\index{request.\+c@{request.\+c}!parse\+\_\+http\+\_\+request@{parse\+\_\+http\+\_\+request}}
+\index{parse\+\_\+http\+\_\+request@{parse\+\_\+http\+\_\+request}!request.\+c@{request.\+c}}
+\subsubsection{\texorpdfstring{parse\+\_\+http\+\_\+request()}{parse\_http\_request()}}
+{\footnotesize\ttfamily \hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} parse\+\_\+http\+\_\+request (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{request,  }\item[{\hyperlink{request_8h_a756b7ee6cbac4fbbd1af5dff0bcdec31}{Http\+Request} $\ast$$\ast$}]{http\+Request,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$}]{static\+Page }\end{DoxyParamCaption})}
+
+
+
+parses the received buffer, returns a response code and fills the http\+Request-\/\+Struct 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em request} & string of buffers \\
+\hline
+{\em http\+Request} & the filled http\+Request. Must be freed! \\
+\hline
+{\em static\+Page} & returns the debug-\/\+Page if /debug is requested. Must be freed! \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int the response code 
+\end{DoxyReturn}
+\mbox{\Hypertarget{request_8c_ae72f3dc28e74d58dfed16ca668615a35}\label{request_8c_ae72f3dc28e74d58dfed16ca668615a35}} 
+\index{request.\+c@{request.\+c}!validate\+\_\+resource@{validate\+\_\+resource}}
+\index{validate\+\_\+resource@{validate\+\_\+resource}!request.\+c@{request.\+c}}
+\subsubsection{\texorpdfstring{validate\+\_\+resource()}{validate\_resource()}}
+{\footnotesize\ttfamily \hyperlink{response_8h_ab894955de8b1913b4944567ee865ba21}{Http\+Response\+Code} validate\+\_\+resource (\begin{DoxyParamCaption}\item[{\hyperlink{hash_8h_a58bb615f9115c5b9b1a49a64d3737edf}{Hash\+List} $\ast$}]{hash\+List,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{resource,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$}]{path }\end{DoxyParamCaption})}
+
+
+
+validates the requested resource Makes sure that the client is only able to access files within the Document\+Root and returns the right response code 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em hash\+List} & fields of the request \\
+\hline
+{\em resource} & requested resource \\
+\hline
+{\em path} & the new absolute path from the resource, if the file exists. Must be freed! \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+200, if the file exists. 403, if the access is not allowed (specific files and all files outside the document root). 404, if the file doesn\textquotesingle{}t exists 
+\end{DoxyReturn}

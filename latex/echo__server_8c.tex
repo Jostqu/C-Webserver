@@ -1,0 +1,68 @@
+\hypertarget{echo__server_8c}{}\section{echo\+\_\+server.\+c File Reference}
+\label{echo__server_8c}\index{echo\+\_\+server.\+c@{echo\+\_\+server.\+c}}
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/ip.\+h$>$}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$poll.\+h$>$}\newline
+{\ttfamily \#include $<$openssl/sha.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}request.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}response.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}tests.\+h\char`\"{}}\newline
+Include dependency graph for echo\+\_\+server.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{echo__server_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{echo__server_8c_a614217d263be1fb1a5f76e2ff7be19a2}{P\+O\+RT}~31337
+\item 
+\#define \hyperlink{echo__server_8c_a6b20d41d6252e9871430c242cb1a56e7}{B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}~1024
+\item 
+\#define \hyperlink{echo__server_8c_a76e334e12a376a91d58c9ec5ae9a7abf}{M\+A\+X\+\_\+\+H\+E\+A\+D\+E\+R\+\_\+\+L\+EN}~8192
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{echo__server_8c_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{echo__server_8c_a6b20d41d6252e9871430c242cb1a56e7}\label{echo__server_8c_a6b20d41d6252e9871430c242cb1a56e7}} 
+\index{echo\+\_\+server.\+c@{echo\+\_\+server.\+c}!B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE@{B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}}
+\index{B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE@{B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}!echo\+\_\+server.\+c@{echo\+\_\+server.\+c}}
+\subsubsection{\texorpdfstring{B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}{BUFFER\_SIZE}}
+{\footnotesize\ttfamily \#define B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE~1024}
+
+\mbox{\Hypertarget{echo__server_8c_a76e334e12a376a91d58c9ec5ae9a7abf}\label{echo__server_8c_a76e334e12a376a91d58c9ec5ae9a7abf}} 
+\index{echo\+\_\+server.\+c@{echo\+\_\+server.\+c}!M\+A\+X\+\_\+\+H\+E\+A\+D\+E\+R\+\_\+\+L\+EN@{M\+A\+X\+\_\+\+H\+E\+A\+D\+E\+R\+\_\+\+L\+EN}}
+\index{M\+A\+X\+\_\+\+H\+E\+A\+D\+E\+R\+\_\+\+L\+EN@{M\+A\+X\+\_\+\+H\+E\+A\+D\+E\+R\+\_\+\+L\+EN}!echo\+\_\+server.\+c@{echo\+\_\+server.\+c}}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+H\+E\+A\+D\+E\+R\+\_\+\+L\+EN}{MAX\_HEADER\_LEN}}
+{\footnotesize\ttfamily \#define M\+A\+X\+\_\+\+H\+E\+A\+D\+E\+R\+\_\+\+L\+EN~8192}
+
+\mbox{\Hypertarget{echo__server_8c_a614217d263be1fb1a5f76e2ff7be19a2}\label{echo__server_8c_a614217d263be1fb1a5f76e2ff7be19a2}} 
+\index{echo\+\_\+server.\+c@{echo\+\_\+server.\+c}!P\+O\+RT@{P\+O\+RT}}
+\index{P\+O\+RT@{P\+O\+RT}!echo\+\_\+server.\+c@{echo\+\_\+server.\+c}}
+\subsubsection{\texorpdfstring{P\+O\+RT}{PORT}}
+{\footnotesize\ttfamily \#define P\+O\+RT~31337}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{echo__server_8c_a0ddf1224851353fc92bfbff6f499fa97}\label{echo__server_8c_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{echo\+\_\+server.\+c@{echo\+\_\+server.\+c}!main@{main}}
+\index{main@{main}!echo\+\_\+server.\+c@{echo\+\_\+server.\+c}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+

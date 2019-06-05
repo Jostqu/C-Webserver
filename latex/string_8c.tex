@@ -1,0 +1,660 @@
+\hypertarget{string_8c}{}\section{string.\+c File Reference}
+\label{string_8c}\index{string.\+c@{string.\+c}}
+{\ttfamily \#include \char`\"{}string.\+h\char`\"{}}\newline
+Include dependency graph for string.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{string_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{string_8c_aa821400448b382e43edc3d8876702a23}{string\+\_\+new} (size\+\_\+t capacity)
+\begin{DoxyCompactList}\small\item\em creates a new string with the given capacity allocates memory with calloc that needs to be freed by string\+\_\+free \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_a5254fab9c967057ff11ca5e4499b1185}{string\+\_\+realloc} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, size\+\_\+t new\+Cap)
+\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{string_8c_ab35ab77e02fc70c813d6a3fec85e24b7}{string\+\_\+copy} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str)
+\begin{DoxyCompactList}\small\item\em creates a identical copy of a given string allocates memory with calloc that needs to be freed by string\+\_\+free \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_ae2382692d1ce97cad773afcee42bf052}{string\+\_\+free} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str)
+\begin{DoxyCompactList}\small\item\em frees a string \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_a603235a840d0a092758fde1523e1d008}{string\+\_\+concat} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, char $\ast$src)
+\begin{DoxyCompactList}\small\item\em appends src to str \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_ac87036e19cb16961895f4cb479d4045b}{string\+\_\+add\+\_\+char} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, char c)
+\begin{DoxyCompactList}\small\item\em adds a char to a string that may be reallocated if capacity isn\textquotesingle{}t big enough \end{DoxyCompactList}\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{string_8c_aad102a2295f103ad210e82c70e7e5abc}{string\+\_\+strip} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str)
+\begin{DoxyCompactList}\small\item\em removes all spaces at begin and end of a string \end{DoxyCompactList}\item 
+bool \hyperlink{string_8c_ae17ab6b716d38701b59bdce3e336af5b}{string\+\_\+compare} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$string1, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$string2)
+\begin{DoxyCompactList}\small\item\em compares two strings compares two string with memcmp \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_aec23e8825ca68414bdc4a92e3c1e0f4c}{string\+\_\+print} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str)
+\begin{DoxyCompactList}\small\item\em prints a string onto the console \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_a106a9cb5d566f892f43d69b1a39e03d0}{string\+\_\+concat\+\_\+str} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$dst, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$src)
+\begin{DoxyCompactList}\small\item\em concat string typed string src to dst equivalent to string\+\_\+concat \end{DoxyCompactList}\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{string_8c_ab0ddc9b8b3923b0e4335107a83ba5646}{int\+\_\+to\+\_\+string} (int i)
+\begin{DoxyCompactList}\small\item\em int to string function \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{string_8c_aa711f56eb8b3ff42f34a7558a8851623}{int\+\_\+to\+\_\+\+Ascii\+\_\+char} (int i)
+\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$ \hyperlink{string_8c_ae2e788f64b141e2298a5cfd2d87fa04c}{string\+\_\+split} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, char splitter, int $\ast$splits)
+\begin{DoxyCompactList}\small\item\em splits a string by c its a basic method with a rather bad runtime of O(2n) if there is a splitter, the list will contain an empty string at the end \end{DoxyCompactList}\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{string_8c_aba2621fcbf1e796c89c0016c7ee62181}{string\+\_\+terminate} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str)
+\begin{DoxyCompactList}\small\item\em terminates a string (adds a \textbackslash{}0 to the end). Needed for functions like fopen \end{DoxyCompactList}\item 
+long \hyperlink{string_8c_a45399868bf99479d9f2c29261ba9c522}{string\+\_\+to\+\_\+long} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, int base)
+\begin{DoxyCompactList}\small\item\em wrapper for strtol \end{DoxyCompactList}\item 
+bool \hyperlink{string_8c_ad50608a8cca672be3290bba079743433}{string\+\_\+compare\+\_\+cstr} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$string1, char $\ast$string2)
+\begin{DoxyCompactList}\small\item\em little extension to the string\+\_\+compare \end{DoxyCompactList}\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{string_8c_a9391b9b97412980c1b1c4d38378f5543}{string\+\_\+new\+\_\+from\+\_\+cstr} (char $\ast$str)
+\begin{DoxyCompactList}\small\item\em creates new string from given char$\ast$ \end{DoxyCompactList}\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{string_8c_a91787f1ed4754b46f73e4cc98e55138c}{string\+\_\+join} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$splitted, int splits, char separator)
+\begin{DoxyCompactList}\small\item\em recombines list from string\+\_\+split function returns null on failure or if splitted is null or if splits is 0. the separator is added between the splits (who would have expected), if non is wanted set separator to 0 \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_ac32f628d3a9fe9291a6a52ee79105f73}{string\+\_\+insert} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$dst, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$src, int index)
+\begin{DoxyCompactList}\small\item\em inserts src at index \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_a84eea55e0341c16a4e5d08d6ad347ab8}{string\+\_\+insert\+\_\+cstr} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$dst, char $\ast$src, int index)
+\begin{DoxyCompactList}\small\item\em extension of string\+\_\+insert to support char$\ast$ \end{DoxyCompactList}\item 
+bool \hyperlink{string_8c_a94d3d0d6464cedb43aeaa204ebd2b7bb}{string\+\_\+startswith} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$needle)
+\begin{DoxyCompactList}\small\item\em checks is str starts with needle uses string\+\_\+compare \end{DoxyCompactList}\item 
+bool \hyperlink{string_8c_ab3ed9ef0b1f2464fdfe520e5dc4a380f}{string\+\_\+startswith\+\_\+cstr} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, char $\ast$needle)
+\begin{DoxyCompactList}\small\item\em checks if str starts with needle \end{DoxyCompactList}\item 
+bool \hyperlink{string_8c_a37a30efaac2743ae8339f60e54ba6c89}{string\+\_\+endswith} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$part)
+\begin{DoxyCompactList}\small\item\em compares end of string with another string \end{DoxyCompactList}\item 
+bool \hyperlink{string_8c_a136d1913d88e81d3aee44c2a9684a41f}{string\+\_\+endswith\+\_\+cstr} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, char $\ast$part)
+\begin{DoxyCompactList}\small\item\em compars end of string with another string (char pointer) \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_a54b21c9c9a0df76610c09bf104077243}{move\+\_\+string\+\_\+x\+\_\+left} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, int x)
+\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$ \hyperlink{string_8c_a52c1bfcbbba22c50f093cf5faafe14b3}{string\+\_\+split\+\_\+string} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$splitter, int $\ast$splits)
+\begin{DoxyCompactList}\small\item\em splits a string, but uses a string as splitter argument uses the same \char`\"{}algorithm\char`\"{} as string\+\_\+split but adapted to use string as splitter \end{DoxyCompactList}\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$ \hyperlink{string_8c_a4d2488155e1f18d5d14a9ff3e35df882}{string\+\_\+split\+\_\+cstr} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str, char $\ast$splitter, int $\ast$splits)
+\item 
+\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$ \hyperlink{string_8c_a7e5d0900b56b765ccd1a668c9a9a4c39}{string\+\_\+new\+\_\+from\+\_\+carray} (char $\ast$str, int len)
+\begin{DoxyCompactList}\small\item\em creates new string from given char$\ast$ but limits at length \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_a128a94234e54e046f65279d296ddb35b}{string\+\_\+to\+\_\+lower} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$str)
+\begin{DoxyCompactList}\small\item\em replaces all uppercase chars with lowercase this fuction uses ctypes own tolower function \end{DoxyCompactList}\item 
+void \hyperlink{string_8c_a2ac6b2f5bb299fd17fa2804698d2127a}{string\+\_\+free\+\_\+stringlist} (\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$list, int num\+Of\+Elements)
+\begin{DoxyCompactList}\small\item\em frees a list of \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{string_8c_aa711f56eb8b3ff42f34a7558a8851623}\label{string_8c_aa711f56eb8b3ff42f34a7558a8851623}} 
+\index{string.\+c@{string.\+c}!int\+\_\+to\+\_\+\+Ascii\+\_\+char@{int\+\_\+to\+\_\+\+Ascii\+\_\+char}}
+\index{int\+\_\+to\+\_\+\+Ascii\+\_\+char@{int\+\_\+to\+\_\+\+Ascii\+\_\+char}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{int\+\_\+to\+\_\+\+Ascii\+\_\+char()}{int\_to\_Ascii\_char()}}
+{\footnotesize\ttfamily char$\ast$ int\+\_\+to\+\_\+\+Ascii\+\_\+char (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{string_8c_ab0ddc9b8b3923b0e4335107a83ba5646}\label{string_8c_ab0ddc9b8b3923b0e4335107a83ba5646}} 
+\index{string.\+c@{string.\+c}!int\+\_\+to\+\_\+string@{int\+\_\+to\+\_\+string}}
+\index{int\+\_\+to\+\_\+string@{int\+\_\+to\+\_\+string}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{int\+\_\+to\+\_\+string()}{int\_to\_string()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ int\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+
+
+int to string function 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em i} & an integer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string containing i 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_a54b21c9c9a0df76610c09bf104077243}\label{string_8c_a54b21c9c9a0df76610c09bf104077243}} 
+\index{string.\+c@{string.\+c}!move\+\_\+string\+\_\+x\+\_\+left@{move\+\_\+string\+\_\+x\+\_\+left}}
+\index{move\+\_\+string\+\_\+x\+\_\+left@{move\+\_\+string\+\_\+x\+\_\+left}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{move\+\_\+string\+\_\+x\+\_\+left()}{move\_string\_x\_left()}}
+{\footnotesize\ttfamily void move\+\_\+string\+\_\+x\+\_\+left (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{int}]{x }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{string_8c_ac87036e19cb16961895f4cb479d4045b}\label{string_8c_ac87036e19cb16961895f4cb479d4045b}} 
+\index{string.\+c@{string.\+c}!string\+\_\+add\+\_\+char@{string\+\_\+add\+\_\+char}}
+\index{string\+\_\+add\+\_\+char@{string\+\_\+add\+\_\+char}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+add\+\_\+char()}{string\_add\_char()}}
+{\footnotesize\ttfamily void string\+\_\+add\+\_\+char (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{char}]{c }\end{DoxyParamCaption})}
+
+
+
+adds a char to a string that may be reallocated if capacity isn\textquotesingle{}t big enough 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to add char to \\
+\hline
+{\em c} & the char \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{string_8c_ae17ab6b716d38701b59bdce3e336af5b}\label{string_8c_ae17ab6b716d38701b59bdce3e336af5b}} 
+\index{string.\+c@{string.\+c}!string\+\_\+compare@{string\+\_\+compare}}
+\index{string\+\_\+compare@{string\+\_\+compare}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+compare()}{string\_compare()}}
+{\footnotesize\ttfamily bool string\+\_\+compare (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{string1,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{string2 }\end{DoxyParamCaption})}
+
+
+
+compares two strings compares two string with memcmp 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em string1} & \\
+\hline
+{\em string2} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if string1 == string2 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_ad50608a8cca672be3290bba079743433}\label{string_8c_ad50608a8cca672be3290bba079743433}} 
+\index{string.\+c@{string.\+c}!string\+\_\+compare\+\_\+cstr@{string\+\_\+compare\+\_\+cstr}}
+\index{string\+\_\+compare\+\_\+cstr@{string\+\_\+compare\+\_\+cstr}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+compare\+\_\+cstr()}{string\_compare\_cstr()}}
+{\footnotesize\ttfamily bool string\+\_\+compare\+\_\+cstr (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{string1,  }\item[{char $\ast$}]{string2 }\end{DoxyParamCaption})}
+
+
+
+little extension to the string\+\_\+compare 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em string1} & a string \\
+\hline
+{\em string2} & a cstring (char$\ast$) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if equal 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_a603235a840d0a092758fde1523e1d008}\label{string_8c_a603235a840d0a092758fde1523e1d008}} 
+\index{string.\+c@{string.\+c}!string\+\_\+concat@{string\+\_\+concat}}
+\index{string\+\_\+concat@{string\+\_\+concat}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+concat()}{string\_concat()}}
+{\footnotesize\ttfamily void string\+\_\+concat (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{char $\ast$}]{src }\end{DoxyParamCaption})}
+
+
+
+appends src to str 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to append to \\
+\hline
+{\em src} & string to append \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{string_8c_a106a9cb5d566f892f43d69b1a39e03d0}\label{string_8c_a106a9cb5d566f892f43d69b1a39e03d0}} 
+\index{string.\+c@{string.\+c}!string\+\_\+concat\+\_\+str@{string\+\_\+concat\+\_\+str}}
+\index{string\+\_\+concat\+\_\+str@{string\+\_\+concat\+\_\+str}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+concat\+\_\+str()}{string\_concat\_str()}}
+{\footnotesize\ttfamily void string\+\_\+concat\+\_\+str (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{dst,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{src }\end{DoxyParamCaption})}
+
+
+
+concat string typed string src to dst equivalent to string\+\_\+concat 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em dst} & destination \\
+\hline
+{\em src} & source \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{string_8c_ab35ab77e02fc70c813d6a3fec85e24b7}\label{string_8c_ab35ab77e02fc70c813d6a3fec85e24b7}} 
+\index{string.\+c@{string.\+c}!string\+\_\+copy@{string\+\_\+copy}}
+\index{string\+\_\+copy@{string\+\_\+copy}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+copy()}{string\_copy()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ string\+\_\+copy (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str }\end{DoxyParamCaption})}
+
+
+
+creates a identical copy of a given string allocates memory with calloc that needs to be freed by string\+\_\+free 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to copy \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the new string struct 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_a37a30efaac2743ae8339f60e54ba6c89}\label{string_8c_a37a30efaac2743ae8339f60e54ba6c89}} 
+\index{string.\+c@{string.\+c}!string\+\_\+endswith@{string\+\_\+endswith}}
+\index{string\+\_\+endswith@{string\+\_\+endswith}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+endswith()}{string\_endswith()}}
+{\footnotesize\ttfamily bool string\+\_\+endswith (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{part }\end{DoxyParamCaption})}
+
+
+
+compares end of string with another string 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to compare end with \\
+\hline
+{\em part} & end part of str \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true, if part is equal to last chars of str 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_a136d1913d88e81d3aee44c2a9684a41f}\label{string_8c_a136d1913d88e81d3aee44c2a9684a41f}} 
+\index{string.\+c@{string.\+c}!string\+\_\+endswith\+\_\+cstr@{string\+\_\+endswith\+\_\+cstr}}
+\index{string\+\_\+endswith\+\_\+cstr@{string\+\_\+endswith\+\_\+cstr}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+endswith\+\_\+cstr()}{string\_endswith\_cstr()}}
+{\footnotesize\ttfamily bool string\+\_\+endswith\+\_\+cstr (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{char $\ast$}]{part }\end{DoxyParamCaption})}
+
+
+
+compars end of string with another string (char pointer) 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{string_8h_a37a30efaac2743ae8339f60e54ba6c89}{string\+\_\+endswith} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{string_8c_ae2382692d1ce97cad773afcee42bf052}\label{string_8c_ae2382692d1ce97cad773afcee42bf052}} 
+\index{string.\+c@{string.\+c}!string\+\_\+free@{string\+\_\+free}}
+\index{string\+\_\+free@{string\+\_\+free}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+free()}{string\_free()}}
+{\footnotesize\ttfamily void string\+\_\+free (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str }\end{DoxyParamCaption})}
+
+
+
+frees a string 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to free \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{string_8c_a2ac6b2f5bb299fd17fa2804698d2127a}\label{string_8c_a2ac6b2f5bb299fd17fa2804698d2127a}} 
+\index{string.\+c@{string.\+c}!string\+\_\+free\+\_\+stringlist@{string\+\_\+free\+\_\+stringlist}}
+\index{string\+\_\+free\+\_\+stringlist@{string\+\_\+free\+\_\+stringlist}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+free\+\_\+stringlist()}{string\_free\_stringlist()}}
+{\footnotesize\ttfamily void string\+\_\+free\+\_\+stringlist (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$}]{list,  }\item[{int}]{num\+Of\+Elements }\end{DoxyParamCaption})}
+
+
+
+frees a list of 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Of\+Elements} & elements\\
+\hline
+\end{DoxyParams}
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em list} & a stringlist \\
+\hline
+{\em num\+Of\+Elements} & number of elements in \\
+\hline
+{\em list} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{string_8c_ac32f628d3a9fe9291a6a52ee79105f73}\label{string_8c_ac32f628d3a9fe9291a6a52ee79105f73}} 
+\index{string.\+c@{string.\+c}!string\+\_\+insert@{string\+\_\+insert}}
+\index{string\+\_\+insert@{string\+\_\+insert}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+insert()}{string\_insert()}}
+{\footnotesize\ttfamily void string\+\_\+insert (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{dst,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{src,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+inserts src at index 
+
+\begin{DoxyAuthor}{Author}
+Björn marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em dst} & string to insert to \\
+\hline
+{\em src} & string to insert from \\
+\hline
+{\em index} & explains itself \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{string_8c_a84eea55e0341c16a4e5d08d6ad347ab8}\label{string_8c_a84eea55e0341c16a4e5d08d6ad347ab8}} 
+\index{string.\+c@{string.\+c}!string\+\_\+insert\+\_\+cstr@{string\+\_\+insert\+\_\+cstr}}
+\index{string\+\_\+insert\+\_\+cstr@{string\+\_\+insert\+\_\+cstr}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+insert\+\_\+cstr()}{string\_insert\_cstr()}}
+{\footnotesize\ttfamily void string\+\_\+insert\+\_\+cstr (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{dst,  }\item[{char $\ast$}]{src,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+extension of string\+\_\+insert to support char$\ast$ 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{string_8h_ac32f628d3a9fe9291a6a52ee79105f73}{string\+\_\+insert} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{string_8c_a91787f1ed4754b46f73e4cc98e55138c}\label{string_8c_a91787f1ed4754b46f73e4cc98e55138c}} 
+\index{string.\+c@{string.\+c}!string\+\_\+join@{string\+\_\+join}}
+\index{string\+\_\+join@{string\+\_\+join}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+join()}{string\_join()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ string\+\_\+join (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$$\ast$}]{splitted,  }\item[{int}]{splits,  }\item[{char}]{separator }\end{DoxyParamCaption})}
+
+
+
+recombines list from string\+\_\+split function returns null on failure or if splitted is null or if splits is 0. the separator is added between the splits (who would have expected), if non is wanted set separator to 0 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em splitted} & list of splitted strings \\
+\hline
+{\em splits} & number of strings in splitted \\
+\hline
+{\em separator} & char to put between individual strings \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string containing all substrings of splitted 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_aa821400448b382e43edc3d8876702a23}\label{string_8c_aa821400448b382e43edc3d8876702a23}} 
+\index{string.\+c@{string.\+c}!string\+\_\+new@{string\+\_\+new}}
+\index{string\+\_\+new@{string\+\_\+new}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+new()}{string\_new()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ string\+\_\+new (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{capacity }\end{DoxyParamCaption})}
+
+
+
+creates a new string with the given capacity allocates memory with calloc that needs to be freed by string\+\_\+free 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em capacity} & max. amount of chars that can be saved before reallocating \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to string struct 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_a7e5d0900b56b765ccd1a668c9a9a4c39}\label{string_8c_a7e5d0900b56b765ccd1a668c9a9a4c39}} 
+\index{string.\+c@{string.\+c}!string\+\_\+new\+\_\+from\+\_\+carray@{string\+\_\+new\+\_\+from\+\_\+carray}}
+\index{string\+\_\+new\+\_\+from\+\_\+carray@{string\+\_\+new\+\_\+from\+\_\+carray}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+new\+\_\+from\+\_\+carray()}{string\_new\_from\_carray()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ string\+\_\+new\+\_\+from\+\_\+carray (\begin{DoxyParamCaption}\item[{char $\ast$}]{str,  }\item[{int}]{len }\end{DoxyParamCaption})}
+
+
+
+creates new string from given char$\ast$ but limits at length 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & a char$\ast$ \\
+\hline
+{\em len} & length of char$\ast$ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_a9391b9b97412980c1b1c4d38378f5543}\label{string_8c_a9391b9b97412980c1b1c4d38378f5543}} 
+\index{string.\+c@{string.\+c}!string\+\_\+new\+\_\+from\+\_\+cstr@{string\+\_\+new\+\_\+from\+\_\+cstr}}
+\index{string\+\_\+new\+\_\+from\+\_\+cstr@{string\+\_\+new\+\_\+from\+\_\+cstr}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+new\+\_\+from\+\_\+cstr()}{string\_new\_from\_cstr()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ string\+\_\+new\+\_\+from\+\_\+cstr (\begin{DoxyParamCaption}\item[{char $\ast$}]{str }\end{DoxyParamCaption})}
+
+
+
+creates new string from given char$\ast$ 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & a string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new string with content of str, N\+U\+LL if 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & is N\+U\+LL \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{string_8c_aec23e8825ca68414bdc4a92e3c1e0f4c}\label{string_8c_aec23e8825ca68414bdc4a92e3c1e0f4c}} 
+\index{string.\+c@{string.\+c}!string\+\_\+print@{string\+\_\+print}}
+\index{string\+\_\+print@{string\+\_\+print}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+print()}{string\_print()}}
+{\footnotesize\ttfamily void string\+\_\+print (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str }\end{DoxyParamCaption})}
+
+
+
+prints a string onto the console 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & String \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{string_8c_a5254fab9c967057ff11ca5e4499b1185}\label{string_8c_a5254fab9c967057ff11ca5e4499b1185}} 
+\index{string.\+c@{string.\+c}!string\+\_\+realloc@{string\+\_\+realloc}}
+\index{string\+\_\+realloc@{string\+\_\+realloc}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+realloc()}{string\_realloc()}}
+{\footnotesize\ttfamily void string\+\_\+realloc (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{size\+\_\+t}]{new\+Cap }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{string_8c_ae2e788f64b141e2298a5cfd2d87fa04c}\label{string_8c_ae2e788f64b141e2298a5cfd2d87fa04c}} 
+\index{string.\+c@{string.\+c}!string\+\_\+split@{string\+\_\+split}}
+\index{string\+\_\+split@{string\+\_\+split}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+split()}{string\_split()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$$\ast$ string\+\_\+split (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{char}]{splitter,  }\item[{int $\ast$}]{splits }\end{DoxyParamCaption})}
+
+
+
+splits a string by c its a basic method with a rather bad runtime of O(2n) if there is a splitter, the list will contain an empty string at the end 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em splits} & pointer to integer to store stringlists length in \\
+\hline
+{\em str} & an string \\
+\hline
+{\em splitter} & charakter defining when to split \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+list of strings 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_a4d2488155e1f18d5d14a9ff3e35df882}\label{string_8c_a4d2488155e1f18d5d14a9ff3e35df882}} 
+\index{string.\+c@{string.\+c}!string\+\_\+split\+\_\+cstr@{string\+\_\+split\+\_\+cstr}}
+\index{string\+\_\+split\+\_\+cstr@{string\+\_\+split\+\_\+cstr}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+split\+\_\+cstr()}{string\_split\_cstr()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$$\ast$ string\+\_\+split\+\_\+cstr (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{char $\ast$}]{splitter,  }\item[{int $\ast$}]{splits }\end{DoxyParamCaption})}
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{string_8h_a52c1bfcbbba22c50f093cf5faafe14b3}{string\+\_\+split\+\_\+string}
+\end{DoxySeeAlso}
+\begin{DoxyAuthor}{Author}
+Björn Marx 
+\end{DoxyAuthor}
+\mbox{\Hypertarget{string_8c_a52c1bfcbbba22c50f093cf5faafe14b3}\label{string_8c_a52c1bfcbbba22c50f093cf5faafe14b3}} 
+\index{string.\+c@{string.\+c}!string\+\_\+split\+\_\+string@{string\+\_\+split\+\_\+string}}
+\index{string\+\_\+split\+\_\+string@{string\+\_\+split\+\_\+string}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+split\+\_\+string()}{string\_split\_string()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$$\ast$ string\+\_\+split\+\_\+string (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{splitter,  }\item[{int $\ast$}]{splits }\end{DoxyParamCaption})}
+
+
+
+splits a string, but uses a string as splitter argument uses the same \char`\"{}algorithm\char`\"{} as string\+\_\+split but adapted to use string as splitter 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to split \\
+\hline
+{\em splitter} & string that splits \\
+\hline
+{\em splits} & number of splits \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array of splitted string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_a94d3d0d6464cedb43aeaa204ebd2b7bb}\label{string_8c_a94d3d0d6464cedb43aeaa204ebd2b7bb}} 
+\index{string.\+c@{string.\+c}!string\+\_\+startswith@{string\+\_\+startswith}}
+\index{string\+\_\+startswith@{string\+\_\+startswith}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+startswith()}{string\_startswith()}}
+{\footnotesize\ttfamily bool string\+\_\+startswith (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{needle }\end{DoxyParamCaption})}
+
+
+
+checks is str starts with needle uses string\+\_\+compare 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{string_8h_ae17ab6b716d38701b59bdce3e336af5b}{string\+\_\+compare} for detailed info
+\end{DoxySeeAlso}
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to check if it starts with needle \\
+\hline
+{\em needle} & a string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if string starts with needle 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_ab3ed9ef0b1f2464fdfe520e5dc4a380f}\label{string_8c_ab3ed9ef0b1f2464fdfe520e5dc4a380f}} 
+\index{string.\+c@{string.\+c}!string\+\_\+startswith\+\_\+cstr@{string\+\_\+startswith\+\_\+cstr}}
+\index{string\+\_\+startswith\+\_\+cstr@{string\+\_\+startswith\+\_\+cstr}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+startswith\+\_\+cstr()}{string\_startswith\_cstr()}}
+{\footnotesize\ttfamily bool string\+\_\+startswith\+\_\+cstr (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{char $\ast$}]{needle }\end{DoxyParamCaption})}
+
+
+
+checks if str starts with needle 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{string_8h_a94d3d0d6464cedb43aeaa204ebd2b7bb}{string\+\_\+startswith} to see how it works 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{string_8c_aad102a2295f103ad210e82c70e7e5abc}\label{string_8c_aad102a2295f103ad210e82c70e7e5abc}} 
+\index{string.\+c@{string.\+c}!string\+\_\+strip@{string\+\_\+strip}}
+\index{string\+\_\+strip@{string\+\_\+strip}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+strip()}{string\_strip()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ string\+\_\+strip (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str }\end{DoxyParamCaption})}
+
+
+
+removes all spaces at begin and end of a string 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to be stripped \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{string_8c_aba2621fcbf1e796c89c0016c7ee62181}\label{string_8c_aba2621fcbf1e796c89c0016c7ee62181}} 
+\index{string.\+c@{string.\+c}!string\+\_\+terminate@{string\+\_\+terminate}}
+\index{string\+\_\+terminate@{string\+\_\+terminate}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+terminate()}{string\_terminate()}}
+{\footnotesize\ttfamily \hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string}$\ast$ string\+\_\+terminate (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str }\end{DoxyParamCaption})}
+
+
+
+terminates a string (adds a \textbackslash{}0 to the end). Needed for functions like fopen 
+
+\begin{DoxyAuthor}{Author}
+Marcel Weski 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to terminate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+same string as argument (never changes, just to make code more compact) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_a45399868bf99479d9f2c29261ba9c522}\label{string_8c_a45399868bf99479d9f2c29261ba9c522}} 
+\index{string.\+c@{string.\+c}!string\+\_\+to\+\_\+long@{string\+\_\+to\+\_\+long}}
+\index{string\+\_\+to\+\_\+long@{string\+\_\+to\+\_\+long}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+to\+\_\+long()}{string\_to\_long()}}
+{\footnotesize\ttfamily long string\+\_\+to\+\_\+long (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str,  }\item[{int}]{base }\end{DoxyParamCaption})}
+
+
+
+wrapper for strtol 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{string_8c_a128a94234e54e046f65279d296ddb35b}\label{string_8c_a128a94234e54e046f65279d296ddb35b}} 
+\index{string.\+c@{string.\+c}!string\+\_\+to\+\_\+lower@{string\+\_\+to\+\_\+lower}}
+\index{string\+\_\+to\+\_\+lower@{string\+\_\+to\+\_\+lower}!string.\+c@{string.\+c}}
+\subsubsection{\texorpdfstring{string\+\_\+to\+\_\+lower()}{string\_to\_lower()}}
+{\footnotesize\ttfamily void string\+\_\+to\+\_\+lower (\begin{DoxyParamCaption}\item[{\hyperlink{string_8h_a3d2981d9da3e25dd89371059777fdd12}{string} $\ast$}]{str }\end{DoxyParamCaption})}
+
+
+
+replaces all uppercase chars with lowercase this fuction uses ctypes own tolower function 
+
+\begin{DoxyAuthor}{Author}
+Björn Marx
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & a string \\
+\hline
+\end{DoxyParams}
