@@ -33,6 +33,9 @@ Hash password_to_sha1Base64(HashList* hashlist) {
     pw = split[1];
     unsigned char *encode = base64_decode(pw->buf, pw->len, &pw->len);
     string *st_encode = string_new_from_cstr(encode);
+    // Passwort geprinte, sollte demnächst wieder entfernt werden
+    string_print(st_encode);
+
     string **name_pw = string_split_cstr(st_encode, ":", &splits2);
     unsigned char *hash[SHA_DIGEST_LENGTH];
     SHA1(name_pw[1]->buf,name_pw[1]->len,hash);
@@ -56,6 +59,11 @@ bool authorizaition (HashList * hashlist){
     int temp = abfrage_authorizaition(hashlist);
     if (temp == true){
         Hash  passwort = password_to_sha1Base64(hashlist);
+        Hash *str = SHL_find_key_cstr(hashlist, "authorization");
+        printf("Name: ");
+        string_print(passwort.key);
+        printf("Password: ");
+        string_print(passwort.value);
         temp  = read_pw_list (&passwort);
             string_free(passwort.key);
             string_free(passwort.value);
@@ -119,7 +127,7 @@ bool read_pw_list(Hash* hash){
                                     exit = true;
                                 }
                             }
-                            while ((tmp = fgetc(pw_list)) != '=' && exit != true) {
+                            while ((tmp = fgetc(pw_list)) != '\n' && exit != true) {
                                 if (tmp == EOF) {
                                     string_free(name_str);
                                     string_free(pw_str);

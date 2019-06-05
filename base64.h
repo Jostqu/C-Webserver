@@ -1,10 +1,6 @@
 //
 // Created by gi-user on 24.05.19.
 //
-
-#ifndef PSE20_BASE64_H
-#define PSE20_BASE64_H
-
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -26,13 +22,12 @@ void build_decoding_table1() ;
 
 char *base64_encode(const unsigned char *data,
                     size_t input_length,
-                    size_t *output_length);
+                    size_t *output_length) ;
+
 
 unsigned char *base64_decode(const char *data,
                              size_t input_length,
-                             size_t *output_length) ;
+                             size_t *output_length);
 
-void base64_cleanup() ;
-
-
-#endif //PSE20_BASE64_H
+//TODO FREEN EINBAUEN
+void base64_cleanup();

@@ -18,12 +18,7 @@
  */
 bool abfrage_authorizaition (HashList * hashlist );
 
-/**
- * verschlüsselung das Passworts
- * @param hashlist
- * @return
- */
-bool passwort_abfrage_authorizaition(HashList* hashlist);
+
 /**
  *  Reads the password and the name from the hashlist and returns a Hash with the Name and the sha1 and Base 64
  *  encoded Password.
@@ -53,8 +48,8 @@ bool read_pw_list(Hash *hash);
 string * pw_rood();
 
 /**
- *  Checks whether an authorization header exists and if
- *  username and password are correct.
+ * Checks whether an authorization header exists and if
+ * username and password are correct.
  * @author Luise
  * @param hashlist
  * @return bool : true / false

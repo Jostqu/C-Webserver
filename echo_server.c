@@ -184,8 +184,8 @@ static void main_loop(int sockfd) {
 	    	if (strRequest->len > MAX_HEADER_LEN)
 		    {
 	    		timeouted = true;
-		    }
-	    	else
+                break;
+		    }else
 	    	{
 			    /*
                  * Lies die ankommenden Daten von dem Socket in das Array buffer.

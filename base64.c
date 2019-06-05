@@ -1,13 +1,10 @@
 //
 // Created by gi-user on 24.05.19.
 //
-
-#include "base64.h"
-
 #include <stdint.h>
 #include <stdlib.h>
 
-
+#include "base64.h"
 
 void build_decoding_table1() {
 
@@ -46,7 +43,7 @@ char *base64_encode(const unsigned char *data,
 
     for (i = 0; i < mod_table[input_length % 3]; i++)
         encoded_data[*output_length - 1 - i] = '=';
-    encoded_data[*output_length - 1] = '\0';
+    encoded_data[*output_length] = '\0';
 
     return encoded_data;
 }
