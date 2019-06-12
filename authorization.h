@@ -1,7 +1,8 @@
-//
-// Created by Luise on 28.05.19.
-//
+
+///
 /// \author PSE 17
+/// \date 28.05.2019
+/// \brief
 /// \file authorization.h
 ///
 
