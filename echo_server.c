@@ -214,7 +214,6 @@ static void main_loop(int sockfd) {
             if (close(newsockfd) < 0)
 		       error("ERROR on close");
 
-
 		    continue;
 	    }
 

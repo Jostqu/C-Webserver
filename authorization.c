@@ -94,6 +94,32 @@ string * pw_rood(){
     return absolute_Ht_passwd_Dir;
 }
 
+bool file_char_into_str(FILE *file,string *str,char delimiter){
+    char tmp;
+    bool eof = false;
+
+    while ((tmp = fgetc(file)) != delimiter && eof != true) {
+        if (tmp == EOF) {
+            eof = true;
+        } else {
+            string_concat(str, &tmp);
+        }
+    }
+    return eof;
+}
+
+bool file_skip(FILE *file,char delimiter){
+    char tmp;
+    bool eof = false;
+
+    while ((tmp = fgetc(file)) != delimiter && eof != true) {
+        if (tmp == EOF) {
+            eof = true;
+        }
+    }
+    return eof;
+}
+
 bool read_pw_list(Hash* hash){
     string * pw_list_pfad_st = pw_rood();
     string * pw_list_pfad = string_terminate(pw_list_pfad_st);
@@ -108,10 +134,9 @@ bool read_pw_list(Hash* hash){
 
         char tmp;
 
-        string *name_str = string_new(255);
-        string *pw_str = string_new(255);
+        string *name_str = string_new(1024);
+        string *pw_str = string_new(1024);
         while(exit != true){
-
             if ((tmp = fgetc(pw_list))!= EOF) {
                 switch (tmp) {
                     case '\n': // New Line
@@ -120,22 +145,11 @@ bool read_pw_list(Hash* hash){
                     case ':': // :
                         if (string_compare(hash->key, name_str)) {
 
-                            while ((tmp = fgetc(pw_list)) != '}' && exit != true) {
-                                if (tmp == EOF) {
-                                    string_free(name_str);
-                                    string_free(pw_str);
-                                    exit = true;
+                                exit = file_skip(pw_list,'}');
+
+                                if (exit != true){
+                                    file_char_into_str(pw_list,pw_str ,'\n');
                                 }
-                            }
-                            while ((tmp = fgetc(pw_list)) != '\n' && exit != true) {
-                                if (tmp == EOF) {
-                                    string_free(name_str);
-                                    string_free(pw_str);
-                                    exit = true;
-                                } else {
-                                    string_concat(pw_str, &tmp);
-                                }
-                            }
 
                             if (string_compare(hash->value, pw_str)) {
                                 fclose(pw_list);
@@ -152,13 +166,8 @@ bool read_pw_list(Hash* hash){
                             free(name_str->buf);
                             name_str->buf = calloc(255,1);
                             name_str->len = 0;
-                            while ((tmp = fgetc(pw_list)) != '\n' && exit != true) {
-                                if (tmp == EOF) {
-                                    string_free(name_str);
-                                    string_free(pw_str);
-                                    exit = true;
-                                }
-                            }
+
+                            exit = file_skip(pw_list,'\n');
                         }
                         break;
 
@@ -167,13 +176,14 @@ bool read_pw_list(Hash* hash){
                         break;
                 }
             } else {
-                string_free(name_str);
-                string_free(pw_str);
                 exit = true;
             }
         }
+        string_free(name_str);
+        string_free(pw_str);
         fclose(pw_list);
         return false;
     }
     return false;
 }
+

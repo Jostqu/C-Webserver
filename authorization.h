@@ -28,8 +28,25 @@ bool abfrage_authorizaition (HashList * hashlist );
  * @return hash that contains the name(clear text) as the key, and the password (SHA1 and Base64 encoded) as the value
  */
 Hash password_to_sha1Base64(HashList* hashlist);
+/**
+ * Increment the File-Pointer char by char and checks them for EOF or the delimiter.
+ * Writes the chars at the end of the String str
+ * @authors Marc
+ * @param file the file that get checked
+ * @param str the edited String
+ * @param delimiter the searched char
+ * @return return True if EOF is reached, else it is false
+ */
+bool file_char_into_str(FILE *file,string *str,char delimiter);
 
-
+/**
+ * Increment the File-Pointer char by char and checks them for EOF or the delimiter.
+ * @authors Marc
+ * @param file the file that get checked
+ * @param delimiter the searched char
+ * @return return True if EOF is reached, else it is false
+ */
+bool file_skip(FILE *file,char delimiter);
 /**
  * Checks if username and password are a correct pair.
  * @authors Jost, Marc

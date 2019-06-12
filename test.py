@@ -45,6 +45,11 @@ cannon += Beam(
     response=['HTTP/1.1 200']
 )
 cannon += Beam(
+    description='Datei "/js/javascript.js mit % schreibweise"',
+    request='GET /js/%6A%61%76%61script.js HTTP/1.1\r\nHost: {host}\r\n\r\n',
+    response=['HTTP/1.1 200']
+)
+cannon += Beam(
     description='Datei "/tux"',
     request='GET /images/tux HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 200']
@@ -169,48 +174,60 @@ cannon += Beam(
     request='GET / HTTP/1.1\r\n Host: {host}\r\n\r\n',
     response=['HTTP/1.1 400']
 )
+#029
 cannon += Beam(
     description='Request that contains \'GET GET GET\'',
     request='GET GET GET\r\n\r\n',
     response=['HTTP/1.1 400']
 )
+#030
 cannon += Beam(
     description='Request that only contains a space',
     request=' ',
     response=['HTTP/1.1 400']
 )
+#031
 cannon += Beam(
     description='CMD Injection',
     request='GET %2F%20%26%20chmod%20%2Bs%20%2Fsbin%2Freboot%20%26%20reboot HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 404']
 )
+#032
 cannon += Beam(
     description='Request ohne resource',
     request='GET HTTP/1.0',
     response=['HTTP/1.1 400']
 )
+#033
 cannon += Beam(
     description='DocumentRoot Ausbruch Host',
     request='GET /../forbidden.txt HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 403']
 )
-
+#034
 cannon += Beam(
     description='CMD Injection',
     request='GET %2F%20%26%20chmod%20%2Bs%20%2Fsbin%2Freboot%20%26%20reboot HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 404']
 )
+#035
 cannon += Beam(
     description='CMD Injection',
     request='GET %2F%20%26%20chmod%20%2Bs%20%2Fsbin%2Freboot%20%26%20reboot HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 404']
 )
+#036
 cannon += Beam(
     description='CMD Injection1',
     request='GET %2F%22%20shutdown%20-h%20now%22 HTTP/1.1\r\nHost: {host}\r\n\r\n',
     response=['HTTP/1.1 404']
 )
-
+#037
+cannon += Beam(
+    description='',
+    request='GET /../../htpasswd/htpasswd HTTP/1.1\r\nHost: extern\r\n\r\n',
+    response=['HTTP/1.1 403']
+)
 
 
 
