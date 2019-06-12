@@ -7,7 +7,11 @@
 * Marc Wiegand
 * Luise Krings
 * Jost Quante
-###### Erstellt 21 Juni 2015      
+
+###### Erstellt 12 Juni 2019      
 
 
 ## 1.0 Über: ##
+
+Der HTTP Server basiert auf dem HTTP 1.0 Standard (RFC 1945) und unterstützt auch Virtual Hosting.
+Der Server unterstützt zudem auch Basic Authentication.
