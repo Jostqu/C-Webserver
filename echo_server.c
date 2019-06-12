@@ -16,7 +16,7 @@
 
 #define PORT 31337
 #define BUFFER_SIZE 1024
-#define MAX_HEADER_LEN 8192 // because apache allows a max header length of. 8 KB
+#define MAX_HEADER_LEN 8192     // because apache allows a max header length of. 8 KB
 
 /**
  * Globale Variablen.
@@ -210,7 +210,7 @@ static void main_loop(int sockfd) {
             HttpRequest* httpRequest = NULL;
 
             send_http_response(newsockfd, BAD_REQUEST, httpRequest, staticPage);
-
+            string_free(strRequest);
             if (close(newsockfd) < 0)
 		       error("ERROR on close");
 
