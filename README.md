@@ -7,8 +7,7 @@
 * Marc Wiegand
 * Luise Krings
 * Jost Quante
-
-###### Erstellt 12 Juni 2019      
+     
 
 
 ## 1.0 Über: ##
